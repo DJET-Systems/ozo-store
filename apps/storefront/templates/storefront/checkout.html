@@ -1,0 +1,200 @@
+{% extends "storefront/base.html" %}
+{% load static i18n %}
+
+{% block title %}
+  {% trans "Checkout" %} — {{ settings.store_name_ar }}
+{% endblock %}
+
+{% block content %}
+<div class="djet-checkout-wrap">
+  <header class="djet-page-header">
+    <div>
+      <span class="djet-section-kicker">{% trans "Secure Order Placement" %}</span>
+      <h1 class="djet-page-title">{% trans "Complete Your Order" %}</h1>
+    </div>
+    <a href="{% url 'storefront-cart' %}" class="djet-btn djet-btn-secondary">
+      <svg class="djet-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      <span>{% trans "Back to Cart" %}</span>
+    </a>
+  </header>
+
+  <form action="{% url 'storefront-checkout' %}" method="post" class="djet-checkout-grid">
+    {% csrf_token %}
+
+    <!-- Left Column: Customer Info, Fulfillment & Payment -->
+    <div class="djet-checkout-main">
+      <!-- Step 1: Customer Contact -->
+      <section class="djet-checkout-card">
+        <div class="djet-checkout-step-head">
+          <span class="djet-step-num">1</span>
+          <div>
+            <h2>{% trans "Customer Contact Details" %}</h2>
+            <p>{% trans "We use your phone number to confirm delivery or branch pickup readiness via WhatsApp." %}</p>
+          </div>
+        </div>
+
+        <div class="djet-form-row-2">
+          <div class="djet-form-group">
+            <label for="customer_name" class="djet-form-label">{% trans "Full Name" %} *</label>
+            <input type="text" id="customer_name" name="customer_name" required
+                   placeholder="{% trans 'e.g. Ahmed Mohamed' %}" class="djet-form-input">
+          </div>
+          <div class="djet-form-group">
+            <label for="customer_phone" class="djet-form-label">{% trans "Mobile / WhatsApp Number" %} *</label>
+            <input type="tel" id="customer_phone" name="customer_phone" required
+                   placeholder="01026646657" dir="ltr" class="djet-form-input">
+          </div>
+        </div>
+
+        <div class="djet-form-group" style="margin-block-end: 0;">
+          <label for="customer_email" class="djet-form-label">{% trans "Email Address (Optional)" %}</label>
+          <input type="email" id="customer_email" name="customer_email"
+                 placeholder="customer@example.com" dir="ltr" class="djet-form-input">
+        </div>
+      </section>
+
+      <!-- Step 2: Fulfillment & Payment Method -->
+      <section class="djet-checkout-card">
+        <div class="djet-checkout-step-head">
+          <span class="djet-step-num">2</span>
+          <div>
+            <h2>{% trans "Fulfillment & Payment Solution" %}</h2>
+            <p>{% trans "Choose Doorstep Cash on Delivery (COD) or Free In-Branch Pickup at OZO Shop Mokattam." %}</p>
+          </div>
+        </div>
+
+        <div class="djet-choice-grid">
+          <!-- Option A: Cash on Delivery (Home Delivery) -->
+          <label class="djet-choice-card">
+            <input type="radio" name="fulfillment_method" value="home_delivery" checked
+                   onchange="document.getElementById('payment_method_input').value='cod';">
+            <div class="djet-choice-body">
+              <div class="djet-choice-top">
+                <span class="djet-choice-icon">
+                  <svg class="djet-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                </span>
+                <span class="djet-choice-badge">{{ delivery_fee_formatted }}</span>
+              </div>
+              <strong>{% trans "Cash on Delivery (Home Courier)" %}</strong>
+              <p>{% trans "Doorstep delivery across Cairo & all governorates. Inspect your device and pay cash upon receipt." %}</p>
+            </div>
+          </label>
+
+          <!-- Option B: Pick Up at Branch (Mokattam Showroom) -->
+          <label class="djet-choice-card">
+            <input type="radio" name="fulfillment_method" value="branch_pickup"
+                   onchange="document.getElementById('payment_method_input').value='pay_at_branch';">
+            <div class="djet-choice-body">
+              <div class="djet-choice-top">
+                <span class="djet-choice-icon">
+                  <svg class="djet-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                </span>
+                <span class="djet-choice-badge djet-choice-badge-free">{% trans "FREE PICKUP" %}</span>
+              </div>
+              <strong>{% trans "Pick Up at OZO Shop Branch (Mokattam)" %}</strong>
+              <p>{% trans "Reserve online and pick up from Street 9 (Next to Al-Andalus Park). Pay cash, card, trade-in, or activate installments in-store." %}</p>
+            </div>
+          </label>
+        </div>
+
+        <input type="hidden" id="payment_method_input" name="payment_method" value="cod">
+
+        <!-- Branch Selector -->
+        {% if branches %}
+          <div class="djet-form-group" style="margin-block-start: 1.25rem;">
+            <label for="pickup_location_id" class="djet-form-label">{% trans "Preferred OZO Shop Location (For Branch Pickup)" %}</label>
+            <select id="pickup_location_id" name="pickup_location_id" class="djet-form-input">
+              {% for b in branches %}
+                <option value="{{ b.id }}">
+                  {% if CURRENT_LANG == 'en' %}{{ b.name_en }}{% else %}{{ b.name_ar }}{% endif %} ({{ b.phone|default:"01026646657" }})
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+        {% endif %}
+      </section>
+
+      <!-- Step 3: Delivery Address / Notes -->
+      <section class="djet-checkout-card">
+        <div class="djet-checkout-step-head">
+          <span class="djet-step-num">3</span>
+          <div>
+            <h2>{% trans "Delivery Address & Order Notes" %}</h2>
+            <p>{% trans "Required for Home Delivery (COD). Optional if you selected Branch Pickup." %}</p>
+          </div>
+        </div>
+
+        <div class="djet-form-row-2">
+          <div class="djet-form-group">
+            <label for="governorate" class="djet-form-label">{% trans "Governorate" %}</label>
+            <input type="text" id="governorate" name="governorate" value="Cairo" class="djet-form-input">
+          </div>
+          <div class="djet-form-group">
+            <label for="city" class="djet-form-label">{% trans "District / Area" %}</label>
+            <input type="text" id="city" name="city" value="Al-Moqattam" class="djet-form-input">
+          </div>
+        </div>
+
+        <div class="djet-form-group">
+          <label for="address_line" class="djet-form-label">{% trans "Street Address, Building & Apartment (or write 'Branch Pickup')" %}</label>
+          <input type="text" id="address_line" name="address_line"
+                 placeholder="{% trans 'e.g. Street 9, Building 14, Floor 3, Apt 6 (Next to Andalus Park)' %}"
+                 value="Al-Moqattam, Street 9"
+                 class="djet-form-input">
+        </div>
+
+        <div class="djet-form-group" style="margin-block-end: 0;">
+          <label for="notes" class="djet-form-label">{% trans "Notes (Trade-In device details, installment request, or delivery window)" %}</label>
+          <textarea id="notes" name="notes" rows="2" class="djet-form-input"
+                    placeholder="{% trans 'Optional: e.g. I want to trade in my old phone at the branch, or call before arrival.' %}"></textarea>
+        </div>
+      </section>
+    </div>
+
+    <!-- Right Column: Live Order Summary -->
+    <aside class="djet-cart-summary">
+      <h2 style="font-size: 1.25rem; font-weight: 800; margin: 0 0 1.25rem;">{% trans "Order Summary" %}</h2>
+
+      <ul class="djet-checkout-items">
+        {% for item in cart_items %}
+          <li class="djet-checkout-item">
+            <div>
+              <strong>{% if CURRENT_LANG == 'en' %}{{ item.variant.product.title_en }}{% else %}{{ item.variant.product.title_ar }}{% endif %}</strong>
+              <small>{{ item.variant.sku }} &times; {{ item.quantity }}</small>
+            </div>
+            <span>{{ item.line_total_formatted }}</span>
+          </li>
+        {% endfor %}
+      </ul>
+
+      <div class="djet-summary-row">
+        <span>{% trans "Items Subtotal" %}</span>
+        <strong>{{ subtotal_formatted }}</strong>
+      </div>
+      <div class="djet-summary-row">
+        <span>{% trans "Home Delivery (COD)" %}</span>
+        <span>{{ delivery_fee_formatted }}</span>
+      </div>
+      <div class="djet-summary-row">
+        <span>{% trans "Branch Pickup (Mokattam)" %}</span>
+        <strong style="color: var(--success, #0F7B4B);">{% trans "FREE (0.00 EGP)" %}</strong>
+      </div>
+
+      <div class="djet-summary-total">
+        <span>{% trans "Total (COD)" %}</span>
+        <strong>{{ total_with_delivery_formatted }}</strong>
+      </div>
+
+      <button type="submit" class="djet-btn djet-btn-gold" style="width: 100%; padding: 0.95rem 1.25rem; font-size: 1.05rem; margin-block-start: 1.25rem;">
+        <svg class="djet-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+        <span>{% trans "Confirm & Place Order" %}</span>
+      </button>
+
+      <p class="djet-checkout-footnote">
+        <svg class="djet-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <span>{% trans "No online card required — Pay Cash on Delivery or at our Mokattam Street 9 Showroom." %}</span>
+      </p>
+    </aside>
+  </form>
+</div>
+{% endblock %}

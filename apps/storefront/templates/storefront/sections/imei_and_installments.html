@@ -1,16 +1,22 @@
 {% load i18n %}
 <section class="djet-imei-box">
-  <div>
-    <h2 style="font-size: 1.35rem; font-weight: 800; margin: 0 0 0.5rem; color: var(--text);">
-      {% if CURRENT_LANG == 'en' %}{{ section.title_en }}{% else %}{{ section.title_ar }}{% endif %}
-    </h2>
-    <p style="margin: 0; color: var(--text-muted); font-size: 0.95rem; max-width: 520px;">
-      {% trans "Verify your device authenticity, remaining warranty duration, and condition grading using the unique serial number or IMEI." %}
-    </p>
+  <div style="display: flex; align-items: flex-start; gap: 1rem;">
+    <span class="djet-trust-icon-box" aria-hidden="true">
+      <svg class="djet-icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+    </span>
+    <div>
+      <h2 style="font-size: 1.35rem; font-weight: 800; margin: 0 0 0.35rem; color: var(--text);">
+        {% if CURRENT_LANG == 'en' %}{{ section.title_en }}{% else %}{{ section.title_ar }}{% endif %}
+      </h2>
+      <p style="margin: 0; color: var(--text-muted); font-size: 0.95rem; max-width: 560px;">
+        {% trans "Verify your device authenticity, remaining warranty duration, and condition grading using the unique serial number or IMEI." %}
+      </p>
+    </div>
   </div>
   <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
     <a href="{% url 'storefront-warranty-check' %}" class="djet-btn djet-btn-primary">
-      🔍 {% trans "Check IMEI / Serial" %}
+      <svg class="djet-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <span>{% trans "Check IMEI / Serial" %}</span>
     </a>
   </div>
 </section>

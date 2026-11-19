@@ -1,15 +1,100 @@
 {% extends "dashboard/base.html" %}
 {% load i18n %}
 
-{% block page_title %}{% trans "Catalog Products" %}{% endblock %}
+{% block page_title %}{% trans "Catalog Products — Add & Remove Listed Items" %}{% endblock %}
 
 {% block content %}
+{% if can_edit_catalog %}
+  <div class="djet-card" style="margin-bottom: 1.5rem;">
+    <div class="djet-card-header">
+      <h2 class="djet-card-title" style="display: flex; align-items: center; gap: 0.5rem;">
+        <svg class="djet-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <span>{% trans "Add New Listed Item to Storefront" %}</span>
+      </h2>
+    </div>
+
+    <form action="{% url 'dashboard-product-create' %}" method="post" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+      {% csrf_token %}
+      <div>
+        <label class="djet-label" style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.3rem;">{% trans "Title (English)" %} *</label>
+        <input type="text" name="title_en" required placeholder="e.g. Apple iPhone 16 Pro 256GB" class="djet-input" style="width: 100%;">
+      </div>
+      <div>
+        <label class="djet-label" style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.3rem;">{% trans "Title (Arabic)" %} *</label>
+        <input type="text" name="title_ar" required placeholder="آبل آيفون 16 برو 256 جيجا" class="djet-input" style="width: 100%;">
+      </div>
+      <div>
+        <label class="djet-label" style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.3rem;">{% trans "SKU Code" %} *</label>
+        <input type="text" name="sku" required placeholder="OZO-PH-IP16P-256" class="djet-input" style="width: 100%;">
+      </div>
+      <div>
+        <label class="djet-label" style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.3rem;">{% trans "Brand" %}</label>
+        <input type="text" name="primary_brand" placeholder="Apple / HONOR / Sony" class="djet-input" style="width: 100%;">
+      </div>
+      <div>
+        <label class="djet-label" style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.3rem;">{% trans "Category" %}</label>
+        <select name="category_id" class="djet-select" style="width: 100%;">
+          <option value="">{% trans "Select Category" %}</option>
+          {% for cat in categories %}
+            <option value="{{ cat.id }}">{{ cat.name_en }} / {{ cat.name_ar }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <label class="djet-label" style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.3rem;">{% trans "Retail Price (EGP)" %} *</label>
+        <input type="number" step="0.01" min="0" name="price_egp" required placeholder="64999.00" class="djet-input" style="width: 100%;">
+      </div>
+      <div>
+        <label class="djet-label" style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.3rem;">{% trans "Compare-At Price (EGP)" %}</label>
+        <input type="number" step="0.01" min="0" name="compare_at_price_egp" placeholder="68000.00" class="djet-input" style="width: 100%;">
+      </div>
+      {% if can_view_costs %}
+        <div>
+          <label class="djet-label" style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.3rem;">{% trans "Cost Price (EGP)" %}</label>
+          <input type="number" step="0.01" min="0" name="cost_egp" placeholder="58500.00" class="djet-input" style="width: 100%;">
+        </div>
+      {% endif %}
+      <div>
+        <label class="djet-label" style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.3rem;">{% trans "Condition" %}</label>
+        <select name="condition" class="djet-select" style="width: 100%;">
+          <option value="new">{% trans "Brand New" %}</option>
+          <option value="used_a">{% trans "Used Grade A" %}</option>
+          <option value="used_b">{% trans "Used Grade B" %}</option>
+          <option value="refurbished">{% trans "Refurbished" %}</option>
+        </select>
+      </div>
+      <div>
+        <label class="djet-label" style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.3rem;">{% trans "Warranty (Months)" %}</label>
+        <input type="number" min="0" max="60" name="warranty_months" value="12" class="djet-input" style="width: 100%;">
+      </div>
+      <div>
+        <label class="djet-label" style="display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.3rem;">{% trans "Image URL / Demo Photo" %}</label>
+        <input type="text" name="image_url" value="/static/storefront/brand/ozo/products/iphone-18-pro-max.webp" class="djet-input" style="width: 100%;">
+      </div>
+      <div style="display: flex; align-items: flex-end;">
+        <button type="submit" class="djet-btn djet-btn-primary" style="width: 100%; padding: 0.65rem 1rem;">
+          {% trans "Add & List Product" %}
+        </button>
+      </div>
+    </form>
+  </div>
+{% endif %}
+
 <div class="djet-card">
   <div class="djet-card-header">
-    <h2 class="djet-card-title">🏷️ {% trans "Products and Variants" %}</h2>
-    <div style="display: flex; gap: 0.75rem;">
+    <h2 class="djet-card-title" style="display: flex; align-items: center; gap: 0.5rem;">
+      <svg class="djet-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+      <span>{% trans "Products and Variants" %}</span>
+    </h2>
+    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+      <a href="?status=active" class="djet-btn {% if status_filter == 'active' %}djet-btn-primary{% else %}djet-btn-secondary{% endif %}">
+        {% trans "Active Listed" %}
+      </a>
+      <a href="?status=archived" class="djet-btn {% if status_filter == 'archived' %}djet-btn-primary{% else %}djet-btn-secondary{% endif %}">
+        {% trans "Archived / Removed" %}
+      </a>
       <a href="{% url 'dashboard-export' 'catalog' %}" class="djet-btn djet-btn-secondary">
-        📥 {% trans "Export CSV" %}
+        {% trans "Export CSV" %}
       </a>
     </div>
   </div>
@@ -29,13 +114,26 @@
             <th>{% trans "Cost & Margin" %}</th>
           {% endif %}
           <th>{% trans "Status" %}</th>
+          {% if can_edit_catalog %}
+            <th>{% trans "Actions" %}</th>
+          {% endif %}
         </tr>
       </thead>
       <tbody>
         {% for product in products %}
           {% for variant in product.variants.all %}
             <tr>
-              <td><strong>{{ product.title_en }}</strong> <br><small style="color: var(--text-muted);">{{ product.title_ar }}</small></td>
+              <td>
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                  {% if product.image_url %}
+                    <img src="{{ product.image_url }}" alt="{{ product.title_en }}" width="40" height="40" style="border-radius: 6px; object-fit: cover;">
+                  {% endif %}
+                  <div>
+                    <strong>{{ product.title_en }}</strong>
+                    <br><small style="color: var(--text-muted);">{{ product.title_ar }}</small>
+                  </div>
+                </div>
+              </td>
               <td><code>{{ variant.sku }}</code></td>
               <td><span class="djet-badge djet-badge-neutral">{{ variant.get_tracking_mode_display }}</span></td>
               <td><strong>{{ variant.price.formatted }}</strong></td>
@@ -50,17 +148,35 @@
                   {{ product.get_status_display }}
                 </span>
               </td>
+              {% if can_edit_catalog %}
+                <td>
+                  <form action="{% url 'dashboard-product-status' product_id=product.id %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    {% if product.status == 'active' %}
+                      <input type="hidden" name="status" value="archived">
+                      <button type="submit" class="djet-btn djet-btn-secondary" style="color: #DC2626; font-size: 0.75rem; padding: 0.3rem 0.65rem;">
+                        {% trans "Remove Listing" %}
+                      </button>
+                    {% else %}
+                      <input type="hidden" name="status" value="active">
+                      <button type="submit" class="djet-btn djet-btn-primary" style="font-size: 0.75rem; padding: 0.3rem 0.65rem;">
+                        {% trans "Re-List Active" %}
+                      </button>
+                    {% endif %}
+                  </form>
+                </td>
+              {% endif %}
             </tr>
           {% empty %}
             <tr>
               <td>{{ product.title_en }}</td>
-              <td colspan="5" style="color: var(--text-muted);">{% trans "No variants defined." %}</td>
+              <td colspan="6" style="color: var(--text-muted);">{% trans "No variants defined." %}</td>
             </tr>
           {% endfor %}
         {% empty %}
           <tr>
-            <td colspan="6" style="text-align: center; padding: 2rem; color: var(--text-muted);">
-              {% trans "No products created yet." %}
+            <td colspan="8" style="text-align: center; padding: 2rem; color: var(--text-muted);">
+              {% trans "No products found for this status filter." %}
             </td>
           </tr>
         {% endfor %}

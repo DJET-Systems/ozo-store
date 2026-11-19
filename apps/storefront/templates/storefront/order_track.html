@@ -8,12 +8,14 @@
 {% block content %}
 <div class="djet-lookup-card">
   <div style="text-align: center; margin-block-end: 2rem;">
-    <div style="font-size: 3rem; margin-block-end: 0.5rem;">📦</div>
+    <div class="djet-icon-badge" style="margin: 0 auto 0.85rem;">
+      <svg class="djet-icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+    </div>
     <h1 style="font-size: 1.85rem; font-weight: 800; margin: 0 0 0.5rem; color: var(--text);">
       {% trans "Track Order Status" %}
     </h1>
     <p style="color: var(--text-muted); margin: 0; font-size: 0.95rem;">
-      {% trans "Check real-time processing and delivery milestones for your shipment." %}
+      {% trans "Check real-time processing and delivery milestones for your shipment or branch pickup." %}
     </p>
   </div>
 
@@ -21,7 +23,7 @@
     <div class="djet-form-group">
       <label for="order_ref_input" class="djet-form-label">{% trans "Order Reference Number" %}</label>
       <input type="text" id="order_ref_input" name="order_ref" value="{{ order_ref }}" required
-             placeholder="{% trans 'e.g. ORD-2026-10492' %}"
+             placeholder="{% trans 'e.g. OZO-2026-10492' %}"
              class="djet-form-input">
     </div>
 
@@ -33,38 +35,49 @@
     </div>
 
     <button type="submit" class="djet-btn djet-btn-primary" style="width: 100%; padding: 0.85rem; font-size: 1rem;">
-      🔍 {% trans "Track Order" %}
+      <svg class="djet-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <span>{% trans "Track Order" %}</span>
     </button>
   </form>
 
   {% if order_ref and phone %}
     <div style="margin-block-start: 2rem; padding: 1.5rem; background: var(--surface-alt); border-radius: var(--radius-card); border-inline-start: 4px solid var(--accent);">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-block-end: 1rem;">
-        <span style="font-size: 0.85rem; font-weight: 700; color: var(--accent); text-transform: uppercase;">
-          🚚 {% trans "Shipment In Transit" %}
+        <span style="font-size: 0.85rem; font-weight: 700; color: var(--accent); text-transform: uppercase; display: inline-flex; align-items: center; gap: 0.4rem;">
+          <svg class="djet-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          <span>{% if matched_order %}{{ matched_order.get_status_display }} · {% endif %}{% trans "Shipment In Transit" %}</span>
         </span>
         <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">
-          {% trans "Carrier: Bosta / Mylerz" %}
+          {% if matched_order %}
+            {{ matched_order.get_fulfillment_method_display }} ({{ matched_order.get_payment_method_display }})
+          {% else %}
+            {% trans "Carrier: Bosta / Mylerz" %}
+          {% endif %}
         </span>
       </div>
 
       <h3 style="font-size: 1.15rem; font-weight: 700; margin: 0 0 0.75rem; color: var(--text);">
         {% trans "Order:" %} {{ order_ref }}
+        {% if matched_order %} · <span style="color: var(--accent);">{{ matched_order.total.formatted }}</span>{% endif %}
       </h3>
 
       <!-- Timeline steps -->
       <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-block-start: 1rem; font-size: 0.9rem;">
         <div style="display: flex; align-items: center; gap: 0.5rem; color: #166534; font-weight: 600;">
-          <span>✅</span> {% trans "Order Confirmed & Ledger Allocated" %}
+          <svg class="djet-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+          <span>{% trans "Order Confirmed & Ledger Allocated" %}</span>
         </div>
         <div style="display: flex; align-items: center; gap: 0.5rem; color: #166534; font-weight: 600;">
-          <span>✅</span> {% trans "Packed & Quality Inspected at Warehouse" %}
+          <svg class="djet-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+          <span>{% trans "Packed & Quality Inspected at Warehouse" %}</span>
         </div>
         <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--accent); font-weight: 700;">
-          <span>🚚</span> {% trans "Out for Delivery — Expected Today" %}
+          <svg class="djet-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          <span>{% trans "Out for Delivery / Ready for Branch Pickup" %}</span>
         </div>
         <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-muted);">
-          <span>⚪</span> {% trans "Delivered & COD Collected" %}
+          <svg class="djet-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/></svg>
+          <span>{% trans "Delivered & COD / Branch Payment Collected" %}</span>
         </div>
       </div>
     </div>

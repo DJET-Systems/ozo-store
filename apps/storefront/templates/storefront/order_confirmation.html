@@ -1,0 +1,87 @@
+{% extends "storefront/base.html" %}
+{% load i18n %}
+
+{% block title %}
+  {% trans "Order Confirmed" %} {{ order.reference }} — {{ settings.store_name_ar }}
+{% endblock %}
+
+{% block content %}
+<div class="djet-lookup-card" style="max-width: 760px;">
+  <div style="text-align: center; margin-block-end: 2rem;">
+    <div class="djet-icon-badge djet-icon-badge-success" style="margin: 0 auto 1rem;">
+      <svg class="djet-icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+    </div>
+    <span class="djet-section-kicker">{% trans "Official Order Receipt" %}</span>
+    <h1 style="font-size: 2rem; font-weight: 900; margin: 0.25rem 0 0.5rem; color: var(--text);">
+      {% trans "Thank You! Your Order is Confirmed" %}
+    </h1>
+    <p style="color: var(--text-muted); margin: 0; font-size: 1rem;">
+      {% trans "Reference Number:" %} <strong style="color: var(--accent); font-family: var(--font-mono);">{{ order.reference }}</strong>
+    </p>
+  </div>
+
+  <div class="djet-receipt-grid">
+    <div>
+      <span class="djet-meta-label">{% trans "Customer" %}</span>
+      <strong>{{ order.customer_name }}</strong>
+      <div dir="ltr" style="color: var(--text-muted); font-size: 0.9rem;">{{ order.customer_phone }}</div>
+    </div>
+    <div>
+      <span class="djet-meta-label">{% trans "Fulfillment Method" %}</span>
+      <strong>{{ order.get_fulfillment_method_display }}</strong>
+      {% if order.fulfillment_method == 'branch_pickup' and order.pickup_location %}
+        <div style="color: var(--accent); font-size: 0.85rem; font-weight: 600;">
+          {% if CURRENT_LANG == 'en' %}{{ order.pickup_location.name_en }}{% else %}{{ order.pickup_location.name_ar }}{% endif %}
+        </div>
+      {% else %}
+        <div style="color: var(--text-muted); font-size: 0.85rem;">{{ order.governorate }} · {{ order.city }} · {{ order.address_line }}</div>
+      {% endif %}
+    </div>
+    <div>
+      <span class="djet-meta-label">{% trans "Payment Solution" %}</span>
+      <strong>{{ order.get_payment_method_display }}</strong>
+      <div style="color: var(--success, #0F7B4B); font-size: 0.85rem; font-weight: 700;">{{ order.get_status_display }}</div>
+    </div>
+  </div>
+
+  <table class="djet-cart-table" style="margin-block: 1.5rem;">
+    <thead>
+      <tr>
+        <th>{% trans "Item" %}</th>
+        <th>{% trans "SKU" %}</th>
+        <th style="text-align: center;">{% trans "Qty" %}</th>
+        <th style="text-align: end;">{% trans "Total" %}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in order.items.all %}
+        <tr>
+          <td><strong>{% if CURRENT_LANG == 'en' %}{{ item.title_en }}{% else %}{{ item.title_ar }}{% endif %}</strong></td>
+          <td><code>{{ item.sku }}</code></td>
+          <td style="text-align: center; font-weight: 700;">{{ item.quantity }}</td>
+          <td style="text-align: end; font-weight: 700;">{{ item.line_total.formatted }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.25rem; background: var(--surface-alt); border-radius: 12px; margin-block-end: 1.5rem;">
+    <div>
+      <div style="font-size: 0.85rem; color: var(--text-muted);">
+        {% trans "Subtotal:" %} {{ order.subtotal.formatted }} · {% trans "Shipping:" %} {{ order.shipping_fee.formatted }}
+      </div>
+      <div style="font-size: 1.35rem; font-weight: 900; color: var(--accent);">
+        {% trans "Amount Due:" %} {{ order.total.formatted }}
+      </div>
+    </div>
+    <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+      <a href="{% url 'storefront-order-track' %}?order_ref={{ order.reference }}&phone={{ order.customer_phone }}" class="djet-btn djet-btn-primary">
+        <span>{% trans "Track Order Status" %}</span>
+      </a>
+      <a href="{% url 'storefront-home' %}" class="djet-btn djet-btn-secondary">
+        <span>{% trans "Continue Shopping" %}</span>
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

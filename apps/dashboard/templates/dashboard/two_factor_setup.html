@@ -7,7 +7,7 @@
 <div style="max-width: 650px; margin-inline: auto;">
   <div class="djet-card">
     <div class="djet-card-header">
-      <h2 class="djet-card-title">🔐 {% trans "Set up Authenticator App (RFC 6238 TOTP)" %}</h2>
+      <h2 class="djet-card-title"> {% trans "Set up Authenticator App (RFC 6238 TOTP)" %}</h2>
     </div>
 
     {% if is_enforced and not success_codes %}
@@ -25,13 +25,13 @@
 
     {% if success_codes %}
       <div class="djet-alert djet-alert-success">
-        <strong>✓ {% trans "2FA Enrolled Successfully!" %}</strong>
+        <strong> {% trans "2FA Enrolled Successfully!" %}</strong>
         {% trans "Two-Factor Authentication is now active on your account." %}
       </div>
 
       <div class="djet-card" style="background: var(--surface-alt); border: 2px dashed var(--accent);">
         <h3 style="margin-top: 0; font-size: 1rem; color: var(--accent);">
-          ⚠️ {% trans "Save Your Single-Use Recovery Codes" %}
+           {% trans "Save Your Single-Use Recovery Codes" %}
         </h3>
         <p style="font-size: 0.85rem; color: var(--text-muted);">
           {% trans "Store these emergency recovery codes in a secure password manager. Each code can be used exactly once if you lose access to your authenticator device." %}

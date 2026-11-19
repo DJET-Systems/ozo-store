@@ -10,9 +10,11 @@
   <!-- Media Gallery -->
   <div class="djet-detail-gallery">
     {% if product.image_url %}
-      <img src="{{ product.image_url }}" alt="{{ product.title_en }}" style="max-width: 100%; max-height: 480px; object-fit: contain;">
+      <img src="{{ product.image_url }}" alt="{{ product.title_en }}" style="max-width: 100%; max-height: 480px; object-fit: contain; border-radius: 12px;">
     {% else %}
-      <div style="font-size: 6rem;">📦</div>
+      <div class="djet-product-placeholder" aria-hidden="true">
+        <svg class="djet-icon-xl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+      </div>
     {% endif %}
   </div>
 
@@ -31,7 +33,7 @@
 
       {% if selected_variant and selected_variant.condition %}
         <div style="margin-block-end: 1rem;">
-          <span class="djet-condition-badge djet-condition-{{ selected_variant.condition }}">
+          <span class="djet-condition-badge djet-condition-{{ selected_variant.condition }}" style="position: static; display: inline-block;">
             {{ selected_variant.get_condition_display }}
           </span>
         </div>
@@ -56,14 +58,16 @@
       </div>
 
       {% if installment_egp %}
-        <div style="margin-block-start: 0.5rem; font-size: 0.9rem; color: var(--text-muted);">
-          💳 {% blocktrans with inst=installment_egp %}Estimated installments: from <strong>{{ inst }} EGP/mo</strong> over 12 months.{% endblocktrans %}
+        <div style="margin-block-start: 0.65rem; font-size: 0.9rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.45rem;">
+          <svg class="djet-icon-sm" style="color: var(--accent);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+          <span>{% blocktrans with inst=installment_egp %}Estimated installments: from <strong>{{ inst }} EGP/mo</strong> over 12 months (0% down available).{% endblocktrans %}</span>
         </div>
       {% endif %}
 
       {% if selected_variant and selected_variant.warranty_months > 0 %}
-        <div style="margin-block-start: 0.5rem; font-size: 0.9rem; color: var(--accent); font-weight: 600;">
-          🛡️ {% blocktrans with months=selected_variant.warranty_months %}{{ months }} Months Official Warranty Included{% endblocktrans %}
+        <div style="margin-block-start: 0.5rem; font-size: 0.9rem; color: var(--accent); font-weight: 600; display: flex; align-items: center; gap: 0.45rem;">
+          <svg class="djet-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+          <span>{% blocktrans with months=selected_variant.warranty_months %}{{ months }} Months Official Warranty Included{% endblocktrans %}</span>
         </div>
       {% endif %}
     </div>
@@ -94,7 +98,8 @@
           </div>
 
           <button type="submit" class="djet-btn djet-btn-primary" style="flex: 1; padding: 0.85rem 1.5rem; font-size: 1.05rem;">
-            🛒 {{ preset.cart_label|default:_("Add to Cart") }}
+            <svg class="djet-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            <span>{{ preset.cart_label|default:_("Add to Cart") }}</span>
           </button>
         </div>
       </form>
@@ -103,20 +108,31 @@
     <!-- Secondary Actions -->
     <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-block-start: 1rem;">
       {% if whatsapp_link %}
-        <a href="{{ whatsapp_link }}" target="_blank" rel="noopener" class="djet-btn djet-btn-secondary" style="flex: 1; text-align: center;">
-          💬 {% trans "Inquire via WhatsApp" %}
+        <a href="{{ whatsapp_link }}" target="_blank" rel="noopener noreferrer" class="djet-btn djet-btn-secondary" style="flex: 1; text-align: center;">
+          <svg class="djet-icon-sm" style="color: #16A34A;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          <span>{% trans "Inquire via WhatsApp" %}</span>
         </a>
       {% endif %}
       <a href="{% url 'storefront-warranty-check' %}" class="djet-btn djet-btn-secondary">
-        🔍 {% trans "Warranty Checker" %}
+        <svg class="djet-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span>{% trans "Warranty Checker" %}</span>
       </a>
     </div>
 
     <!-- Trust Notes -->
-    <div style="background: var(--surface-alt); border-radius: var(--radius-btn); padding: 1.25rem; font-size: 0.85rem; line-height: 1.6; margin-block-start: 1.5rem;">
-      <div>🚚 <strong>{% trans "Doorstep Delivery:" %}</strong> {% trans "24 to 72 hours across all governorates." %}</div>
-      <div>💵 <strong>{% trans "Cash on Delivery:" %}</strong> {% trans "Pay safely upon physical inspection." %}</div>
-      <div>🔄 <strong>{% trans "Return Guarantee:" %}</strong> {% trans "14-day hassle-free return policy." %}</div>
+    <div style="background: var(--surface-alt); border-radius: var(--radius-btn); padding: 1.25rem; font-size: 0.85rem; line-height: 1.85; margin-block-start: 1.5rem;">
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <svg class="djet-icon-xs" style="color: var(--accent);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        <span><strong>{% trans "Doorstep Delivery & Free Branch Pickup:" %}</strong> {% trans "24-72h across Egypt or instant pickup at Al-Moqattam Street 9." %}</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <svg class="djet-icon-xs" style="color: var(--accent);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+        <span><strong>{% trans "Cash on Delivery & Pay at Branch:" %}</strong> {% trans "Pay safely upon physical inspection." %}</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <svg class="djet-icon-xs" style="color: var(--accent);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="1 4 1 10 7 10"/><polyline points="23 20 23 14 17 14"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
+        <span><strong>{% trans "Return Guarantee:" %}</strong> {% trans "14-day hassle-free return policy." %}</span>
+      </div>
     </div>
 
     <!-- Description -->

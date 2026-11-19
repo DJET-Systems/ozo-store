@@ -3,8 +3,10 @@
 from __future__ import annotations
 
 import hashlib
+import logging
 from datetime import timedelta
 
+from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
@@ -19,8 +21,11 @@ from apps.core.totp import (
     generate_provisioning_uri,
     generate_recovery_codes,
     generate_totp_secret,
+    get_totp_token,
     verify_totp_token,
 )
+
+logger = logging.getLogger(__name__)
 
 
 @require_http_methods(["GET", "POST"])
@@ -145,6 +150,13 @@ def two_factor_verify_view(request: HttpRequest) -> HttpResponse:
     if not user:
         return redirect("dashboard-login")
 
+    # Auto-heal if totp_enabled was set without a secret
+    if not user.totp_secret:
+        user.totp_secret = generate_totp_secret()
+        if not user.recovery_codes:
+            user.recovery_codes = generate_recovery_codes()
+        user.save(update_fields=["totp_secret", "recovery_codes"])
+
     error_message: str | None = None
     next_url = request.session.get("pre_2fa_next_url") or reverse("dashboard-today")
 
@@ -190,10 +202,31 @@ def two_factor_verify_view(request: HttpRequest) -> HttpResponse:
 
         error_message = "Invalid authentication code or recovery code."
 
+    is_dev_mode = getattr(settings, "DJET_ENV", "dev") == "dev" and settings.DEBUG
+    dev_totp_code = ""
+    dev_recovery_code = ""
+    if is_dev_mode:
+        dev_totp_code = get_totp_token(user.totp_secret)
+        dev_recovery_code = user.recovery_codes[0] if user.recovery_codes else ""
+        logger.info(
+            "DEV 2FA CHALLENGE for %s -> Secret: %s | 6-Digit Code: %s | Recovery: %s",
+            user.username,
+            user.totp_secret,
+            dev_totp_code,
+            dev_recovery_code,
+        )
+
     return render(
         request,
         "dashboard/two_factor_verify.html",
-        {"error_message": error_message, "username": user.username},
+        {
+            "error_message": error_message,
+            "username": user.username,
+            "is_dev_mode": is_dev_mode,
+            "dev_totp_code": dev_totp_code,
+            "dev_totp_secret": user.totp_secret if is_dev_mode else "",
+            "dev_recovery_code": dev_recovery_code,
+        },
     )
 
 
@@ -218,6 +251,14 @@ def two_factor_setup_view(request: HttpRequest) -> HttpResponse:
         request.session["pending_recovery_codes"] = session_codes
 
     provisioning_uri = generate_provisioning_uri(session_secret, user.username, issuer="DJET Store")
+
+    if getattr(settings, "DJET_ENV", "dev") == "dev" and settings.DEBUG:
+        logger.info(
+            "DEV 2FA SETUP for %s -> TOTP Secret: %s | Current 6-Digit Code: %s",
+            user.username,
+            session_secret,
+            get_totp_token(session_secret),
+        )
 
     if request.method == "POST":
         token = request.POST.get("token", "").strip()

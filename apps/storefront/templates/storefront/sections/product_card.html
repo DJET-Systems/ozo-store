@@ -8,12 +8,12 @@
       </span>
     {% endif %}
 
-    <a href="{% url 'storefront-product-detail' handle=product.handle %}">
+    <a href="{% url 'storefront-product-detail' handle=product.handle %}" class="djet-product-media-link">
       {% if product.image_url %}
-        <img src="{{ product.image_url }}" alt="{{ product.title_en }}" style="width: 100%; height: 100%; object-fit: cover;">
+        <img src="{{ product.image_url }}" alt="{{ product.title_en }}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;">
       {% else %}
-        <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: var(--surface-alt); font-size: 2.5rem;">
-          📦
+        <div class="djet-product-placeholder" aria-hidden="true">
+          <svg class="djet-icon-xl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
         </div>
       {% endif %}
     </a>
@@ -31,8 +31,9 @@
     </h3>
 
     {% if v and preset.card_flags.show_warranty_line and v.warranty_months > 0 %}
-      <div style="font-size: 0.8rem; color: var(--accent); font-weight: 600; margin-block: 0.25rem;">
-        🛡️ {{ v.warranty_months }} {% trans "Months Official Warranty" %}
+      <div class="djet-card-warranty-pill">
+        <svg class="djet-icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+        <span>{{ v.warranty_months }} {% trans "Months Official Warranty" %}</span>
       </div>
     {% endif %}
 
@@ -60,20 +61,21 @@
       </div>
 
       {% if v and preset.card_flags.show_installment_hint and v.price_amount > 50000 %}
-        <div style="font-size: 0.75rem; color: var(--text-muted); margin-block-start: 0.15rem;">
-          {% trans "Installments from 12 mos" %}
+        <div class="djet-installment-tag">
+          {% trans "0% Down · 12 Mos" %}
         </div>
       {% endif %}
     </div>
 
     {% if v and preset.card_flags.quick_add %}
-      <form action="{% url 'storefront-cart-add' %}" method="post" style="margin-block-start: 0.75rem;">
+      <form action="{% url 'storefront-cart-add' %}" method="post" style="margin-block-start: 0.85rem;">
         {% csrf_token %}
         <input type="hidden" name="sku" value="{{ v.sku }}">
         <input type="hidden" name="quantity" value="1">
         <input type="hidden" name="next" value="{{ request.get_full_path }}">
-        <button type="submit" class="djet-btn djet-btn-primary" style="width: 100%; font-size: 0.875rem; padding: 0.5rem 1rem;">
-          ➕ {{ preset.cart_label|default:_("Add to Cart") }}
+        <button type="submit" class="djet-btn djet-btn-primary" style="width: 100%; font-size: 0.875rem; padding: 0.6rem 1rem;">
+          <svg class="djet-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <span>{{ preset.cart_label|default:_("Add to Cart") }}</span>
         </button>
       </form>
     {% endif %}

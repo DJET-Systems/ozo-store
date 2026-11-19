@@ -17,6 +17,12 @@ urlpatterns = [
     path("cart/", views.cart_view, name="storefront-cart"),
     path("cart/add/", views.cart_add_view, name="storefront-cart-add"),
     path("cart/update/", views.cart_update_view, name="storefront-cart-update"),
+    path("checkout/", views.checkout_view, name="storefront-checkout"),
+    path(
+        "checkout/success/<str:reference>/",
+        views.order_confirmation_view,
+        name="storefront-order-confirmation",
+    ),
     # Public Utility Services
     path("warranty-check/", views.warranty_check_view, name="storefront-warranty-check"),
     path("track/", views.order_track_view, name="storefront-order-track"),

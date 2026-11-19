@@ -1,28 +1,33 @@
 {% extends "dashboard/base.html" %}
 {% load i18n %}
 
-{% block page_title %}{% trans "Orders & Fulfillment" %}{% endblock %}
+{% block page_title %}{% trans "Orders & Fulfillment (COD & Branch Pickup)" %}{% endblock %}
 
 {% block content %}
 <div class="djet-card">
   <div class="djet-card-header">
-    <h2 class="djet-card-title">📦 {% trans "All Orders" %}</h2>
+    <h2 class="djet-card-title" style="display: flex; align-items: center; gap: 0.5rem;">
+      <svg class="djet-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+      <span>{% trans "All Customer Orders" %}</span>
+    </h2>
     <div style="display: flex; gap: 0.5rem;">
-      <span class="djet-badge djet-badge-neutral">{% trans "Fulfillment Ledger Ready" %}</span>
+      <span class="djet-badge djet-badge-neutral">{% trans "COD & Branch Pickup Active" %}</span>
     </div>
   </div>
 
-  <div style="display: flex; gap: 0.75rem; margin-bottom: 1.25rem;">
-    <input type="search" placeholder="{% trans 'Search by order #, phone, customer...' %}" class="djet-input" style="max-width: 350px;">
-    <select class="djet-select" style="max-width: 180px;">
+  <form method="get" style="display: flex; gap: 0.75rem; margin-bottom: 1.25rem; flex-wrap: wrap;">
+    <input type="search" name="q" value="{{ search_q }}" placeholder="{% trans 'Search by order # or customer phone...' %}" class="djet-input" style="max-width: 320px;">
+    <select name="status" class="djet-select" style="max-width: 190px;">
       <option value="">{% trans "All Statuses" %}</option>
-      <option value="pending">{% trans "Pending" %}</option>
-      <option value="processing">{% trans "Processing" %}</option>
-      <option value="shipped">{% trans "Shipped" %}</option>
-      <option value="delivered">{% trans "Delivered" %}</option>
-      <option value="cancelled">{% trans "Cancelled" %}</option>
+      <option value="pending" {% if status_filter == 'pending' %}selected{% endif %}>{% trans "Pending" %}</option>
+      <option value="confirmed" {% if status_filter == 'confirmed' %}selected{% endif %}>{% trans "Confirmed" %}</option>
+      <option value="packed" {% if status_filter == 'packed' %}selected{% endif %}>{% trans "Packed / Ready" %}</option>
+      <option value="shipped" {% if status_filter == 'shipped' %}selected{% endif %}>{% trans "Shipped" %}</option>
+      <option value="delivered" {% if status_filter == 'delivered' %}selected{% endif %}>{% trans "Delivered" %}</option>
+      <option value="cancelled" {% if status_filter == 'cancelled' %}selected{% endif %}>{% trans "Cancelled" %}</option>
     </select>
-  </div>
+    <button type="submit" class="djet-btn djet-btn-secondary">{% trans "Filter" %}</button>
+  </form>
 
   <div class="djet-table-container">
     <table class="djet-table">
@@ -31,17 +36,67 @@
           <th>{% trans "Order #" %}</th>
           <th>{% trans "Date" %}</th>
           <th>{% trans "Customer" %}</th>
-          <th>{% trans "Payment" %}</th>
           <th>{% trans "Fulfillment" %}</th>
+          <th>{% trans "Payment" %}</th>
+          <th>{% trans "Status" %}</th>
           <th>{% trans "Total (EGP)" %}</th>
+          {% if can_edit_orders %}
+            <th>{% trans "Workflow Action" %}</th>
+          {% endif %}
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td colspan="6" style="text-align: center; padding: 2rem; color: var(--text-muted);">
-            {% trans "No orders placed yet. Storefront order processing begins in Milestone M4/M5." %}
-          </td>
-        </tr>
+        {% for order in orders %}
+          <tr>
+            <td>
+              <strong><code>{{ order.reference }}</code></strong>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">{{ order.items.all|length }} {% trans "item(s)" %}</div>
+            </td>
+            <td style="font-size: 0.85rem;">{{ order.created_at|date:"Y-m-d H:i" }}</td>
+            <td>
+              <strong>{{ order.customer_name }}</strong>
+              <br><small dir="ltr" style="color: var(--text-muted);">{{ order.customer_phone }}</small>
+            </td>
+            <td>
+              <span class="djet-badge djet-badge-neutral">{{ order.get_fulfillment_method_display }}</span>
+              {% if order.fulfillment_method == 'branch_pickup' and order.pickup_location %}
+                <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.2rem;">{{ order.pickup_location.code }}</div>
+              {% elif order.address_line %}
+                <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.2rem;">{{ order.city }} · {{ order.address_line|truncatechars:32 }}</div>
+              {% endif %}
+            </td>
+            <td><span class="djet-badge djet-badge-neutral">{{ order.get_payment_method_display }}</span></td>
+            <td>
+              <span class="djet-badge {% if order.status == 'delivered' or order.status == 'confirmed' %}djet-badge-success{% elif order.status == 'cancelled' %}djet-badge-danger{% else %}djet-badge-warning{% endif %}">
+                {{ order.get_status_display }}
+              </span>
+            </td>
+            <td><strong>{{ order.total.formatted }}</strong></td>
+            {% if can_edit_orders %}
+              <td>
+                <form action="{% url 'dashboard-order-status' order_id=order.id %}" method="post" style="display: flex; gap: 0.35rem;">
+                  {% csrf_token %}
+                  <select name="status" class="djet-select" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;">
+                    <option value="confirmed">{% trans "Confirm" %}</option>
+                    <option value="packed">{% trans "Mark Packed / Ready" %}</option>
+                    <option value="shipped">{% trans "Mark Shipped" %}</option>
+                    <option value="delivered">{% trans "Mark Delivered / Paid" %}</option>
+                    <option value="cancelled">{% trans "Cancel" %}</option>
+                  </select>
+                  <button type="submit" class="djet-btn djet-btn-primary" style="font-size: 0.75rem; padding: 0.25rem 0.6rem;">
+                    {% trans "Update" %}
+                  </button>
+                </form>
+              </td>
+            {% endif %}
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="8" style="text-align: center; padding: 2rem; color: var(--text-muted);">
+              {% trans "No orders placed yet. Place a COD or Branch Pickup order from the storefront to manage it here." %}
+            </td>
+          </tr>
+        {% endfor %}
       </tbody>
     </table>
   </div>

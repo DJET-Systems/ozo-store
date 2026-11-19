@@ -2,7 +2,9 @@
 <section class="djet-search-bar-prominent">
   <form action="{% url 'storefront-home' %}" method="get">
     <div class="djet-search-input-wrap">
-      <span style="font-size: 1.25rem; padding-inline: 0.5rem;">🔍</span>
+      <span style="padding-inline: 0.5rem; color: var(--text-muted); display: inline-flex; align-items: center;" aria-hidden="true">
+        <svg class="djet-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </span>
       <input type="search" name="q" class="djet-search-input"
              placeholder="{% if CURRENT_LANG == 'en' %}{{ section.placeholder_en }}{% else %}{{ section.placeholder_ar }}{% endif %}"
              value="{{ request.GET.q|default:'' }}">

@@ -1,14 +1,16 @@
 {% load i18n %}
 {% if cart_count and cart_count > 0 %}
 <div class="djet-basket-bottom-bar">
-  <div>
-    <strong>🧺 {{ preset.cart_label|default:_("Basket") }}</strong>
-    <span style="margin-inline-start: 0.5rem; color: var(--text-muted); font-size: 0.9rem;">
+  <div style="display: flex; align-items: center; gap: 0.5rem;">
+    <svg class="djet-icon-sm" style="color: var(--accent);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+    <strong>{{ preset.cart_label|default:_("Basket") }}</strong>
+    <span style="margin-inline-start: 0.35rem; color: var(--text-muted); font-size: 0.9rem;">
       {{ cart_count }} {% trans "items" %}
     </span>
   </div>
   <a href="{% url 'storefront-cart' %}" class="djet-btn djet-btn-primary">
-    {% trans "View Basket & Checkout" %} ➔
+    <span>{% trans "View Basket & Checkout" %}</span>
+    <svg class="djet-icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
   </a>
 </div>
 {% endif %}

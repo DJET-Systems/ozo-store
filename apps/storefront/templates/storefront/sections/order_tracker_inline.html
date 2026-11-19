@@ -1,16 +1,21 @@
 {% load i18n %}
 <section style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-card); padding: 2rem; margin-block: 2.5rem;">
   <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1.5rem;">
-    <div>
-      <h2 style="font-size: 1.35rem; font-weight: 800; margin: 0 0 0.5rem; color: var(--text);">
-        📦 {% trans "Track Your Order" %}
-      </h2>
-      <p style="margin: 0; color: var(--text-muted); font-size: 0.95rem;">
-        {% trans "Already placed an order? Enter your order number and phone to get live status." %}
-      </p>
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <span class="djet-trust-icon-box" aria-hidden="true">
+        <svg class="djet-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+      </span>
+      <div>
+        <h2 style="font-size: 1.35rem; font-weight: 800; margin: 0 0 0.35rem; color: var(--text);">
+          {% trans "Track Your Order" %}
+        </h2>
+        <p style="margin: 0; color: var(--text-muted); font-size: 0.95rem;">
+          {% trans "Already placed an order? Enter your order number and phone to get live status." %}
+        </p>
+      </div>
     </div>
     <form action="{% url 'storefront-order-track' %}" method="get" style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
-      <input type="text" name="order_ref" placeholder="{% trans 'Order Ref (e.g. ORD-1001)' %}" class="djet-form-input" style="width: auto; min-width: 200px;">
+      <input type="text" name="order_ref" placeholder="{% trans 'Order Ref (e.g. OZO-2026-1001)' %}" class="djet-form-input" style="width: auto; min-width: 220px;">
       <button type="submit" class="djet-btn djet-btn-primary">
         {% trans "Track" %}
       </button>

@@ -6,7 +6,7 @@
 {% block content %}
 <div class="djet-card">
   <div class="djet-card-header">
-    <h2 class="djet-card-title">👥 {% trans "Staff Members" %}</h2>
+    <h2 class="djet-card-title"> {% trans "Staff Members" %}</h2>
   </div>
 
   <div class="djet-table-container">
@@ -33,16 +33,16 @@
             </td>
             <td>
               {% if staff.totp_enabled %}
-                <span class="djet-badge djet-badge-success">🔒 {% trans "Active" %}</span>
+                <span class="djet-badge djet-badge-success"> {% trans "Active" %}</span>
               {% elif staff.requires_2fa_enforcement %}
-                <span class="djet-badge djet-badge-danger">⚠️ {% trans "Mandatory / Unset" %}</span>
+                <span class="djet-badge djet-badge-danger"> {% trans "Mandatory / Unset" %}</span>
               {% else %}
                 <span class="djet-badge djet-badge-neutral">{% trans "Optional" %}</span>
               {% endif %}
             </td>
             <td>
               {% if staff.is_locked %}
-                <span class="djet-badge djet-badge-danger">🔒 {% trans "Locked" %}</span>
+                <span class="djet-badge djet-badge-danger"> {% trans "Locked" %}</span>
               {% elif not staff.is_active %}
                 <span class="djet-badge djet-badge-neutral">{% trans "Inactive" %}</span>
               {% else %}
@@ -60,7 +60,7 @@
 {% if can_manage_staff %}
   <div class="djet-card">
     <div class="djet-card-header">
-      <h2 class="djet-card-title">✉️ {% trans "Invite New Staff Member" %}</h2>
+      <h2 class="djet-card-title"> {% trans "Invite New Staff Member" %}</h2>
     </div>
 
     <form method="post" action="{% url 'dashboard-staff-invite' %}" style="max-width: 600px;">

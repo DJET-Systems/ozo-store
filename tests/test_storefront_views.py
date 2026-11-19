@@ -225,3 +225,125 @@ def test_order_track_view(client: Client) -> None:
     content = resp.content.decode("utf-8")
     assert "Shipment In Transit" in content
     assert "ORD-2026-901" in content
+
+
+@pytest.mark.django_db
+def test_checkout_cash_on_delivery_and_branch_pickup(
+    client: Client, catalog_fixture: dict[str, Any]
+) -> None:
+    """Checkout creates a persistent Order for Cash on Delivery (COD) and Pick Up at Branch."""
+    from apps.orders.models import Order
+
+    branch = Location.objects.create(
+        code="OZO-MOK",
+        name_en="OZO Shop Mokattam Showroom",
+        name_ar="فرع المقطم",
+        is_active=True,
+        is_public_branch=True,
+        priority=1,
+    )
+
+    # 1. Cash on Delivery (Home Courier)
+    client.post("/cart/add/", {"sku": "TP-X1C-16G", "quantity": "1"})
+    resp_get = client.get("/checkout/")
+    assert resp_get.status_code == 200
+    assert "Cash on Delivery" in resp_get.content.decode("utf-8")
+
+    resp_cod = client.post(
+        "/checkout/",
+        {
+            "customer_name": "Karim Adel",
+            "customer_phone": "01026646657",
+            "fulfillment_method": "home_delivery",
+            "payment_method": "cod",
+            "governorate": "Cairo",
+            "city": "Al-Moqattam",
+            "address_line": "Street 9, Building 12, Next to Al-Andalus Park",
+        },
+        follow=True,
+    )
+    assert resp_cod.status_code == 200
+    cod_order = Order.objects.filter(customer_name="Karim Adel").first()
+    assert cod_order is not None
+    assert cod_order.fulfillment_method == "home_delivery"
+    assert cod_order.payment_method == "cod"
+    assert cod_order.subtotal_amount == 4800000
+    assert cod_order.shipping_amount == 7500
+    assert cod_order.total_amount == 4807500
+    assert cod_order.reference in resp_cod.content.decode("utf-8")
+
+    # 2. Pick Up at Branch (Free shipping, pay at branch)
+    client.post("/cart/add/", {"sku": "TP-X1C-32G", "quantity": "1"})
+    resp_pickup = client.post(
+        "/checkout/",
+        {
+            "customer_name": "Nouran Tarek",
+            "customer_phone": "01026646658",
+            "fulfillment_method": "branch_pickup",
+            "payment_method": "pay_at_branch",
+            "pickup_location_id": str(branch.id),
+        },
+        follow=True,
+    )
+    assert resp_pickup.status_code == 200
+    pickup_order = Order.objects.filter(customer_name="Nouran Tarek").first()
+    assert pickup_order is not None
+    assert pickup_order.fulfillment_method == "branch_pickup"
+    assert pickup_order.payment_method == "pay_at_branch"
+    assert pickup_order.pickup_location == branch
+    assert pickup_order.shipping_amount == 0
+    assert pickup_order.total_amount == 5800000
+
+
+@pytest.mark.django_db
+def test_staff_portal_add_and_remove_listed_products(settings: Any) -> None:
+    """Staff with catalog.edit can add a new listed item and remove (archive) an existing item."""
+    from django.urls import reverse
+
+    from apps.core.models import Role, StaffUser
+    from apps.core.rbac import sync_builtin_roles
+
+    settings.ROOT_URLCONF = "config.urls_dashboard"
+    sync_builtin_roles()
+
+    owner_role = Role.objects.get(name="Owner")
+    owner = StaffUser.objects.create_user(
+        username="ozo_owner",
+        email="owner@ozoshop.eg",
+        password="ValidPassword123!",
+        role=owner_role,
+        is_staff=True,
+        totp_enabled=True,
+    )
+    staff_client = Client()
+    staff_client.force_login(owner)
+
+    # Add a new product via Staff Portal
+    resp_create = staff_client.post(
+        reverse("dashboard-product-create"),
+        {
+            "title_en": "OZO DualSense Hall-Effect Pro Controller",
+            "title_ar": "ذراع بلايستيشن 5 معدل أنالوج مغناطيسي",
+            "sku": "OZO-GM-DS5-PRO",
+            "primary_brand": "Sony PlayStation",
+            "price_egp": "5200.00",
+            "cost_egp": "4100.00",
+            "condition": "new",
+            "warranty_months": "12",
+        },
+        follow=True,
+    )
+    assert resp_create.status_code == 200
+    created_prod = Product.objects.filter(handle="ozo-dualsense-hall-effect-pro-controller").first()
+    assert created_prod is not None
+    assert created_prod.status == "active"
+
+    # Remove (archive) the product from the live storefront via Staff Portal
+    resp_archive = staff_client.post(
+        reverse("dashboard-product-status", kwargs={"product_id": created_prod.id}),
+        {"status": "archived"},
+        follow=True,
+    )
+    assert resp_archive.status_code == 200
+    created_prod.refresh_from_db()
+    assert created_prod.status == "archived"

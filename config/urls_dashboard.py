@@ -19,7 +19,18 @@ urlpatterns = [
     # Operational Dashboard
     path("", views.today_view, name="dashboard-today"),
     path("orders/", views.orders_list_view, name="dashboard-orders"),
+    path(
+        "orders/<int:order_id>/status/",
+        views.order_status_update_view,
+        name="dashboard-order-status",
+    ),
     path("products/", views.products_list_view, name="dashboard-products"),
+    path("products/create/", views.product_create_view, name="dashboard-product-create"),
+    path(
+        "products/<int:product_id>/status/",
+        views.product_status_update_view,
+        name="dashboard-product-status",
+    ),
     path("inventory/", views.inventory_list_view, name="dashboard-inventory"),
     path("purchasing/", views.purchasing_list_view, name="dashboard-purchasing"),
     path("reports/", views.reports_view, name="dashboard-reports"),

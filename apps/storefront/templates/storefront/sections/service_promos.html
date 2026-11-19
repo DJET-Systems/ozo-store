@@ -1,75 +1,99 @@
-{% load i18n %}
-{# 3-up campaign value pillars: Installments (0% down), Trade-In (swap device), 24/7 Repair Centre #}
+{% load static i18n %}
+{# 3-up campaign value pillars with real OZO campaign graphics & crisp SVG icons #}
 <section class="djet-service-promos" aria-label="{% trans 'Key Services' %}">
   <!-- Pillar 1: Installments -->
   <article class="djet-promo-pillar djet-promo-pillar-navy">
-    <div class="djet-promo-pillar-badge">
-      {% if CURRENT_LANG == 'en' %}0% Down Payment{% else %}بدون مقدم وبدون فوائد{% endif %}
+    <div class="djet-promo-pillar-media">
+      <img src="{% static 'storefront/brand/ozo/campaign-installments.webp' %}"
+           alt="{% if CURRENT_LANG == 'en' %}0% Down Payment Installments{% else %}متستناش القبض قسط بدون مقدم وبدون فوائد{% endif %}"
+           loading="lazy" width="440" height="440">
     </div>
-    <h2 class="djet-promo-pillar-title">
-      {% if CURRENT_LANG == 'en' %}Don't Wait for Payday{% else %}متستناش القبض{% endif %}
-    </h2>
-    <p class="djet-promo-pillar-desc">
-      {% if CURRENT_LANG == 'en' %}
-        Easy installments on mobiles, laptops, PlayStation &amp; smartwatches. Own it today and pay at your own pace.
-      {% else %}
-        قسّط بدون مقدم وبدون فوائد على الموبايلات، اللابتوبات، البلايستيشن والساعات الذكية. امتلك الآن وادفع على راحتك.
-      {% endif %}
-    </p>
-    <div class="djet-promo-pillar-footer">
-      <a href="#products" class="djet-btn djet-btn-gold">
-        {% if CURRENT_LANG == 'en' %}Explore Installment Deals{% else %}تصفح عروض التقسيط{% endif %}
-      </a>
+    <div class="djet-promo-pillar-content">
+      <div class="djet-promo-pillar-badge">
+        <svg class="djet-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+        <span>{% if CURRENT_LANG == 'en' %}0% Down Payment{% else %}بدون مقدم وبدون فوائد{% endif %}</span>
+      </div>
+      <h2 class="djet-promo-pillar-title">
+        {% if CURRENT_LANG == 'en' %}Don't Wait for Payday{% else %}متستناش القبض{% endif %}
+      </h2>
+      <p class="djet-promo-pillar-desc">
+        {% if CURRENT_LANG == 'en' %}
+          Easy installments on mobiles, laptops, PlayStation &amp; smartwatches. Own it today and pay at your own pace.
+        {% else %}
+          قسّط بدون مقدم وبدون فوائد على الموبايلات، اللابتوبات، البلايستيشن والساعات الذكية. امتلك الآن وادفع على راحتك.
+        {% endif %}
+      </p>
+      <div class="djet-promo-pillar-footer">
+        <a href="#products" class="djet-btn djet-btn-gold">
+          <span>{% if CURRENT_LANG == 'en' %}Explore Installment Deals{% else %}تصفح عروض التقسيط{% endif %}</span>
+        </a>
+      </div>
     </div>
   </article>
 
   <!-- Pillar 2: Trade-In -->
   <article class="djet-promo-pillar djet-promo-pillar-accent">
-    <div class="djet-promo-pillar-badge">
-      {% if CURRENT_LANG == 'en' %}Instant Valuation{% else %}تقييم فوري وأقل فرق{% endif %}
+    <div class="djet-promo-pillar-media">
+      <img src="{% static 'storefront/brand/ozo/campaign-trade-in.webp' %}"
+           alt="{% if CURRENT_LANG == 'en' %}Trade-In Your Device{% else %}بدّل موبايلك وادفع أقل فرق{% endif %}"
+           loading="lazy" width="440" height="550">
     </div>
-    <h2 class="djet-promo-pillar-title">
-      {% if CURRENT_LANG == 'en' %}Trade-In Your Device{% else %}بدّل موبايلك وادفع أقل فرق{% endif %}
-    </h2>
-    <p class="djet-promo-pillar-desc">
-      {% if CURRENT_LANG == 'en' %}
-        Upgrade your old phone, tablet, or laptop in minutes. Transparent inspection and flexible payment options for the difference.
-      {% else %}
-        استبدل جهازك القديم بأحدث الموديلات في دقائق. فحص عادل وشفاف مع إمكانية تقسيط الفرق بكل طرق الدفع والتقسيط.
-      {% endif %}
-    </p>
-    <div class="djet-promo-pillar-footer">
-      {% if whatsapp_number %}
-        <a href="https://wa.me/{{ whatsapp_number }}?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20OZO%20Shop%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%A7%D8%B3%D8%AA%D8%A8%D8%AF%D8%A7%D9%84%20%D8%AC%D9%87%D8%A7%D8%B2" target="_blank" rel="noopener noreferrer" class="djet-btn djet-btn-light">
-          {% if CURRENT_LANG == 'en' %}Get Trade-In Quote{% else %}احصل على تسعير استبدال{% endif %}
-        </a>
-      {% else %}
-        <a href="#visit" class="djet-btn djet-btn-light">
-          {% if CURRENT_LANG == 'en' %}Visit Showroom{% else %}زورنا في الفرع{% endif %}
-        </a>
-      {% endif %}
+    <div class="djet-promo-pillar-content">
+      <div class="djet-promo-pillar-badge">
+        <svg class="djet-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+        <span>{% if CURRENT_LANG == 'en' %}Instant Valuation{% else %}تقييم فوري وأقل فرق{% endif %}</span>
+      </div>
+      <h2 class="djet-promo-pillar-title">
+        {% if CURRENT_LANG == 'en' %}Trade-In Your Device{% else %}بدّل موبايلك وادفع أقل فرق{% endif %}
+      </h2>
+      <p class="djet-promo-pillar-desc">
+        {% if CURRENT_LANG == 'en' %}
+          Upgrade your old phone, tablet, or laptop in minutes. Transparent inspection and flexible payment options for the difference.
+        {% else %}
+          استبدل جهازك القديم بأحدث الموديلات في دقائق. فحص عادل وشفاف مع إمكانية تقسيط الفرق بكل طرق الدفع والتقسيط.
+        {% endif %}
+      </p>
+      <div class="djet-promo-pillar-footer">
+        {% if whatsapp_number %}
+          <a href="https://wa.me/{{ whatsapp_number }}?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20OZO%20Shop%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%A7%D8%B3%D8%AA%D8%A8%D8%AF%D8%A7%D9%84%20%D8%AC%D9%87%D8%A7%D8%B2" target="_blank" rel="noopener noreferrer" class="djet-btn djet-btn-light">
+            <span>{% if CURRENT_LANG == 'en' %}Get Trade-In Quote{% else %}احصل على تسعير استبدال{% endif %}</span>
+          </a>
+        {% else %}
+          <a href="#visit" class="djet-btn djet-btn-light">
+            <span>{% if CURRENT_LANG == 'en' %}Visit Showroom{% else %}زورنا في الفرع{% endif %}</span>
+          </a>
+        {% endif %}
+      </div>
     </div>
   </article>
 
   <!-- Pillar 3: 24/7 Repair Centre -->
   <article class="djet-promo-pillar djet-promo-pillar-indigo">
-    <div class="djet-promo-pillar-badge">
-      {% if CURRENT_LANG == 'en' %}24/7 Pro Technicians{% else %}فنيون محترفون ٢٤/٧{% endif %}
+    <div class="djet-promo-pillar-media">
+      <img src="{% static 'storefront/brand/ozo/campaign-repair-signage.webp' %}"
+           alt="{% if CURRENT_LANG == 'en' %}OZO Mobile Service 24/7{% else %}مركز صيانة أوزو المتكامل ٢٤ ساعة{% endif %}"
+           loading="lazy" width="412" height="510">
     </div>
-    <h2 class="djet-promo-pillar-title">
-      {% if CURRENT_LANG == 'en' %}OZO Mobile &amp; Tech Service{% else %}مركز صيانة أوزو المتكامل{% endif %}
-    </h2>
-    <p class="djet-promo-pillar-desc">
-      {% if CURRENT_LANG == 'en' %}
-        Dedicated repair center right next to our main shop. Original spare parts for phones, tablets, laptops &amp; PlayStation.
-      {% else %}
-        مركز صيانة متخصص بجوار المحل الرئيسي يعمل ٢٤ ساعة. قطع غيار أصلية للموبايلات، التابلت، اللابتوب والبلايستيشن.
-      {% endif %}
-    </p>
-    <div class="djet-promo-pillar-footer">
-      <a href="#repair" class="djet-btn djet-btn-light">
-        {% if CURRENT_LANG == 'en' %}Book Repair Now{% else %}احجز صيانة الآن{% endif %}
-      </a>
+    <div class="djet-promo-pillar-content">
+      <div class="djet-promo-pillar-badge">
+        <svg class="djet-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        <span>{% if CURRENT_LANG == 'en' %}24/7 Pro Technicians{% else %}فنيون محترفون ٢٤/٧{% endif %}</span>
+      </div>
+      <h2 class="djet-promo-pillar-title">
+        {% if CURRENT_LANG == 'en' %}OZO Mobile &amp; Tech Service{% else %}مركز صيانة أوزو المتكامل{% endif %}
+      </h2>
+      <p class="djet-promo-pillar-desc">
+        {% if CURRENT_LANG == 'en' %}
+          Dedicated repair center right next to our main shop. Original spare parts for phones, tablets, laptops &amp; PlayStation.
+        {% else %}
+          مركز صيانة متخصص بجوار المحل الرئيسي يعمل ٢٤ ساعة. قطع غيار أصلية للموبايلات، التابلت، اللابتوب والبلايستيشن.
+        {% endif %}
+      </p>
+      <div class="djet-promo-pillar-footer">
+        <a href="#repair" class="djet-btn djet-btn-light">
+          <span>{% if CURRENT_LANG == 'en' %}Book Repair Now{% else %}احجز صيانة الآن{% endif %}</span>
+        </a>
+      </div>
     </div>
   </article>
 </section>

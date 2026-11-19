@@ -6,10 +6,10 @@
 {% block content %}
 <div class="djet-card">
   <div class="djet-card-header">
-    <h2 class="djet-card-title">📜 {% trans "Append-Only Audit Trail" %}</h2>
+    <h2 class="djet-card-title"> {% trans "Append-Only Audit Trail" %}</h2>
     <div style="display: flex; gap: 0.75rem;">
       <a href="{% url 'dashboard-export' 'audit' %}" class="djet-btn djet-btn-secondary">
-        📥 {% trans "Export CSV" %}
+         {% trans "Export CSV" %}
       </a>
     </div>
   </div>

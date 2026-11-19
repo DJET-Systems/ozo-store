@@ -16,6 +16,8 @@ from django.views.decorators.http import require_http_methods, require_safe
 from apps.catalog.models import Category, Product, Variant
 from apps.core.models import StoreSettings
 from apps.inventory.models import Location, SerialUnit
+from apps.orders.models import Order
+from apps.orders.services import HOME_DELIVERY_FEE_MINOR, create_order_from_cart
 from apps.presets.services import get_effective_definition, normalize_preset_code
 
 
@@ -266,11 +268,124 @@ def order_track_view(request: HttpRequest) -> HttpResponse:
     context = get_storefront_context(request)
     order_ref = request.GET.get("order_ref", "").strip()
     phone = request.GET.get("phone", "").strip()
+    clean_phone = "".join(ch for ch in phone if ch.isdigit())
+
+    matched_order: Order | None = None
+    if order_ref and clean_phone:
+        candidate = (
+            Order.objects.prefetch_related("items").filter(reference__iexact=order_ref).first()
+        )
+        if candidate and clean_phone in "".join(
+            ch for ch in candidate.customer_phone if ch.isdigit()
+        ):
+            matched_order = candidate
 
     context.update(
         {
             "order_ref": order_ref,
             "phone": phone,
+            "matched_order": matched_order,
         }
     )
     return render(request, "storefront/order_track.html", context)
+
+
+@require_http_methods(["GET", "POST"])
+def checkout_view(request: HttpRequest) -> HttpResponse:
+    """Checkout view supporting Cash on Delivery (COD) and Pick Up at Branch."""
+    context = get_storefront_context(request)
+    cart: dict[str, int] = request.session.get("cart", {})
+    if not cart:
+        messages.info(request, "Your cart is empty. Add items before checking out.")
+        return redirect("storefront-cart")
+
+    variants = list(
+        Variant.objects.filter(sku__in=list(cart.keys()), product__status="active").select_related(
+            "product"
+        )
+    )
+    if not variants:
+        request.session["cart"] = {}
+        messages.error(request, "The items in your cart are no longer available.")
+        return redirect("storefront-cart")
+
+    items: list[dict[str, Any]] = []
+    subtotal_amount = 0
+    for v in variants:
+        qty = max(1, int(cart.get(v.sku, 1)))
+        line_total = v.price_amount * qty
+        subtotal_amount += line_total
+        items.append(
+            {
+                "variant": v,
+                "quantity": qty,
+                "line_total_formatted": f"{Decimal(line_total) / 100:.2f} EGP",
+            }
+        )
+
+    branches = list(
+        Location.objects.filter(is_active=True, is_public_branch=True).order_by("priority")
+    )
+    delivery_fee_egp = f"{Decimal(HOME_DELIVERY_FEE_MINOR) / 100:.2f} EGP"
+    total_with_delivery_egp = f"{Decimal(subtotal_amount + HOME_DELIVERY_FEE_MINOR) / 100:.2f} EGP"
+    subtotal_egp = f"{Decimal(subtotal_amount) / 100:.2f} EGP"
+
+    if request.method == "POST":
+        customer_name = request.POST.get("customer_name", "").strip()
+        customer_phone = request.POST.get("customer_phone", "").strip()
+        customer_email = request.POST.get("customer_email", "").strip()
+        fulfillment_method = request.POST.get("fulfillment_method", "home_delivery").strip()
+        payment_method = request.POST.get("payment_method", "cod").strip()
+        governorate = request.POST.get("governorate", "Cairo").strip()
+        city = request.POST.get("city", "Al-Moqattam").strip()
+        address_line = request.POST.get("address_line", "").strip()
+        notes = request.POST.get("notes", "").strip()
+        pickup_loc_raw = request.POST.get("pickup_location_id", "").strip()
+        pickup_location_id = int(pickup_loc_raw) if pickup_loc_raw.isdigit() else None
+
+        try:
+            order = create_order_from_cart(
+                cart=cart,
+                customer_name=customer_name,
+                customer_phone=customer_phone,
+                customer_email=customer_email,
+                fulfillment_method=fulfillment_method,
+                payment_method=payment_method,
+                pickup_location_id=pickup_location_id,
+                governorate=governorate,
+                city=city,
+                address_line=address_line,
+                notes=notes,
+            )
+            request.session["cart"] = {}
+            request.session["last_order_ref"] = order.reference
+            messages.success(
+                request,
+                f"Order {order.reference} placed! Thank you, {order.customer_name}.",
+            )
+            return redirect("storefront-order-confirmation", reference=order.reference)
+        except ValueError as exc:
+            messages.error(request, str(exc))
+
+    context.update(
+        {
+            "cart_items": items,
+            "subtotal_formatted": subtotal_egp,
+            "delivery_fee_formatted": delivery_fee_egp,
+            "total_with_delivery_formatted": total_with_delivery_egp,
+            "branches": branches,
+        }
+    )
+    return render(request, "storefront/checkout.html", context)
+
+
+@require_safe
+def order_confirmation_view(request: HttpRequest, reference: str) -> HttpResponse:
+    """Order confirmation receipt page for COD and Branch Pickup orders."""
+    context = get_storefront_context(request)
+    order = get_object_or_404(
+        Order.objects.prefetch_related("items").select_related("pickup_location"),
+        reference=reference,
+    )
+    context["order"] = order
+    return render(request, "storefront/order_confirmation.html", context)

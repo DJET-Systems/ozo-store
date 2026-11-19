@@ -1,10 +1,11 @@
 {% load static i18n %}
-{# Brand hero: navy campaign gradient (mirrors OZO social creatives), text-first for LCP & SEO. #}
+{# Brand hero: OZO 20-Years Anniversary Showcase + Campaign Banner Stage + Fast Spec Pills #}
 <section class="djet-hero-brand" aria-labelledby="hero-brand-title">
   <div class="djet-hero-brand-copy">
     {% if section.eyebrow_en %}
       <p class="djet-hero-brand-eyebrow">
-        {% if CURRENT_LANG == 'en' %}{{ section.eyebrow_en }}{% else %}{{ section.eyebrow_ar }}{% endif %}
+        <svg class="djet-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span>{% if CURRENT_LANG == 'en' %}{{ section.eyebrow_en }}{% else %}{{ section.eyebrow_ar }}{% endif %}</span>
       </p>
     {% endif %}
     <h1 class="djet-hero-brand-title" id="hero-brand-title">
@@ -13,29 +14,49 @@
     <p class="djet-hero-brand-subtitle">
       {% if CURRENT_LANG == 'en' %}{{ section.subtitle_en }}{% else %}{{ section.subtitle_ar }}{% endif %}
     </p>
+
+    <div class="djet-hero-chips">
+      <span class="djet-hero-chip">
+        <svg class="djet-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+        <span>{% if CURRENT_LANG == 'en' %}0% Down Installments{% else %}تقسيط بدون مقدم{% endif %}</span>
+      </span>
+      <span class="djet-hero-chip">
+        <svg class="djet-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+        <span>{% if CURRENT_LANG == 'en' %}Instant Device Trade-In{% else %}استبدال فوري بأقل فرق{% endif %}</span>
+      </span>
+      <span class="djet-hero-chip">
+        <svg class="djet-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        <span>{% if CURRENT_LANG == 'en' %}24/7 Pro Repair Lab{% else %}مركز صيانة محترف ٢٤/٧{% endif %}</span>
+      </span>
+    </div>
+
     <div class="djet-hero-brand-actions">
       {% if section.cta_text_en %}
         <a href="{{ section.cta_link|default:'#products' }}" class="djet-btn djet-btn-gold">
-          {% if CURRENT_LANG == 'en' %}{{ section.cta_text_en }}{% else %}{{ section.cta_text_ar }}{% endif %}
+          <svg class="djet-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span>{% if CURRENT_LANG == 'en' %}{{ section.cta_text_en }}{% else %}{{ section.cta_text_ar }}{% endif %}</span>
         </a>
       {% endif %}
       {% if section.secondary_cta_text_en %}
         <a href="{{ section.secondary_cta_link|default:'#repair' }}" class="djet-btn djet-btn-ghost-light">
-          {% if CURRENT_LANG == 'en' %}{{ section.secondary_cta_text_en }}{% else %}{{ section.secondary_cta_text_ar }}{% endif %}
+          <svg class="djet-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+          <span>{% if CURRENT_LANG == 'en' %}{{ section.secondary_cta_text_en }}{% else %}{{ section.secondary_cta_text_ar }}{% endif %}</span>
         </a>
       {% endif %}
     </div>
   </div>
 
-  <div class="djet-hero-brand-visual" aria-hidden="true">
-    {% if brand.logo_2x %}
-      <img src="{% static brand.logo_2x %}" alt="" width="240" height="240" class="djet-hero-brand-logo" fetchpriority="high">
-    {% endif %}
-    {% if brand_years %}
-      <div class="djet-hero-brand-badge">
-        <strong>{{ brand_years }}</strong>
-        <span>{% if CURRENT_LANG == 'en' %}Years{% else %}سنة{% endif %}</span>
-      </div>
-    {% endif %}
+  <div class="djet-hero-brand-visual">
+    <div class="djet-hero-banner-frame">
+      <img src="{% static 'storefront/brand/ozo/campaign-20-years.webp' %}"
+           alt="{% if CURRENT_LANG == 'en' %}OZO Shop — 20 Years Anniversary{% else %}أوزو شوب — ٢٠ سنة من الثقة والنجاح{% endif %}"
+           width="652" height="306" class="djet-hero-banner-img" fetchpriority="high">
+      {% if brand_years %}
+        <div class="djet-hero-brand-badge">
+          <strong>{{ brand_years }}</strong>
+          <span>{% if CURRENT_LANG == 'en' %}Years{% else %}سنة{% endif %}</span>
+        </div>
+      {% endif %}
+    </div>
   </div>
 </section>

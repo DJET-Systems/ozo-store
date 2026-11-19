@@ -6,13 +6,13 @@
 {% block content %}
 <div class="djet-kpi-grid">
   <div class="djet-kpi-card">
-    <span class="djet-kpi-label">📦 {% trans "Orders to Pack" %}</span>
-    <span class="djet-kpi-value">0</span>
-    <span style="font-size: 0.75rem; color: var(--text-muted);">{% trans "Awaiting warehouse fulfillment" %}</span>
+    <span class="djet-kpi-label">{% trans "Orders to Pack" %}</span>
+    <span class="djet-kpi-value">{{ pending_orders_count|default:0 }}</span>
+    <span style="font-size: 0.75rem; color: var(--text-muted);">{% trans "COD & Branch Pickup orders awaiting action" %}</span>
   </div>
 
   <div class="djet-kpi-card">
-    <span class="djet-kpi-label">⚠️ {% trans "Low Stock SKUs" %}</span>
+    <span class="djet-kpi-label"> {% trans "Low Stock SKUs" %}</span>
     <span class="djet-kpi-value" style="color: {% if low_stock_count > 0 %}var(--warning){% else %}var(--text){% endif %};">
       {{ low_stock_count }}
     </span>
@@ -20,7 +20,7 @@
   </div>
 
   <div class="djet-kpi-card">
-    <span class="djet-kpi-label">🚫 {% trans "Out of Stock" %}</span>
+    <span class="djet-kpi-label"> {% trans "Out of Stock" %}</span>
     <span class="djet-kpi-value" style="color: {% if out_of_stock_count > 0 %}var(--danger){% else %}var(--text){% endif %};">
       {{ out_of_stock_count }}
     </span>
@@ -28,13 +28,13 @@
   </div>
 
   <div class="djet-kpi-card">
-    <span class="djet-kpi-label">🏷️ {% trans "Active Products" %}</span>
+    <span class="djet-kpi-label"> {% trans "Active Products" %}</span>
     <span class="djet-kpi-value">{{ active_products_count }}</span>
     <span style="font-size: 0.75rem; color: var(--text-muted);">{% trans "Catalog items published" %}</span>
   </div>
 
   <div class="djet-kpi-card">
-    <span class="djet-kpi-label">🏬 {% trans "Fulfillment Nodes" %}</span>
+    <span class="djet-kpi-label"> {% trans "Fulfillment Nodes" %}</span>
     <span class="djet-kpi-value">{{ active_locations_count }}</span>
     <span style="font-size: 0.75rem; color: var(--text-muted);">{% trans "Active branches & warehouses" %}</span>
   </div>
@@ -43,27 +43,30 @@
 <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem;">
   <div class="djet-card">
     <div class="djet-card-header">
-      <h2 class="djet-card-title">⚡ {% trans "Quick Actions" %}</h2>
+      <h2 class="djet-card-title"> {% trans "Quick Actions" %}</h2>
     </div>
     <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
       <a href="{% url 'dashboard-products' %}" class="djet-btn djet-btn-primary">
-        + {% trans "Manage Catalog" %}
+        + {% trans "Add / Remove Products" %}
+      </a>
+      <a href="{% url 'dashboard-orders' %}" class="djet-btn djet-btn-secondary">
+        {% trans "Manage COD & Pickup Orders" %}
       </a>
       <a href="{% url 'dashboard-inventory' %}" class="djet-btn djet-btn-secondary">
-        📊 {% trans "Inspect Stock Levels" %}
+        {% trans "Inspect Stock Levels" %}
       </a>
       <a href="{% url 'dashboard-export' 'catalog' %}" class="djet-btn djet-btn-secondary">
-        📥 {% trans "Export Catalog CSV" %}
+         {% trans "Export Catalog CSV" %}
       </a>
       <a href="{% url 'dashboard-export' 'inventory' %}" class="djet-btn djet-btn-secondary">
-        📥 {% trans "Export Stock CSV" %}
+         {% trans "Export Stock CSV" %}
       </a>
     </div>
   </div>
 
   <div class="djet-card">
     <div class="djet-card-header">
-      <h2 class="djet-card-title">📜 {% trans "Recent Audit Events" %}</h2>
+      <h2 class="djet-card-title"> {% trans "Recent Audit Events" %}</h2>
       <a href="{% url 'dashboard-audit' %}" style="font-size: 0.8rem; color: var(--accent); text-decoration: none;">
         {% trans "View all" %} →
       </a>

@@ -12,7 +12,7 @@
   <div class="djet-auth-shell">
     <div class="djet-auth-box">
       <div style="text-align: center; margin-bottom: 2rem;">
-        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🔒</div>
+        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;"></div>
         <h1 style="margin: 0 0 0.5rem 0; font-size: 1.35rem;">{% trans "Two-Factor Authentication" %}</h1>
         <p style="color: var(--text-muted); margin: 0; font-size: 0.875rem;">
           {% blocktrans with user=username %}Account: <strong>{{ user }}</strong>{% endblocktrans %}
@@ -22,6 +22,15 @@
       {% if error_message %}
         <div class="djet-alert djet-alert-error" role="alert">
           {{ error_message }}
+        </div>
+      {% endif %}
+
+      {% if is_dev_mode %}
+        <div class="djet-alert djet-alert-warning" style="font-size: 0.82rem; line-height: 1.6;">
+          <strong>DEV SANDBOX 2FA HELPER (DJET_ENV=dev)</strong><br>
+          Current 6-Digit TOTP Code: <code style="font-size: 1.05rem; font-weight: 800; color: var(--accent);">{{ dev_totp_code }}</code><br>
+          Base32 TOTP Secret: <code>{{ dev_totp_secret }}</code>
+          {% if dev_recovery_code %}<br>Recovery Code: <code>{{ dev_recovery_code }}</code>{% endif %}
         </div>
       {% endif %}
 

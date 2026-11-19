@@ -8,7 +8,9 @@
 {% block content %}
 <div class="djet-lookup-card">
   <div style="text-align: center; margin-block-end: 2rem;">
-    <div style="font-size: 3rem; margin-block-end: 0.5rem;">🛡️</div>
+    <div class="djet-icon-badge" style="margin: 0 auto 0.85rem;">
+      <svg class="djet-icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+    </div>
     <h1 style="font-size: 1.85rem; font-weight: 800; margin: 0 0 0.5rem; color: var(--text);">
       {% trans "Warranty & Authenticity Check" %}
     </h1>
@@ -25,17 +27,19 @@
              class="djet-form-input" style="text-transform: uppercase;">
     </div>
     <button type="submit" class="djet-btn djet-btn-primary" style="width: 100%; padding: 0.85rem; font-size: 1rem;">
-      🔍 {% trans "Verify Warranty" %}
+      <svg class="djet-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <span>{% trans "Verify Warranty" %}</span>
     </button>
   </form>
 
   {% if unit %}
     <div style="margin-block-start: 2rem; padding: 1.5rem; background: var(--surface-alt); border-radius: var(--radius-card); border-inline-start: 4px solid var(--accent);">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-block-end: 1rem;">
-        <span style="font-size: 0.85rem; font-weight: 700; color: var(--accent); text-transform: uppercase;">
-          ✅ {% trans "Verified Genuine Unit" %}
+        <span style="font-size: 0.85rem; font-weight: 700; color: var(--accent); text-transform: uppercase; display: inline-flex; align-items: center; gap: 0.35rem;">
+          <svg class="djet-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+          <span>{% trans "Verified Genuine Unit" %}</span>
         </span>
-        <span class="djet-condition-badge djet-condition-{{ unit.variant.condition }}">
+        <span class="djet-condition-badge djet-condition-{{ unit.variant.condition }}" style="position: static;">
           {{ unit.variant.get_condition_display }}
         </span>
       </div>
@@ -59,14 +63,18 @@
         </div>
         <div>
           <span style="color: var(--text-muted); display: block;">{% trans "Unit Status:" %}</span>
-          <span style="font-weight: 700; color: #166534;">🟢 {{ unit.status|title }}</span>
+          <span style="font-weight: 700; color: #166534; display: inline-flex; align-items: center; gap: 0.35rem;">
+            <span class="djet-repair-live-dot" aria-hidden="true"></span>
+            <span>{{ unit.status|title }}</span>
+          </span>
         </div>
       </div>
     </div>
   {% elif not_found %}
     <div style="margin-block-start: 2rem; padding: 1.5rem; background: #FEF2F2; border-radius: var(--radius-card); border-inline-start: 4px solid #DC2626; color: #991B1B;">
-      <h3 style="font-size: 1.1rem; font-weight: 700; margin: 0 0 0.5rem;">
-        ⚠️ {% trans "No Record Found" %}
+      <h3 style="font-size: 1.1rem; font-weight: 700; margin: 0 0 0.5rem; display: flex; align-items: center; gap: 0.45rem;">
+        <svg class="djet-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span>{% trans "No Record Found" %}</span>
       </h3>
       <p style="margin: 0; font-size: 0.9rem;">
         {% blocktrans with sn=query %}The serial number or IMEI <strong>{{ sn }}</strong> was not found in our official warranty database. Please double-check your input or contact customer support.{% endblocktrans %}

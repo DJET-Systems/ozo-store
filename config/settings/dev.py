@@ -5,6 +5,7 @@ from .env import get_bool, get_env, get_list
 
 DEBUG = True
 DJET_ENV = "dev"
+ROOT_URLCONF = "config.urls_dev"
 
 SECRET_KEY = get_env(
     "DJANGO_SECRET_KEY",

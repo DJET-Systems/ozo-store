@@ -5,6 +5,7 @@ from .env import get_env, parse_database_url
 
 DJET_ENV = "test"
 DEBUG = False
+ROOT_URLCONF = "config.urls_storefront"
 # Keep the suite deterministic: brand overlays are opted into per-test.
 DJET_BRAND_PROFILE = ""
 
