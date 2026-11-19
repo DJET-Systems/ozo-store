@@ -121,3 +121,10 @@ Because OZO Shop operates a **hybrid retail + trade-in + 24/7 repair center**, t
    - **Warehouse / Repair Lead**: Stock receiving, serial intake, trade-in grading, spare-parts transfers.
    - **Accountant**: COD courier settlement reconciliation and financial exports.
    - **Support**: Order tracking and WhatsApp customer care (`01026646657` / `01026646658`).
+
+---
+
+## 6. Related Engineering Documents
+
+- **[Production-Readiness Audit, Master Execution Roadmap & Decision Log (1,500+ Daily Users)](PRODUCTION-READINESS-ROADMAP.md)** — Full line-by-line codebase gap analysis, capacity engineering for 1,500+ DAU, 4-sprint implementation plan, and open questions for OZO Shop's production launch.
+
