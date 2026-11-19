@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Checkout on mobile</title>
+<script src="./vendor/react.js"></script>
+<script src="./vendor/react-dom.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F7F7F4}
+a{color:#17181A;text-decoration:none}
+.tile{background:#DCE6E2}
+</style>
+</helmet>
+<div style="width:390px;min-height:1500px;box-sizing:border-box;background:#F7F7F4;color:#17181A;font-family:'Inter',system-ui,sans-serif;line-height:1.5;display:flex;flex-direction:column">
+
+<header style="background:#FFFFFF;border-bottom:1px solid #E2E2DC;padding:8px 16px;display:flex;align-items:center;gap:8px">
+<a href="Product.dc.html" aria-label="Back to product" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>
+</a>
+<h1 style="margin:0;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:20px">Checkout</h1>
+</header>
+
+<main style="padding:16px;display:flex;flex-direction:column;gap:16px">
+
+<section style="background:#FFFFFF;border:1px solid #E2E2DC;border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:12px">
+<h2 style="margin:0;font-size:16px;font-weight:600">Your order (2 items)</h2>
+<div style="display:flex;gap:12px;align-items:center">
+<div class="tile" style="width:56px;height:56px;border-radius:8px;flex:none"></div>
+<div style="flex:1;font-size:14px"><div style="font-weight:500">Product name, 128 GB</div><div style="color:#4B4F56">Qty 1</div></div>
+<div style="font-weight:600;font-size:14px">EGP 18,500</div>
+</div>
+<div style="display:flex;gap:12px;align-items:center">
+<div class="tile" style="width:56px;height:56px;border-radius:8px;flex:none;background:#EADFD3"></div>
+<div style="flex:1;font-size:14px"><div style="font-weight:500">Product name</div><div style="color:#4B4F56">Qty 1</div></div>
+<div style="font-weight:600;font-size:14px">EGP 450</div>
+</div>
+</section>
+
+<section style="background:#FFFFFF;border:1px solid #E2E2DC;border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:12px">
+<h2 style="margin:0;font-size:16px;font-weight:600">Delivery details</h2>
+<div style="display:flex;flex-direction:column;gap:4px">
+<label for="nm" style="font-size:14px;font-weight:500">Full name</label>
+<input id="nm" type="text" style="min-height:44px;box-sizing:border-box;padding:0 12px;border:1px solid #C9CAC3;border-radius:10px;font:inherit;font-size:16px">
+</div>
+<div style="display:flex;flex-direction:column;gap:4px">
+<label for="ph" style="font-size:14px;font-weight:500">Mobile number</label>
+<div style="display:flex;gap:8px">
+<span style="min-height:44px;box-sizing:border-box;padding:0 12px;border:1px solid #C9CAC3;border-radius:10px;background:#EFEFEA;display:flex;align-items:center;font-size:16px">+20</span>
+<input id="ph" type="tel" inputmode="numeric" placeholder="10 1234 5678" style="flex:1;min-width:0;min-height:44px;box-sizing:border-box;padding:0 12px;border:1px solid #C9CAC3;border-radius:10px;font:inherit;font-size:16px">
+</div>
+<span style="font-size:13px;color:#4B4F56">We send order updates here on WhatsApp.</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:4px">
+<label for="gv" style="font-size:14px;font-weight:500">Governorate</label>
+<select id="gv" style="min-height:44px;box-sizing:border-box;padding:0 12px;border:1px solid #C9CAC3;border-radius:10px;font:inherit;font-size:16px;background:#FFFFFF"><option>Cairo</option><option>Giza</option><option>Alexandria</option></select>
+</div>
+<div style="display:flex;flex-direction:column;gap:4px">
+<label for="ad" style="font-size:14px;font-weight:500">Address</label>
+<textarea id="ad" rows="3" placeholder="Street, building, floor, apartment" style="box-sizing:border-box;padding:10px 12px;border:1px solid #C9CAC3;border-radius:10px;font:inherit;font-size:16px;resize:vertical"></textarea>
+</div>
+</section>
+
+<section style="background:#FFFFFF;border:1px solid #E2E2DC;border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:10px">
+<h2 style="margin:0;font-size:16px;font-weight:600">Payment</h2>
+<label style="min-height:52px;box-sizing:border-box;padding:8px 12px;border:2px solid #0E6B5C;border-radius:10px;display:flex;align-items:center;gap:12px;background:#F1F7F5">
+<input type="radio" name="pay" checked="" style="width:20px;height:20px;accent-color:#0E6B5C">
+<span style="flex:1"><span style="display:block;font-weight:600">Cash on delivery</span><span style="display:block;font-size:13px;color:#4B4F56">Pay the courier when you receive your order.</span></span>
+</label>
+<label style="min-height:52px;box-sizing:border-box;padding:8px 12px;border:1px solid #C9CAC3;border-radius:10px;display:flex;align-items:center;gap:12px">
+<input type="radio" name="pay" style="width:20px;height:20px;accent-color:#0E6B5C">
+<span style="flex:1;font-weight:600">Card</span>
+</label>
+<label style="min-height:52px;box-sizing:border-box;padding:8px 12px;border:1px solid #C9CAC3;border-radius:10px;display:flex;align-items:center;gap:12px">
+<input type="radio" name="pay" style="width:20px;height:20px;accent-color:#0E6B5C">
+<span style="flex:1;font-weight:600">Mobile wallet or InstaPay</span>
+</label>
+</section>
+
+<section style="background:#FFFFFF;border:1px solid #E2E2DC;border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;gap:8px">
+<label for="pc" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Promo code</label>
+<input id="pc" type="text" placeholder="Promo code" style="flex:1;min-width:0;min-height:44px;box-sizing:border-box;padding:0 12px;border:1px solid #C9CAC3;border-radius:10px;font:inherit;font-size:16px">
+<button type="button" style="min-height:44px;padding:0 16px;border:1.5px solid #17181A;border-radius:10px;background:#FFFFFF;font:inherit;font-weight:600">Apply</button>
+</div>
+<div style="display:flex;justify-content:space-between;font-size:14px;margin-top:8px"><span style="color:#4B4F56">Subtotal</span><span>EGP 18,950</span></div>
+<div style="display:flex;justify-content:space-between;font-size:14px"><span style="color:#4B4F56">Shipping (Cairo)</span><span>EGP 50</span></div>
+<div style="display:flex;justify-content:space-between;font-size:18px;font-weight:700;padding-top:8px;border-top:1px solid #E2E2DC"><span>Total</span><span>EGP 19,000</span></div>
+<div style="font-size:13px;color:#4B4F56">You pay EGP 19,000 in cash on delivery.</div>
+</section>
+
+<button type="button" style="min-height:52px;border:0;border-radius:12px;background:#0E6B5C;color:#FFFFFF;font:inherit;font-size:17px;font-weight:600">Place order · EGP 19,000</button>
+<p style="margin:0;font-size:13px;color:#4B4F56;text-align:center">By placing the order you agree to the returns and warranty terms.</p>
+
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1500}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

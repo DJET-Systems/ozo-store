@@ -1,0 +1,64 @@
+{
+	admin off
+}
+
+(common_headers) {
+	header {
+		-Server
+		>X-Content-Type-Options "nosniff"
+		Permissions-Policy "camera=(), microphone=(), geolocation=()"
+		>Cross-Origin-Opener-Policy "same-origin"
+		>X-Frame-Options "DENY"
+		>Content-Security-Policy "default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+	}
+}
+
+{$STORE_DOMAIN:shop.djet.localhost} {
+	tls {$TLS_MODE:internal}
+	encode zstd gzip
+	import common_headers
+	header >Referrer-Policy "strict-origin-when-cross-origin"
+
+	@static path /static/*
+	handle @static {
+		root * /srv
+		header Cache-Control "public, max-age=31536000, immutable"
+		file_server
+	}
+
+	@media path /media/*
+	handle @media {
+		root * /srv
+		header Cache-Control "public, max-age=86400"
+		file_server
+	}
+
+	handle {
+		reverse_proxy web-store:8000
+	}
+}
+
+{$ADMIN_DOMAIN:admin.djet.localhost} {
+	tls {$TLS_MODE:internal}
+	encode zstd gzip
+	import common_headers
+	header >Referrer-Policy "no-referrer"
+
+	@static path /static/*
+	handle @static {
+		root * /srv
+		header Cache-Control "public, max-age=31536000, immutable"
+		file_server
+	}
+
+	@media path /media/*
+	handle @media {
+		root * /srv
+		header Cache-Control "public, max-age=3600"
+		file_server
+	}
+
+	handle {
+		reverse_proxy web-admin:8001
+	}
+}

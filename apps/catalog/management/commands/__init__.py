@@ -1,0 +1,1 @@
+"""Catalog management command modules."""

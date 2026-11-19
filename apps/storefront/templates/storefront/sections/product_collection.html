@@ -1,0 +1,21 @@
+{% load i18n %}
+<section id="products" style="margin-block: 2.5rem;">
+  <div style="display: flex; justify-content: space-between; align-items: baseline; margin-block-end: 1.25rem;">
+    <h2 style="font-size: 1.5rem; font-weight: 800; margin: 0; color: var(--text);">
+      {% if CURRENT_LANG == 'en' %}{{ section.title_en }}{% else %}{{ section.title_ar }}{% endif %}
+    </h2>
+    <span style="font-size: 0.9rem; color: var(--text-muted);">
+      {{ products|length }} {% trans "Items" %}
+    </span>
+  </div>
+
+  <div class="djet-product-grid">
+    {% for product in products %}
+      {% include "storefront/sections/product_card.html" with product=product %}
+    {% empty %}
+      <p style="color: var(--text-muted); grid-column: 1 / -1;">
+        {% trans "No products available in this collection." %}
+      </p>
+    {% endfor %}
+  </div>
+</section>

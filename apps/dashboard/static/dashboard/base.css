@@ -1,0 +1,372 @@
+:root {
+  --bg: #F8FAFC;
+  --surface: #FFFFFF;
+  --surface-alt: #F1F5F9;
+  --text: #0F172A;
+  --text-muted: #64748B;
+  --border: #E2E8F0;
+  --accent: #0E6B5C;
+  --accent-hover: #0A5045;
+  --accent-light: #E6F4F1;
+  --danger: #DC2626;
+  --danger-light: #FEE2E2;
+  --warning: #D97706;
+  --warning-light: #FEF3C7;
+  --success: #16A34A;
+  --success-light: #DCFCE7;
+  --radius: 8px;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.5;
+}
+
+/* Shell Layout */
+.djet-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.djet-sidebar {
+  width: 260px;
+  background: var(--surface);
+  border-inline-end: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.djet-sidebar-header {
+  padding: 1.25rem 1.5rem;
+  border-block-end: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.djet-logo {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-decoration: none;
+  letter-spacing: -0.02em;
+}
+
+.djet-badge-env {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  background: var(--surface-alt);
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.djet-nav {
+  padding: 1rem 0.75rem;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.djet-nav-section {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 0.5rem 0.75rem;
+  letter-spacing: 0.05em;
+}
+
+.djet-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  margin-block: 0.15rem;
+  color: var(--text);
+  text-decoration: none;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background 0.15s ease;
+}
+
+.djet-nav-link:hover {
+  background: var(--surface-alt);
+}
+
+.djet-nav-link.active {
+  background: var(--accent-light);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.djet-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.djet-topbar {
+  background: var(--surface);
+  border-block-end: 1px solid var(--border);
+  padding: 0.75rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.djet-user-panel {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.djet-user-badge {
+  display: flex;
+  flex-direction: column;
+  text-align: end;
+  font-size: 0.85rem;
+}
+
+.djet-user-role {
+  font-size: 0.75rem;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.djet-content {
+  padding: 2rem;
+  flex: 1;
+  max-width: 1400px;
+  width: 100%;
+  margin-inline: auto;
+}
+
+/* Cards & Shell Components */
+.djet-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin-block-end: 1.5rem;
+}
+
+.djet-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-block-end: 1rem;
+  padding-block-end: 0.75rem;
+  border-block-end: 1px solid var(--border);
+}
+
+.djet-card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* KPI Grids */
+.djet-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+  margin-block-end: 1.5rem;
+}
+
+.djet-kpi-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.djet-kpi-label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.djet-kpi-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* Dense Data Tables */
+.djet-table-container {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.djet-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: start;
+  font-size: 0.875rem;
+}
+
+.djet-table th {
+  background: var(--surface-alt);
+  color: var(--text-muted);
+  font-weight: 600;
+  padding: 0.75rem 1rem;
+  border-block-end: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.djet-table td {
+  padding: 0.75rem 1rem;
+  border-block-end: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.djet-table tr:last-child td {
+  border-block-end: none;
+}
+
+.djet-table tr:hover td {
+  background: #F8FAFC;
+}
+
+/* Badges */
+.djet-badge {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.djet-badge-success { background: var(--success-light); color: var(--success); }
+.djet-badge-warning { background: var(--warning-light); color: var(--warning); }
+.djet-badge-danger { background: var(--danger-light); color: var(--danger); }
+.djet-badge-neutral { background: var(--surface-alt); color: var(--text-muted); }
+.djet-badge-accent { background: var(--accent-light); color: var(--accent); }
+
+/* Buttons & Inputs */
+.djet-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+}
+
+.djet-btn-primary {
+  background: var(--accent);
+  color: #FFFFFF;
+}
+
+.djet-btn-primary:hover {
+  background: var(--accent-hover);
+}
+
+.djet-btn-secondary {
+  background: var(--surface);
+  border-color: var(--border);
+  color: var(--text);
+}
+
+.djet-btn-secondary:hover {
+  background: var(--surface-alt);
+}
+
+.djet-btn-danger {
+  background: var(--danger);
+  color: #FFFFFF;
+}
+
+.djet-input, .djet-select {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+  background: var(--surface);
+  color: var(--text);
+  width: 100%;
+}
+
+.djet-input:focus, .djet-select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-light);
+}
+
+/* Alerts & Notices */
+.djet-alert {
+  padding: 0.875rem 1.25rem;
+  border-radius: var(--radius);
+  margin-block-end: 1rem;
+  font-size: 0.875rem;
+}
+
+.djet-alert-error {
+  background: var(--danger-light);
+  color: var(--danger);
+  border: 1px solid #FECACA;
+}
+
+.djet-alert-success {
+  background: var(--success-light);
+  color: var(--success);
+  border: 1px solid #BBF7D0;
+}
+
+.djet-alert-warning {
+  background: var(--warning-light);
+  color: var(--warning);
+  border: 1px solid #FDE68A;
+}
+
+/* Masked sensitive field */
+.masked-cost {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+}
+
+/* Centered Auth Shell */
+.djet-auth-shell {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: var(--bg);
+}
+
+.djet-auth-box {
+  width: 100%;
+  max-width: 420px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2.25rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}

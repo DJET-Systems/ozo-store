@@ -1,0 +1,19 @@
+{% load i18n %}
+<section style="background: var(--surface-alt); border-radius: var(--radius-card); padding: 1.5rem; margin-block: 2rem; border: 1px dashed var(--border);">
+  <div style="display: flex; align-items: center; justify-content: space-between;">
+    <div style="display: flex; align-items: center; gap: 0.75rem;">
+      <span style="font-size: 1.5rem;">🔁</span>
+      <div>
+        <strong style="color: var(--text);">
+          {% if CURRENT_LANG == 'en' %}{{ section.title_en }}{% else %}{{ section.title_ar }}{% endif %}
+        </strong>
+        <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted);">
+          {% trans "Quickly reorder everyday household and pantry essentials." %}
+        </p>
+      </div>
+    </div>
+    <a href="#products" class="djet-btn djet-btn-secondary" style="font-size: 0.85rem; padding: 0.5rem 1rem;">
+      {% trans "View Past Items" %}
+    </a>
+  </div>
+</section>

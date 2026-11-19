@@ -1,0 +1,82 @@
+{% load i18n %}
+{% with v=product.variants.all|first %}
+<article class="djet-product-card {% if preset.card_flags.aspect_ratio == 'horizontal-row' %}djet-card-horizontal{% endif %}">
+  <div class="djet-product-media {% if preset.card_flags.aspect_ratio == '3/4' %}djet-card-aspect-3-4{% else %}djet-card-aspect-1-1{% endif %}">
+    {% if v and preset.card_flags.show_condition_badge and v.condition %}
+      <span class="djet-condition-badge djet-condition-{{ v.condition }}">
+        {{ v.get_condition_display }}
+      </span>
+    {% endif %}
+
+    <a href="{% url 'storefront-product-detail' handle=product.handle %}">
+      {% if product.image_url %}
+        <img src="{{ product.image_url }}" alt="{{ product.title_en }}" style="width: 100%; height: 100%; object-fit: cover;">
+      {% else %}
+        <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: var(--surface-alt); font-size: 2.5rem;">
+          📦
+        </div>
+      {% endif %}
+    </a>
+  </div>
+
+  <div class="djet-product-info">
+    {% if product.primary_brand %}
+      <div class="djet-product-brand">{{ product.primary_brand }}</div>
+    {% endif %}
+
+    <h3 class="djet-product-title">
+      <a href="{% url 'storefront-product-detail' handle=product.handle %}">
+        {% if CURRENT_LANG == 'en' %}{{ product.title_en }}{% else %}{{ product.title_ar }}{% endif %}
+      </a>
+    </h3>
+
+    {% if v and preset.card_flags.show_warranty_line and v.warranty_months > 0 %}
+      <div style="font-size: 0.8rem; color: var(--accent); font-weight: 600; margin-block: 0.25rem;">
+        🛡️ {{ v.warranty_months }} {% trans "Months Official Warranty" %}
+      </div>
+    {% endif %}
+
+    {% if v and preset.card_flags.show_size_strip %}
+      <div class="djet-size-strip">
+        {% for sibling in product.variants.all %}
+          <span class="djet-size-chip">{{ sibling.title_en|default:sibling.sku }}</span>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <div class="djet-product-price-row">
+      <div>
+        {% if v %}
+          <span class="djet-price">{{ v.price.formatted }}</span>
+          {% if preset.card_flags.show_unit_price_suffix %}
+            <span style="font-size: 0.8rem; color: var(--text-muted);">/ {{ v.unit }}</span>
+          {% endif %}
+          {% if v.compare_at_price %}
+            <del class="djet-compare-price">{{ v.compare_at_price.formatted }}</del>
+          {% endif %}
+        {% else %}
+          <span class="djet-price">{% trans "Price upon inquiry" %}</span>
+        {% endif %}
+      </div>
+
+      {% if v and preset.card_flags.show_installment_hint and v.price_amount > 50000 %}
+        <div style="font-size: 0.75rem; color: var(--text-muted); margin-block-start: 0.15rem;">
+          {% trans "Installments from 12 mos" %}
+        </div>
+      {% endif %}
+    </div>
+
+    {% if v and preset.card_flags.quick_add %}
+      <form action="{% url 'storefront-cart-add' %}" method="post" style="margin-block-start: 0.75rem;">
+        {% csrf_token %}
+        <input type="hidden" name="sku" value="{{ v.sku }}">
+        <input type="hidden" name="quantity" value="1">
+        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+        <button type="submit" class="djet-btn djet-btn-primary" style="width: 100%; font-size: 0.875rem; padding: 0.5rem 1rem;">
+          ➕ {{ preset.cart_label|default:_("Add to Cart") }}
+        </button>
+      </form>
+    {% endif %}
+  </div>
+</article>
+{% endwith %}

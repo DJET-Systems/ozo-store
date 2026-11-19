@@ -1,0 +1,6 @@
+supplier_code,name,contact_name,phone_e164,payment_terms_days,lead_time_days,currency,notes
+SUP-ACME,Acme Distribution,Sample Contact,+201000000001,30,5,EGP,Phones and tablets distributor
+SUP-LINKO,Linko Accessories Trading,Sample Contact,+201000000002,14,3,EGP,Cables cases chargers
+SUP-NETIX,Netix Network Supplies,Sample Contact,+201000000003,21,4,EGP,Network and cabling
+SUP-DARWEAR,Dar Wear Factory,Sample Contact,+201000000004,0,10,EGP,Clothing production
+SUP-FARM,Local Farm Dairy,Sample Contact,+201000000005,7,1,EGP,Perishable dairy deliveries

@@ -1,0 +1,52 @@
+{% load static i18n %}
+<!doctype html>
+{% get_current_language as CURRENT_LANG %}
+<html lang="{{ CURRENT_LANG|default:'ar' }}" dir="{% if CURRENT_LANG == 'en' %}ltr{% else %}rtl{% endif %}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% trans "Two-Factor Verification" %} — DJET Store</title>
+  <link rel="stylesheet" href="{% static 'dashboard/base.css' %}">
+</head>
+<body>
+  <div class="djet-auth-shell">
+    <div class="djet-auth-box">
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🔒</div>
+        <h1 style="margin: 0 0 0.5rem 0; font-size: 1.35rem;">{% trans "Two-Factor Authentication" %}</h1>
+        <p style="color: var(--text-muted); margin: 0; font-size: 0.875rem;">
+          {% blocktrans with user=username %}Account: <strong>{{ user }}</strong>{% endblocktrans %}
+        </p>
+      </div>
+
+      {% if error_message %}
+        <div class="djet-alert djet-alert-error" role="alert">
+          {{ error_message }}
+        </div>
+      {% endif %}
+
+      <form method="post" action="{% url 'dashboard-2fa-verify' %}">
+        {% csrf_token %}
+        <div style="margin-bottom: 1.5rem;">
+          <label for="id_code" style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">
+            {% trans "6-digit Authenticator Code or Recovery Code" %}
+          </label>
+          <input type="text" name="code" id="id_code" required autofocus class="djet-input"
+                 placeholder="000000 or XXXX-XXXX"
+                 style="font-family: var(--font-mono); font-size: 1.25rem; text-align: center; letter-spacing: 0.15em;">
+        </div>
+
+        <button type="submit" class="djet-btn djet-btn-primary" style="width: 100%; padding: 0.75rem;">
+          {% trans "Verify & Continue" %}
+        </button>
+      </form>
+
+      <div style="text-align: center; margin-top: 1.5rem;">
+        <a href="{% url 'dashboard-logout' %}" style="color: var(--text-muted); font-size: 0.85rem; text-decoration: none;">
+          ← {% trans "Cancel and return to login" %}
+        </a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,95 @@
+{% extends "dashboard/base.html" %}
+{% load i18n %}
+
+{% block page_title %}{% trans "Two-Factor Authentication Setup" %}{% endblock %}
+
+{% block content %}
+<div style="max-width: 650px; margin-inline: auto;">
+  <div class="djet-card">
+    <div class="djet-card-header">
+      <h2 class="djet-card-title">🔐 {% trans "Set up Authenticator App (RFC 6238 TOTP)" %}</h2>
+    </div>
+
+    {% if is_enforced and not success_codes %}
+      <div class="djet-alert djet-alert-warning">
+        <strong>{% trans "Enforcement Notice:" %}</strong>
+        {% trans "Your assigned role (Owner / Manager) strictly mandates Two-Factor Authentication. You must complete enrollment before accessing store operations." %}
+      </div>
+    {% endif %}
+
+    {% if error_message %}
+      <div class="djet-alert djet-alert-error">
+        {{ error_message }}
+      </div>
+    {% endif %}
+
+    {% if success_codes %}
+      <div class="djet-alert djet-alert-success">
+        <strong>✓ {% trans "2FA Enrolled Successfully!" %}</strong>
+        {% trans "Two-Factor Authentication is now active on your account." %}
+      </div>
+
+      <div class="djet-card" style="background: var(--surface-alt); border: 2px dashed var(--accent);">
+        <h3 style="margin-top: 0; font-size: 1rem; color: var(--accent);">
+          ⚠️ {% trans "Save Your Single-Use Recovery Codes" %}
+        </h3>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">
+          {% trans "Store these emergency recovery codes in a secure password manager. Each code can be used exactly once if you lose access to your authenticator device." %}
+        </p>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-block: 1rem;">
+          {% for code in success_codes %}
+            <div style="background: var(--surface); padding: 0.5rem 0.75rem; border-radius: 4px; font-family: var(--font-mono); font-weight: 700; text-align: center; border: 1px solid var(--border);">
+              {{ code }}
+            </div>
+          {% endfor %}
+        </div>
+
+        <div style="text-align: center; margin-top: 1.5rem;">
+          <a href="{% url 'dashboard-today' %}" class="djet-btn djet-btn-primary">
+            {% trans "I have saved my codes — Proceed to Dashboard" %} →
+          </a>
+        </div>
+      </div>
+
+    {% else %}
+
+      <div style="margin-bottom: 1.5rem;">
+        <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6;">
+          {% trans "1. Open your authenticator app (such as Google Authenticator, 1Password, or Bitwarden)." %}<br>
+          {% trans "2. Enter the secret key below, or scan the configuration URI." %}
+        </p>
+
+        <div style="background: var(--surface-alt); padding: 1rem; border-radius: var(--radius); border: 1px solid var(--border); margin-block: 1rem;">
+          <label style="display: block; font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--text-muted); margin-bottom: 0.35rem;">
+            {% trans "Base32 Secret Key" %}
+          </label>
+          <div style="font-family: var(--font-mono); font-size: 1.15rem; font-weight: 700; color: var(--accent); letter-spacing: 0.1em; user-select: all;">
+            {{ secret }}
+          </div>
+          <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem; word-break: break-all;">
+            <strong>URI:</strong> {{ provisioning_uri }}
+          </div>
+        </div>
+      </div>
+
+      <form method="post" action="{% url 'dashboard-2fa-setup' %}">
+        {% csrf_token %}
+        <div style="margin-bottom: 1.5rem;">
+          <label for="id_token" style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">
+            {% trans "Enter 6-digit confirmation code from app:" %}
+          </label>
+          <input type="text" name="token" id="id_token" required autofocus class="djet-input"
+                 placeholder="000000" maxlength="6"
+                 style="font-family: var(--font-mono); font-size: 1.25rem; text-align: center; letter-spacing: 0.2em; max-width: 250px;">
+        </div>
+
+        <button type="submit" class="djet-btn djet-btn-primary">
+          {% trans "Confirm and Activate 2FA" %}
+        </button>
+      </form>
+
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

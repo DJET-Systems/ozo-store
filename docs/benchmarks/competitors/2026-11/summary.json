@@ -1,0 +1,946 @@
+{
+  "target": "kimostore.net",
+  "methodology": {
+    "captured_at_utc": "2026-11-19T06:05:53.303694+00:00",
+    "device_profile": "Lighthouse Mobile (Moto G Power emulation)",
+    "throttling": "Simulated Slow 4G (150ms RTT, 1.6 Mbps down, 750 Kbps up, 4x CPU)",
+    "runs_per_page": 3,
+    "chrome_version": "Google Chrome 157.0.8103.78",
+    "lighthouse_version": "13.6.0",
+    "host_platform": "Linux 6.12.116+deb13-amd64 (x86_64)",
+    "python_version": "3.14.5"
+  },
+  "djet_budgets": {
+    "lcp_ms": 2500.0,
+    "cls": 0.05,
+    "ttfb_uncached_ms": 500.0,
+    "ttfb_cached_ms": 200.0,
+    "home_transfer_kb": 500.0,
+    "js_transfer_kb": 40.0,
+    "css_transfer_kb": 25.0
+  },
+  "pages": {
+    "home": {
+      "url": "https://kimostore.net/",
+      "http_probe": {
+        "status_code": 200,
+        "ttfb_ms": 731.33,
+        "download_ms": 1516.46,
+        "html_bytes": 1244642,
+        "server": "cloudflare",
+        "cache_status": "DYNAMIC",
+        "content_encoding": ""
+      },
+      "aggregate": {
+        "runs_completed": 2,
+        "median_scores": {
+          "performance": 38.0,
+          "accessibility": 88.0,
+          "best_practices": 73.0,
+          "seo": 100.0
+        },
+        "median_metrics": {
+          "fcp_ms": 1881.45,
+          "lcp_ms": 5966.92,
+          "tbt_ms": 3720.25,
+          "cls": 0.0,
+          "speed_index_ms": 12999.7,
+          "ttfb_ms": 86.5,
+          "total_transfer_kb": 6082.98,
+          "js_transfer_kb": 2178.56,
+          "css_transfer_kb": 62.55,
+          "image_transfer_kb": 2240.61,
+          "third_party_transfer_kb": 2283.72,
+          "total_requests": 501.0
+        },
+        "spread": {
+          "lcp_min_ms": 5264.19,
+          "lcp_max_ms": 6669.65,
+          "performance_min": 36,
+          "performance_max": 40
+        },
+        "budget_check": {
+          "lcp_lte_2500ms": false,
+          "cls_lte_0_05": true,
+          "ttfb_lte_500ms": true,
+          "js_transfer_lte_40kb": false,
+          "css_transfer_lte_25kb": false,
+          "total_transfer_lte_500kb": false
+        }
+      },
+      "runs": [
+        {
+          "error": "Lighthouse failed (exit 1): npm error code ETIMEDOUT\nnpm error syscall read\nnpm error errno ETIMEDOUT\nnpm error network Invalid response body while trying to fetch https://registry.npmjs.org/devtools-protocol: read ETIMEDOUT\nnpm error network This is a problem related to network connectivity.\nnpm error network In most cases you are behind a proxy or have bad network settings.\nnpm error network\nnpm error network If you are behind a proxy, please make sure that the\nnpm error network 'proxy' config is set properly.  See: 'npm"
+        },
+        {
+          "lighthouse_version": "13.6.0",
+          "final_url": "https://kimostore.net/",
+          "scores": {
+            "performance": 40,
+            "accessibility": 88,
+            "best_practices": 73,
+            "seo": 100
+          },
+          "metrics": {
+            "fcp_ms": 1985.26,
+            "lcp_ms": 5264.19,
+            "tbt_ms": 3317.5,
+            "cls": 0.0,
+            "speed_index_ms": 11418.05,
+            "ttfb_ms": 92.0,
+            "dom_elements": null
+          },
+          "resources": {
+            "total": {
+              "requests": 501,
+              "transfer_kb": 6089.24
+            },
+            "script": {
+              "requests": 67,
+              "transfer_kb": 2255.85
+            },
+            "image": {
+              "requests": 136,
+              "transfer_kb": 2240.36
+            },
+            "other": {
+              "requests": 265,
+              "transfer_kb": 1164.41
+            },
+            "document": {
+              "requests": 4,
+              "transfer_kb": 210.37
+            },
+            "font": {
+              "requests": 6,
+              "transfer_kb": 155.74
+            },
+            "stylesheet": {
+              "requests": 23,
+              "transfer_kb": 62.52
+            },
+            "media": {
+              "requests": 0,
+              "transfer_kb": 0.0
+            },
+            "third-party": {
+              "requests": 103,
+              "transfer_kb": 2361.06
+            }
+          },
+          "budget_check": {
+            "lcp_lte_2500ms": false,
+            "cls_lte_0_05": true,
+            "ttfb_lte_500ms": true,
+            "js_transfer_lte_40kb": false,
+            "css_transfer_lte_25kb": false,
+            "total_transfer_lte_500kb": false
+          }
+        },
+        {
+          "lighthouse_version": "13.6.0",
+          "final_url": "https://kimostore.net/",
+          "scores": {
+            "performance": 36,
+            "accessibility": 88,
+            "best_practices": 73,
+            "seo": 100
+          },
+          "metrics": {
+            "fcp_ms": 1777.65,
+            "lcp_ms": 6669.65,
+            "tbt_ms": 4123.0,
+            "cls": 0.0,
+            "speed_index_ms": 14581.35,
+            "ttfb_ms": 81.0,
+            "dom_elements": null
+          },
+          "resources": {
+            "total": {
+              "requests": 501,
+              "transfer_kb": 6076.72
+            },
+            "image": {
+              "requests": 136,
+              "transfer_kb": 2240.85
+            },
+            "script": {
+              "requests": 67,
+              "transfer_kb": 2101.27
+            },
+            "other": {
+              "requests": 265,
+              "transfer_kb": 1307.11
+            },
+            "document": {
+              "requests": 4,
+              "transfer_kb": 209.15
+            },
+            "font": {
+              "requests": 6,
+              "transfer_kb": 155.76
+            },
+            "stylesheet": {
+              "requests": 23,
+              "transfer_kb": 62.58
+            },
+            "media": {
+              "requests": 0,
+              "transfer_kb": 0.0
+            },
+            "third-party": {
+              "requests": 103,
+              "transfer_kb": 2206.38
+            }
+          },
+          "budget_check": {
+            "lcp_lte_2500ms": false,
+            "cls_lte_0_05": true,
+            "ttfb_lte_500ms": true,
+            "js_transfer_lte_40kb": false,
+            "css_transfer_lte_25kb": false,
+            "total_transfer_lte_500kb": false
+          }
+        }
+      ]
+    },
+    "collection": {
+      "url": "https://kimostore.net/collections/pc-components",
+      "http_probe": {
+        "status_code": 200,
+        "ttfb_ms": 714.24,
+        "download_ms": 1692.07,
+        "html_bytes": 1474187,
+        "server": "cloudflare",
+        "cache_status": "DYNAMIC",
+        "content_encoding": ""
+      },
+      "aggregate": {
+        "runs_completed": 3,
+        "median_scores": {
+          "performance": 12.0,
+          "accessibility": 88.0,
+          "best_practices": 73.0,
+          "seo": 92.0
+        },
+        "median_metrics": {
+          "fcp_ms": 2451.86,
+          "lcp_ms": 7304.55,
+          "tbt_ms": 3459.06,
+          "cls": 0.63,
+          "speed_index_ms": 9839.86,
+          "ttfb_ms": 301.0,
+          "total_transfer_kb": 3609.18,
+          "js_transfer_kb": 1913.57,
+          "css_transfer_kb": 124.13,
+          "image_transfer_kb": 870.92,
+          "third_party_transfer_kb": 1977.48,
+          "total_requests": 260.0
+        },
+        "spread": {
+          "lcp_min_ms": 6623.56,
+          "lcp_max_ms": 8039.93,
+          "performance_min": 10,
+          "performance_max": 17
+        },
+        "budget_check": {
+          "lcp_lte_2500ms": false,
+          "cls_lte_0_05": false,
+          "ttfb_lte_500ms": true,
+          "js_transfer_lte_40kb": false,
+          "css_transfer_lte_25kb": false,
+          "total_transfer_lte_500kb": false
+        }
+      },
+      "runs": [
+        {
+          "lighthouse_version": "13.6.0",
+          "final_url": "https://kimostore.net/collections/pc-components",
+          "scores": {
+            "performance": 10,
+            "accessibility": 88,
+            "best_practices": 73,
+            "seo": 92
+          },
+          "metrics": {
+            "fcp_ms": 2655.94,
+            "lcp_ms": 7304.55,
+            "tbt_ms": 5234.5,
+            "cls": 0.63,
+            "speed_index_ms": 14156.83,
+            "ttfb_ms": 550.0,
+            "dom_elements": null
+          },
+          "resources": {
+            "total": {
+              "requests": 260,
+              "transfer_kb": 3609.18
+            },
+            "script": {
+              "requests": 73,
+              "transfer_kb": 1913.57
+            },
+            "image": {
+              "requests": 57,
+              "transfer_kb": 870.92
+            },
+            "other": {
+              "requests": 92,
+              "transfer_kb": 362.04
+            },
+            "document": {
+              "requests": 4,
+              "transfer_kb": 182.78
+            },
+            "font": {
+              "requests": 6,
+              "transfer_kb": 155.74
+            },
+            "stylesheet": {
+              "requests": 28,
+              "transfer_kb": 124.13
+            },
+            "media": {
+              "requests": 0,
+              "transfer_kb": 0.0
+            },
+            "third-party": {
+              "requests": 107,
+              "transfer_kb": 1977.48
+            }
+          },
+          "budget_check": {
+            "lcp_lte_2500ms": false,
+            "cls_lte_0_05": false,
+            "ttfb_lte_500ms": false,
+            "js_transfer_lte_40kb": false,
+            "css_transfer_lte_25kb": false,
+            "total_transfer_lte_500kb": false
+          }
+        },
+        {
+          "lighthouse_version": "13.6.0",
+          "final_url": "https://kimostore.net/collections/pc-components",
+          "scores": {
+            "performance": 17,
+            "accessibility": 85,
+            "best_practices": 73,
+            "seo": 92
+          },
+          "metrics": {
+            "fcp_ms": 2438.88,
+            "lcp_ms": 6623.56,
+            "tbt_ms": 1490.68,
+            "cls": 0.63,
+            "speed_index_ms": 8222.19,
+            "ttfb_ms": 301.0,
+            "dom_elements": null
+          },
+          "resources": {
+            "total": {
+              "requests": 242,
+              "transfer_kb": 2912.93
+            },
+            "other": {
+              "requests": 85,
+              "transfer_kb": 889.76
+            },
+            "script": {
+              "requests": 67,
+              "transfer_kb": 829.35
+            },
+            "image": {
+              "requests": 52,
+              "transfer_kb": 731.23
+            },
+            "document": {
+              "requests": 4,
+              "transfer_kb": 182.79
+            },
+            "font": {
+              "requests": 6,
+              "transfer_kb": 155.73
+            },
+            "stylesheet": {
+              "requests": 28,
+              "transfer_kb": 124.07
+            },
+            "media": {
+              "requests": 0,
+              "transfer_kb": 0.0
+            },
+            "third-party": {
+              "requests": 76,
+              "transfer_kb": 743.09
+            }
+          },
+          "budget_check": {
+            "lcp_lte_2500ms": false,
+            "cls_lte_0_05": false,
+            "ttfb_lte_500ms": true,
+            "js_transfer_lte_40kb": false,
+            "css_transfer_lte_25kb": false,
+            "total_transfer_lte_500kb": false
+          }
+        },
+        {
+          "lighthouse_version": "13.6.0",
+          "final_url": "https://kimostore.net/collections/pc-components",
+          "scores": {
+            "performance": 12,
+            "accessibility": 88,
+            "best_practices": 73,
+            "seo": 92
+          },
+          "metrics": {
+            "fcp_ms": 2451.86,
+            "lcp_ms": 8039.93,
+            "tbt_ms": 3459.06,
+            "cls": 0.62,
+            "speed_index_ms": 9839.86,
+            "ttfb_ms": 293.0,
+            "dom_elements": null
+          },
+          "resources": {
+            "total": {
+              "requests": 261,
+              "transfer_kb": 3809.34
+            },
+            "script": {
+              "requests": 73,
+              "transfer_kb": 2064.47
+            },
+            "image": {
+              "requests": 57,
+              "transfer_kb": 921.82
+            },
+            "other": {
+              "requests": 93,
+              "transfer_kb": 360.38
+            },
+            "document": {
+              "requests": 4,
+              "transfer_kb": 182.77
+            },
+            "font": {
+              "requests": 6,
+              "transfer_kb": 155.74
+            },
+            "stylesheet": {
+              "requests": 28,
+              "transfer_kb": 124.15
+            },
+            "media": {
+              "requests": 0,
+              "transfer_kb": 0.0
+            },
+            "third-party": {
+              "requests": 109,
+              "transfer_kb": 2177.63
+            }
+          },
+          "budget_check": {
+            "lcp_lte_2500ms": false,
+            "cls_lte_0_05": false,
+            "ttfb_lte_500ms": true,
+            "js_transfer_lte_40kb": false,
+            "css_transfer_lte_25kb": false,
+            "total_transfer_lte_500kb": false
+          }
+        }
+      ]
+    },
+    "product": {
+      "url": "https://kimostore.net/products/ram-for-pc-4gb-ddr3-pc3-12800mhz-original-used",
+      "http_probe": {
+        "status_code": 200,
+        "ttfb_ms": 673.02,
+        "download_ms": 1062.56,
+        "html_bytes": 715306,
+        "server": "cloudflare",
+        "cache_status": "DYNAMIC",
+        "content_encoding": ""
+      },
+      "aggregate": {
+        "runs_completed": 3,
+        "median_scores": {
+          "performance": 33.0,
+          "accessibility": 84.0,
+          "best_practices": 73.0,
+          "seo": 92.0
+        },
+        "median_metrics": {
+          "fcp_ms": 2282.78,
+          "lcp_ms": 24786.82,
+          "tbt_ms": 4753.01,
+          "cls": 0.02,
+          "speed_index_ms": 10192.47,
+          "ttfb_ms": 85.0,
+          "total_transfer_kb": 5178.01,
+          "js_transfer_kb": 2434.45,
+          "css_transfer_kb": 133.29,
+          "image_transfer_kb": 831.89,
+          "third_party_transfer_kb": 2670.3,
+          "total_requests": 526.0
+        },
+        "spread": {
+          "lcp_min_ms": 24083.95,
+          "lcp_max_ms": 25050.57,
+          "performance_min": 31,
+          "performance_max": 35
+        },
+        "budget_check": {
+          "lcp_lte_2500ms": false,
+          "cls_lte_0_05": true,
+          "ttfb_lte_500ms": true,
+          "js_transfer_lte_40kb": false,
+          "css_transfer_lte_25kb": false,
+          "total_transfer_lte_500kb": false
+        }
+      },
+      "runs": [
+        {
+          "lighthouse_version": "13.6.0",
+          "final_url": "https://kimostore.net/products/ram-for-pc-4gb-ddr3-pc3-12800mhz-original-used",
+          "scores": {
+            "performance": 35,
+            "accessibility": 84,
+            "best_practices": 73,
+            "seo": 92
+          },
+          "metrics": {
+            "fcp_ms": 2282.78,
+            "lcp_ms": 24083.95,
+            "tbt_ms": 2396.0,
+            "cls": 0.02,
+            "speed_index_ms": 9753.25,
+            "ttfb_ms": 84.0,
+            "dom_elements": null
+          },
+          "resources": {
+            "total": {
+              "requests": 526,
+              "transfer_kb": 5250.98
+            },
+            "script": {
+              "requests": 128,
+              "transfer_kb": 2480.76
+            },
+            "other": {
+              "requests": 291,
+              "transfer_kb": 1458.9
+            },
+            "image": {
+              "requests": 40,
+              "transfer_kb": 831.89
+            },
+            "document": {
+              "requests": 6,
+              "transfer_kb": 169.68
+            },
+            "font": {
+              "requests": 7,
+              "transfer_kb": 157.7
+            },
+            "stylesheet": {
+              "requests": 54,
+              "transfer_kb": 152.06
+            },
+            "media": {
+              "requests": 0,
+              "transfer_kb": 0.0
+            },
+            "third-party": {
+              "requests": 213,
+              "transfer_kb": 2744.26
+            }
+          },
+          "budget_check": {
+            "lcp_lte_2500ms": false,
+            "cls_lte_0_05": true,
+            "ttfb_lte_500ms": true,
+            "js_transfer_lte_40kb": false,
+            "css_transfer_lte_25kb": false,
+            "total_transfer_lte_500kb": false
+          }
+        },
+        {
+          "lighthouse_version": "13.6.0",
+          "final_url": "https://kimostore.net/products/ram-for-pc-4gb-ddr3-pc3-12800mhz-original-used",
+          "scores": {
+            "performance": 33,
+            "accessibility": 84,
+            "best_practices": 73,
+            "seo": 92
+          },
+          "metrics": {
+            "fcp_ms": 2272.31,
+            "lcp_ms": 24786.82,
+            "tbt_ms": 4753.01,
+            "cls": 0.02,
+            "speed_index_ms": 10192.47,
+            "ttfb_ms": 102.0,
+            "dom_elements": null
+          },
+          "resources": {
+            "total": {
+              "requests": 527,
+              "transfer_kb": 5178.01
+            },
+            "script": {
+              "requests": 128,
+              "transfer_kb": 2431.48
+            },
+            "other": {
+              "requests": 292,
+              "transfer_kb": 1452.79
+            },
+            "image": {
+              "requests": 40,
+              "transfer_kb": 833.14
+            },
+            "document": {
+              "requests": 6,
+              "transfer_kb": 169.61
+            },
+            "font": {
+              "requests": 7,
+              "transfer_kb": 157.7
+            },
+            "stylesheet": {
+              "requests": 54,
+              "transfer_kb": 133.29
+            },
+            "media": {
+              "requests": 0,
+              "transfer_kb": 0.0
+            },
+            "third-party": {
+              "requests": 214,
+              "transfer_kb": 2670.3
+            }
+          },
+          "budget_check": {
+            "lcp_lte_2500ms": false,
+            "cls_lte_0_05": true,
+            "ttfb_lte_500ms": true,
+            "js_transfer_lte_40kb": false,
+            "css_transfer_lte_25kb": false,
+            "total_transfer_lte_500kb": false
+          }
+        },
+        {
+          "lighthouse_version": "13.6.0",
+          "final_url": "https://kimostore.net/products/ram-for-pc-4gb-ddr3-pc3-12800mhz-original-used",
+          "scores": {
+            "performance": 31,
+            "accessibility": 81,
+            "best_practices": 73,
+            "seo": 92
+          },
+          "metrics": {
+            "fcp_ms": 2896.51,
+            "lcp_ms": 25050.57,
+            "tbt_ms": 5625.75,
+            "cls": 0.02,
+            "speed_index_ms": 11170.07,
+            "ttfb_ms": 85.0,
+            "dom_elements": null
+          },
+          "resources": {
+            "total": {
+              "requests": 347,
+              "transfer_kb": 4482.31
+            },
+            "script": {
+              "requests": 129,
+              "transfer_kb": 2434.45
+            },
+            "other": {
+              "requests": 109,
+              "transfer_kb": 888.83
+            },
+            "image": {
+              "requests": 42,
+              "transfer_kb": 697.96
+            },
+            "document": {
+              "requests": 6,
+              "transfer_kb": 170.19
+            },
+            "font": {
+              "requests": 7,
+              "transfer_kb": 157.69
+            },
+            "stylesheet": {
+              "requests": 54,
+              "transfer_kb": 133.2
+            },
+            "media": {
+              "requests": 0,
+              "transfer_kb": 0.0
+            },
+            "third-party": {
+              "requests": 208,
+              "transfer_kb": 2448.27
+            }
+          },
+          "budget_check": {
+            "lcp_lte_2500ms": false,
+            "cls_lte_0_05": true,
+            "ttfb_lte_500ms": true,
+            "js_transfer_lte_40kb": false,
+            "css_transfer_lte_25kb": false,
+            "total_transfer_lte_500kb": false
+          }
+        }
+      ]
+    },
+    "cart": {
+      "url": "https://kimostore.net/cart",
+      "http_probe": {
+        "status_code": 200,
+        "ttfb_ms": 586.02,
+        "download_ms": 925.59,
+        "html_bytes": 621945,
+        "server": "cloudflare",
+        "cache_status": "DYNAMIC",
+        "content_encoding": ""
+      },
+      "aggregate": {
+        "runs_completed": 3,
+        "median_scores": {
+          "performance": 36.0,
+          "accessibility": 87.0,
+          "best_practices": 73.0,
+          "seo": 100.0
+        },
+        "median_metrics": {
+          "fcp_ms": 1523.9,
+          "lcp_ms": 27693.28,
+          "tbt_ms": 5714.0,
+          "cls": 0.02,
+          "speed_index_ms": 8928.71,
+          "ttfb_ms": 86.0,
+          "total_transfer_kb": 4156.3,
+          "js_transfer_kb": 2125.72,
+          "css_transfer_kb": 99.56,
+          "image_transfer_kb": 335.07,
+          "third_party_transfer_kb": 2192.56,
+          "total_requests": 393.0
+        },
+        "spread": {
+          "lcp_min_ms": 27054.31,
+          "lcp_max_ms": 29043.9,
+          "performance_min": 36,
+          "performance_max": 36
+        },
+        "budget_check": {
+          "lcp_lte_2500ms": false,
+          "cls_lte_0_05": true,
+          "ttfb_lte_500ms": true,
+          "js_transfer_lte_40kb": false,
+          "css_transfer_lte_25kb": false,
+          "total_transfer_lte_500kb": false
+        }
+      },
+      "runs": [
+        {
+          "lighthouse_version": "13.6.0",
+          "final_url": "https://kimostore.net/cart",
+          "scores": {
+            "performance": 36,
+            "accessibility": 87,
+            "best_practices": 73,
+            "seo": 100
+          },
+          "metrics": {
+            "fcp_ms": 1582.28,
+            "lcp_ms": 27693.28,
+            "tbt_ms": 5493.5,
+            "cls": 0.02,
+            "speed_index_ms": 9192.66,
+            "ttfb_ms": 86.0,
+            "dom_elements": null
+          },
+          "resources": {
+            "total": {
+              "requests": 386,
+              "transfer_kb": 4269.22
+            },
+            "script": {
+              "requests": 67,
+              "transfer_kb": 2216.8
+            },
+            "other": {
+              "requests": 257,
+              "transfer_kb": 1302.95
+            },
+            "image": {
+              "requests": 28,
+              "transfer_kb": 335.07
+            },
+            "document": {
+              "requests": 5,
+              "transfer_kb": 158.92
+            },
+            "font": {
+              "requests": 6,
+              "transfer_kb": 155.72
+            },
+            "stylesheet": {
+              "requests": 23,
+              "transfer_kb": 99.76
+            },
+            "media": {
+              "requests": 0,
+              "transfer_kb": 0.0
+            },
+            "third-party": {
+              "requests": 95,
+              "transfer_kb": 2305.13
+            }
+          },
+          "budget_check": {
+            "lcp_lte_2500ms": false,
+            "cls_lte_0_05": true,
+            "ttfb_lte_500ms": true,
+            "js_transfer_lte_40kb": false,
+            "css_transfer_lte_25kb": false,
+            "total_transfer_lte_500kb": false
+          }
+        },
+        {
+          "lighthouse_version": "13.6.0",
+          "final_url": "https://kimostore.net/cart",
+          "scores": {
+            "performance": 36,
+            "accessibility": 87,
+            "best_practices": 73,
+            "seo": 100
+          },
+          "metrics": {
+            "fcp_ms": 1486.24,
+            "lcp_ms": 27054.31,
+            "tbt_ms": 9015.0,
+            "cls": 0.02,
+            "speed_index_ms": 8928.71,
+            "ttfb_ms": 82.0,
+            "dom_elements": null
+          },
+          "resources": {
+            "total": {
+              "requests": 393,
+              "transfer_kb": 4097.29
+            },
+            "script": {
+              "requests": 66,
+              "transfer_kb": 2026.4
+            },
+            "other": {
+              "requests": 266,
+              "transfer_kb": 1306.8
+            },
+            "image": {
+              "requests": 28,
+              "transfer_kb": 350.24
+            },
+            "document": {
+              "requests": 4,
+              "transfer_kb": 158.53
+            },
+            "font": {
+              "requests": 6,
+              "transfer_kb": 155.75
+            },
+            "stylesheet": {
+              "requests": 23,
+              "transfer_kb": 99.56
+            },
+            "media": {
+              "requests": 0,
+              "transfer_kb": 0.0
+            },
+            "third-party": {
+              "requests": 102,
+              "transfer_kb": 2130.72
+            }
+          },
+          "budget_check": {
+            "lcp_lte_2500ms": false,
+            "cls_lte_0_05": true,
+            "ttfb_lte_500ms": true,
+            "js_transfer_lte_40kb": false,
+            "css_transfer_lte_25kb": false,
+            "total_transfer_lte_500kb": false
+          }
+        },
+        {
+          "lighthouse_version": "13.6.0",
+          "final_url": "https://kimostore.net/cart",
+          "scores": {
+            "performance": 36,
+            "accessibility": 87,
+            "best_practices": 73,
+            "seo": 100
+          },
+          "metrics": {
+            "fcp_ms": 1523.9,
+            "lcp_ms": 29043.9,
+            "tbt_ms": 5714.0,
+            "cls": 0.02,
+            "speed_index_ms": 8724.49,
+            "ttfb_ms": 90.0,
+            "dom_elements": null
+          },
+          "resources": {
+            "total": {
+              "requests": 397,
+              "transfer_kb": 4156.3
+            },
+            "script": {
+              "requests": 68,
+              "transfer_kb": 2125.72
+            },
+            "other": {
+              "requests": 265,
+              "transfer_kb": 1302.62
+            },
+            "image": {
+              "requests": 31,
+              "transfer_kb": 315.78
+            },
+            "document": {
+              "requests": 4,
+              "transfer_kb": 156.9
+            },
+            "font": {
+              "requests": 6,
+              "transfer_kb": 155.74
+            },
+            "stylesheet": {
+              "requests": 23,
+              "transfer_kb": 99.54
+            },
+            "media": {
+              "requests": 0,
+              "transfer_kb": 0.0
+            },
+            "third-party": {
+              "requests": 107,
+              "transfer_kb": 2192.56
+            }
+          },
+          "budget_check": {
+            "lcp_lte_2500ms": false,
+            "cls_lte_0_05": true,
+            "ttfb_lte_500ms": true,
+            "js_transfer_lte_40kb": false,
+            "css_transfer_lte_25kb": false,
+            "total_transfer_lte_500kb": false
+          }
+        }
+      ]
+    }
+  }
+}

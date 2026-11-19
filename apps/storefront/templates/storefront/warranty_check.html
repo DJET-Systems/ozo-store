@@ -1,0 +1,77 @@
+{% extends "storefront/base.html" %}
+{% load i18n %}
+
+{% block title %}
+  {% trans "Official Warranty & Authenticity Check" %} — {{ settings.store_name_ar }}
+{% endblock %}
+
+{% block content %}
+<div class="djet-lookup-card">
+  <div style="text-align: center; margin-block-end: 2rem;">
+    <div style="font-size: 3rem; margin-block-end: 0.5rem;">🛡️</div>
+    <h1 style="font-size: 1.85rem; font-weight: 800; margin: 0 0 0.5rem; color: var(--text);">
+      {% trans "Warranty & Authenticity Check" %}
+    </h1>
+    <p style="color: var(--text-muted); margin: 0; font-size: 0.95rem;">
+      {% trans "Enter your device IMEI or Serial Number to verify warranty status and authenticity." %}
+    </p>
+  </div>
+
+  <form action="{% url 'storefront-warranty-check' %}" method="get">
+    <div class="djet-form-group">
+      <label for="serial_input" class="djet-form-label">{% trans "Serial Number or IMEI" %}</label>
+      <input type="text" id="serial_input" name="serial" value="{{ query }}" required
+             placeholder="{% trans 'e.g. SN-IPHONE15-PRO-001 or 356938...' %}"
+             class="djet-form-input" style="text-transform: uppercase;">
+    </div>
+    <button type="submit" class="djet-btn djet-btn-primary" style="width: 100%; padding: 0.85rem; font-size: 1rem;">
+      🔍 {% trans "Verify Warranty" %}
+    </button>
+  </form>
+
+  {% if unit %}
+    <div style="margin-block-start: 2rem; padding: 1.5rem; background: var(--surface-alt); border-radius: var(--radius-card); border-inline-start: 4px solid var(--accent);">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-block-end: 1rem;">
+        <span style="font-size: 0.85rem; font-weight: 700; color: var(--accent); text-transform: uppercase;">
+          ✅ {% trans "Verified Genuine Unit" %}
+        </span>
+        <span class="djet-condition-badge djet-condition-{{ unit.variant.condition }}">
+          {{ unit.variant.get_condition_display }}
+        </span>
+      </div>
+
+      <h3 style="font-size: 1.25rem; font-weight: 800; margin: 0 0 0.75rem; color: var(--text);">
+        {% if CURRENT_LANG == 'en' %}{{ unit.variant.product.title_en }}{% else %}{{ unit.variant.product.title_ar }}{% endif %}
+      </h3>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; font-size: 0.9rem; margin-block-start: 1rem;">
+        <div>
+          <span style="color: var(--text-muted); display: block;">{% trans "Serial / IMEI:" %}</span>
+          <code style="font-weight: 700;">{{ unit.serial_number }}</code>
+        </div>
+        <div>
+          <span style="color: var(--text-muted); display: block;">{% trans "SKU Reference:" %}</span>
+          <span style="font-weight: 600;">{{ unit.variant.sku }}</span>
+        </div>
+        <div>
+          <span style="color: var(--text-muted); display: block;">{% trans "Warranty Period:" %}</span>
+          <span style="font-weight: 600;">{{ unit.variant.warranty_months }} {% trans "Months" %}</span>
+        </div>
+        <div>
+          <span style="color: var(--text-muted); display: block;">{% trans "Unit Status:" %}</span>
+          <span style="font-weight: 700; color: #166534;">🟢 {{ unit.status|title }}</span>
+        </div>
+      </div>
+    </div>
+  {% elif not_found %}
+    <div style="margin-block-start: 2rem; padding: 1.5rem; background: #FEF2F2; border-radius: var(--radius-card); border-inline-start: 4px solid #DC2626; color: #991B1B;">
+      <h3 style="font-size: 1.1rem; font-weight: 700; margin: 0 0 0.5rem;">
+        ⚠️ {% trans "No Record Found" %}
+      </h3>
+      <p style="margin: 0; font-size: 0.9rem;">
+        {% blocktrans with sn=query %}The serial number or IMEI <strong>{{ sn }}</strong> was not found in our official warranty database. Please double-check your input or contact customer support.{% endblocktrans %}
+      </p>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

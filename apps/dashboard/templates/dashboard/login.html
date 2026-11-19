@@ -1,0 +1,50 @@
+{% load static i18n %}
+<!doctype html>
+{% get_current_language as CURRENT_LANG %}
+<html lang="{{ CURRENT_LANG|default:'ar' }}" dir="{% if CURRENT_LANG == 'en' %}ltr{% else %}rtl{% endif %}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% trans "Staff Login" %} — DJET Store</title>
+  <link rel="stylesheet" href="{% static 'dashboard/base.css' %}">
+</head>
+<body>
+  <div class="djet-auth-shell">
+    <div class="djet-auth-box">
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <h1 style="color: var(--accent); margin: 0 0 0.5rem 0; font-size: 1.5rem;">DJET STORE</h1>
+        <p style="color: var(--text-muted); margin: 0; font-size: 0.875rem;">{% trans "Restricted Staff & Merchant Access" %}</p>
+      </div>
+
+      {% if error_message %}
+        <div class="djet-alert djet-alert-error" role="alert">
+          {{ error_message }}
+        </div>
+      {% endif %}
+
+      <form method="post" action="{% url 'dashboard-login' %}">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next_url }}">
+
+        <div style="margin-bottom: 1.25rem;">
+          <label for="id_username" style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">
+            {% trans "Username" %}
+          </label>
+          <input type="text" name="username" id="id_username" required autofocus class="djet-input" autocomplete="username">
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+          <label for="id_password" style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">
+            {% trans "Password" %}
+          </label>
+          <input type="password" name="password" id="id_password" required class="djet-input" autocomplete="current-password">
+        </div>
+
+        <button type="submit" class="djet-btn djet-btn-primary" style="width: 100%; padding: 0.75rem;">
+          {% trans "Sign In" %}
+        </button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

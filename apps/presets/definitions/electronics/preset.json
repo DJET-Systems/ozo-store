@@ -1,0 +1,40 @@
+{
+  "code": "electronics",
+  "name": "Mobile & Electronics",
+  "description": "Tailored for device retailers: IMEI warranty check, condition badges (New / Used A/B / Refurb), installments table, and branch pickup.",
+  "default_language": "ar",
+  "cart_label": "Cart",
+  "tokens": {
+    "--bg": "#F5F6F8",
+    "--surface": "#FFFFFF",
+    "--text": "#0F172A",
+    "--text-muted": "#475569",
+    "--border": "#E2E8F0",
+    "--accent": "#1D4ED8",
+    "--accent-hover": "#1E40AF",
+    "--radius-card": "12px",
+    "--radius-btn": "8px",
+    "--font-sans": "'Inter', system-ui, sans-serif"
+  },
+  "card_flags": {
+    "aspect_ratio": "1/1",
+    "show_condition_badge": true,
+    "show_spec_summary": true,
+    "show_warranty_line": true,
+    "show_installment_hint": true,
+    "quick_add": true
+  },
+  "home_sections": [
+    {"type": "hero_split", "title_en": "Certified Phones & Laptops", "title_ar": "هواتف وأجهزة لابتوب مضمونة ومفحوصة", "subtitle_en": "100% inspected, original parts, with up to 12 months official warranty.", "subtitle_ar": "فحص شامل 100%، قطع أصلية، مع ضمان رسمي يصل إلى 12 شهراً.", "cta_text_en": "Browse Devices", "cta_text_ar": "تصفح الأجهزة", "cta_link": "/c/phones/"},
+    {"type": "trust_bar"},
+    {"type": "imei_and_installments", "title_en": "IMEI & Serial Warranty Check", "title_ar": "فحص الضمان عبر السيريال أو IMEI"},
+    {"type": "category_tiles", "title_en": "Categories", "title_ar": "أقسام الأجهزة", "layout": "grid"},
+    {"type": "product_collection", "title_en": "Best Selling Devices", "title_ar": "الأجهزة الأكثر طلباً", "collection_key": "featured"},
+    {"type": "branches_grid", "title_en": "Our Branches in Cairo & Alexandria", "title_ar": "فروعنا في القاهرة والإسكندرية"}
+  ],
+  "starter_categories": [
+    {"name_en": "Mobile Phones", "name_ar": "هواتف ذكية", "slug": "phones"},
+    {"name_en": "Laptops & Tablets", "name_ar": "لابتوب وتابلت", "slug": "laptops-tablets"},
+    {"name_en": "Accessories & Cables", "name_ar": "إكسسوارات وشواحن", "slug": "accessories"}
+  ]
+}

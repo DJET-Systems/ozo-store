@@ -1,0 +1,38 @@
+{
+  "code": "clothing",
+  "name": "Clothing Brand",
+  "description": "Editorial fashion & apparel look with 3:4 portrait cards, size selectors, color dots, and out-of-stock strikethrough.",
+  "default_language": "ar",
+  "cart_label": "Bag",
+  "tokens": {
+    "--bg": "#F4F1EA",
+    "--surface": "#FFFFFF",
+    "--text": "#1C1917",
+    "--text-muted": "#57534E",
+    "--border": "#DDD7CB",
+    "--accent": "#9A3412",
+    "--accent-hover": "#7C2D12",
+    "--radius-card": "4px",
+    "--radius-btn": "4px",
+    "--font-sans": "'Fraunces', 'Inter', serif"
+  },
+  "card_flags": {
+    "aspect_ratio": "3/4",
+    "show_condition_badge": false,
+    "show_size_strip": true,
+    "show_colour_dots": true,
+    "quick_add": false
+  },
+  "home_sections": [
+    {"type": "hero_editorial_overlay", "title_en": "Autumn / Winter Collection", "title_ar": "تشكيلة الخريف والشتاء", "subtitle_en": "Premium Egyptian cotton crafted for effortless daily comfort.", "subtitle_ar": "قطن مصري فاخر بتصميم عصري وأناقة يومية متكاملة.", "cta_text_en": "Explore Collection", "cta_text_ar": "استكشف التشكيلة", "cta_link": "/c/winter/"},
+    {"type": "trust_bar"},
+    {"type": "category_tiles", "title_en": "Collections", "title_ar": "التشكيلات", "layout": "portrait"},
+    {"type": "product_collection", "title_en": "Trending Now", "title_ar": "الأكثر رواجاً", "collection_key": "featured"},
+    {"type": "promo_banner", "title_en": "Hassle-free 14-day exchange & return policy.", "title_ar": "إمكانية الاستبدال والاسترجاع بسهولة خلال 14 يوماً."}
+  ],
+  "starter_categories": [
+    {"name_en": "T-Shirts & Tops", "name_ar": "تيشيرتات وبلوفرات", "slug": "tops"},
+    {"name_en": "Pants & Trousers", "name_ar": "بناطيل", "slug": "pants"},
+    {"name_en": "Hoodies & Jackets", "name_ar": "هوديز وجواكت", "slug": "outerwear"}
+  ]
+}

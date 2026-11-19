@@ -1,0 +1,71 @@
+{% extends "dashboard/base.html" %}
+{% load i18n %}
+
+{% block page_title %}{% trans "Catalog Products" %}{% endblock %}
+
+{% block content %}
+<div class="djet-card">
+  <div class="djet-card-header">
+    <h2 class="djet-card-title">🏷️ {% trans "Products and Variants" %}</h2>
+    <div style="display: flex; gap: 0.75rem;">
+      <a href="{% url 'dashboard-export' 'catalog' %}" class="djet-btn djet-btn-secondary">
+        📥 {% trans "Export CSV" %}
+      </a>
+    </div>
+  </div>
+
+  <div class="djet-table-container">
+    <table class="djet-table">
+      <thead>
+        <tr>
+          <th>{% trans "Product Title" %}</th>
+          <th>{% trans "SKU" %}</th>
+          <th>{% trans "Tracking Mode" %}</th>
+          <th>{% trans "Retail Price (EGP)" %}</th>
+          {% if can_view_costs %}
+            <th>{% trans "Cost Price (EGP)" %}</th>
+            <th>{% trans "Margin" %}</th>
+          {% else %}
+            <th>{% trans "Cost & Margin" %}</th>
+          {% endif %}
+          <th>{% trans "Status" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for product in products %}
+          {% for variant in product.variants.all %}
+            <tr>
+              <td><strong>{{ product.title_en }}</strong> <br><small style="color: var(--text-muted);">{{ product.title_ar }}</small></td>
+              <td><code>{{ variant.sku }}</code></td>
+              <td><span class="djet-badge djet-badge-neutral">{{ variant.get_tracking_mode_display }}</span></td>
+              <td><strong>{{ variant.price.formatted }}</strong></td>
+              {% if can_view_costs %}
+                <td style="color: var(--text-muted);">{{ variant.cost_amount|stringformat:".2f" }}</td>
+                <td style="color: var(--success); font-weight: 600;">Visible</td>
+              {% else %}
+                <td><span class="masked-cost">*** RESTRICTED ***</span></td>
+              {% endif %}
+              <td>
+                <span class="djet-badge {% if product.status == 'active' %}djet-badge-success{% else %}djet-badge-neutral{% endif %}">
+                  {{ product.get_status_display }}
+                </span>
+              </td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td>{{ product.title_en }}</td>
+              <td colspan="5" style="color: var(--text-muted);">{% trans "No variants defined." %}</td>
+            </tr>
+          {% endfor %}
+        {% empty %}
+          <tr>
+            <td colspan="6" style="text-align: center; padding: 2rem; color: var(--text-muted);">
+              {% trans "No products created yet." %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

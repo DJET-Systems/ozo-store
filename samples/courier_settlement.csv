@@ -1,0 +1,8 @@
+statement_id,courier,statement_date,tracking_no,order_ref,cod_amount_egp,courier_fee_egp,net_paid_egp,status,delivered_date
+STM-2026-11-001,manual-courier-a,2026-11-15,TRK100001,DJ-7K3QX9,9999.00,65.00,9934.00,collected,2026-11-12
+STM-2026-11-001,manual-courier-a,2026-11-15,TRK100002,DJ-4M8RT2,350.00,45.00,305.00,collected,2026-11-12
+STM-2026-11-001,manual-courier-a,2026-11-15,TRK100003,DJ-9P2LD5,700.00,45.00,655.00,collected,2026-11-13
+STM-2026-11-001,manual-courier-a,2026-11-15,TRK100004,DJ-2H6VB8,175.00,45.00,100.00,collected,2026-11-13
+STM-2026-11-001,manual-courier-a,2026-11-15,TRK100005,DJ-6C1ZN4,420.00,45.00,375.00,collected,2026-11-14
+STM-2026-11-001,manual-courier-a,2026-11-15,TRK100006,,1200.00,50.00,1150.00,collected,2026-11-14
+STM-2026-11-001,manual-courier-a,2026-11-15,TRK100009,DJ-3T5YW7,0.00,45.00,-45.00,returned_to_sender,2026-11-14

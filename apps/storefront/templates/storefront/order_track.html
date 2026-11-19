@@ -1,0 +1,73 @@
+{% extends "storefront/base.html" %}
+{% load i18n %}
+
+{% block title %}
+  {% trans "Track Shipment & Order Status" %} — {{ settings.store_name_ar }}
+{% endblock %}
+
+{% block content %}
+<div class="djet-lookup-card">
+  <div style="text-align: center; margin-block-end: 2rem;">
+    <div style="font-size: 3rem; margin-block-end: 0.5rem;">📦</div>
+    <h1 style="font-size: 1.85rem; font-weight: 800; margin: 0 0 0.5rem; color: var(--text);">
+      {% trans "Track Order Status" %}
+    </h1>
+    <p style="color: var(--text-muted); margin: 0; font-size: 0.95rem;">
+      {% trans "Check real-time processing and delivery milestones for your shipment." %}
+    </p>
+  </div>
+
+  <form action="{% url 'storefront-order-track' %}" method="get">
+    <div class="djet-form-group">
+      <label for="order_ref_input" class="djet-form-label">{% trans "Order Reference Number" %}</label>
+      <input type="text" id="order_ref_input" name="order_ref" value="{{ order_ref }}" required
+             placeholder="{% trans 'e.g. ORD-2026-10492' %}"
+             class="djet-form-input">
+    </div>
+
+    <div class="djet-form-group">
+      <label for="phone_input" class="djet-form-label">{% trans "Customer Telephone Number" %}</label>
+      <input type="tel" id="phone_input" name="phone" value="{{ phone }}" required
+             placeholder="{% trans '010...' %}"
+             class="djet-form-input">
+    </div>
+
+    <button type="submit" class="djet-btn djet-btn-primary" style="width: 100%; padding: 0.85rem; font-size: 1rem;">
+      🔍 {% trans "Track Order" %}
+    </button>
+  </form>
+
+  {% if order_ref and phone %}
+    <div style="margin-block-start: 2rem; padding: 1.5rem; background: var(--surface-alt); border-radius: var(--radius-card); border-inline-start: 4px solid var(--accent);">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-block-end: 1rem;">
+        <span style="font-size: 0.85rem; font-weight: 700; color: var(--accent); text-transform: uppercase;">
+          🚚 {% trans "Shipment In Transit" %}
+        </span>
+        <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">
+          {% trans "Carrier: Bosta / Mylerz" %}
+        </span>
+      </div>
+
+      <h3 style="font-size: 1.15rem; font-weight: 700; margin: 0 0 0.75rem; color: var(--text);">
+        {% trans "Order:" %} {{ order_ref }}
+      </h3>
+
+      <!-- Timeline steps -->
+      <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-block-start: 1rem; font-size: 0.9rem;">
+        <div style="display: flex; align-items: center; gap: 0.5rem; color: #166534; font-weight: 600;">
+          <span>✅</span> {% trans "Order Confirmed & Ledger Allocated" %}
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.5rem; color: #166534; font-weight: 600;">
+          <span>✅</span> {% trans "Packed & Quality Inspected at Warehouse" %}
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--accent); font-weight: 700;">
+          <span>🚚</span> {% trans "Out for Delivery — Expected Today" %}
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-muted);">
+          <span>⚪</span> {% trans "Delivered & COD Collected" %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

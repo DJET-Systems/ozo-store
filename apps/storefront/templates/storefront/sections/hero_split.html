@@ -1,0 +1,19 @@
+{% load i18n %}
+<section class="djet-hero-split">
+  <div>
+    <h1 class="djet-hero-title">
+      {% if CURRENT_LANG == 'en' %}{{ section.title_en }}{% else %}{{ section.title_ar }}{% endif %}
+    </h1>
+    <p class="djet-hero-subtitle">
+      {% if CURRENT_LANG == 'en' %}{{ section.subtitle_en }}{% else %}{{ section.subtitle_ar }}{% endif %}
+    </p>
+    {% if section.cta_text_en %}
+      <a href="{{ section.cta_link|default:'#products' }}" class="djet-btn djet-btn-primary">
+        {% if CURRENT_LANG == 'en' %}{{ section.cta_text_en }}{% else %}{{ section.cta_text_ar }}{% endif %}
+      </a>
+    {% endif %}
+  </div>
+  <div style="background: var(--surface-alt); border-radius: var(--radius-card); min-height: 280px; display: flex; align-items: center; justify-content: center; font-size: 4rem;">
+    ✨
+  </div>
+</section>

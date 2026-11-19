@@ -1,0 +1,66 @@
+{% extends "dashboard/base.html" %}
+{% load i18n %}
+
+{% block page_title %}{% trans "Security Audit Log" %}{% endblock %}
+
+{% block content %}
+<div class="djet-card">
+  <div class="djet-card-header">
+    <h2 class="djet-card-title">📜 {% trans "Append-Only Audit Trail" %}</h2>
+    <div style="display: flex; gap: 0.75rem;">
+      <a href="{% url 'dashboard-export' 'audit' %}" class="djet-btn djet-btn-secondary">
+        📥 {% trans "Export CSV" %}
+      </a>
+    </div>
+  </div>
+
+  <div class="djet-table-container">
+    <table class="djet-table">
+      <thead>
+        <tr>
+          <th>{% trans "Timestamp" %}</th>
+          <th>{% trans "Actor" %}</th>
+          <th>{% trans "Action" %}</th>
+          <th>{% trans "Target Entity" %}</th>
+          <th>{% trans "IP Address" %}</th>
+          <th>{% trans "Diff / Parameters" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for log in logs %}
+          <tr>
+            <td style="white-space: nowrap; font-size: 0.8rem; color: var(--text-muted);">
+              {{ log.created_at|date:"Y-m-d H:i:s" }}
+            </td>
+            <td>
+              <strong>{{ log.actor.username|default:"System" }}</strong>
+            </td>
+            <td>
+              <code>{{ log.action }}</code>
+            </td>
+            <td>
+              <span class="djet-badge djet-badge-neutral">{{ log.entity_type }}:{{ log.entity_id }}</span>
+            </td>
+            <td>
+              <small>{{ log.ip_address|default:"—" }}</small>
+            </td>
+            <td>
+              {% if log.diff %}
+                <code style="font-size: 0.75rem; color: var(--text-muted);">{{ log.diff }}</code>
+              {% else %}
+                <span style="color: var(--text-muted);">—</span>
+              {% endif %}
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="6" style="text-align: center; padding: 2rem; color: var(--text-muted);">
+              {% trans "No audit trail records present." %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

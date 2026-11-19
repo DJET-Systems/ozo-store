@@ -1,0 +1,38 @@
+{% load i18n %}
+<section style="margin-block: 2.5rem;">
+  <div style="margin-block-end: 1.25rem;">
+    <h2 style="font-size: 1.5rem; font-weight: 800; margin: 0 0 0.5rem; color: var(--text);">
+      {% if CURRENT_LANG == 'en' %}{{ section.title_en }}{% else %}{{ section.title_ar }}{% endif %}
+    </h2>
+    <p style="margin: 0; color: var(--text-muted); font-size: 0.95rem;">
+      {% trans "Visit our retail stores for hands-on inspection and instant pickup." %}
+    </p>
+  </div>
+
+  <div class="djet-branch-grid">
+    {% for branch in branches %}
+      <div class="djet-branch-card">
+        <h3 style="font-size: 1.1rem; font-weight: 700; margin: 0 0 0.5rem; color: var(--text);">
+          📍 {{ branch.name }}
+        </h3>
+        {% if branch.phone %}
+          <p style="margin: 0 0 0.25rem; font-size: 0.875rem; color: var(--text-muted);">
+            📞 {{ branch.phone }}
+          </p>
+        {% endif %}
+        <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted);">
+          ⏱️ {% if CURRENT_LANG == 'en' %}{{ branch.opening_hours_en|default:"10:00 AM - 11:00 PM" }}{% else %}{{ branch.opening_hours_ar|default:"١٠:٠٠ ص - ١١:٠٠ م" }}{% endif %}
+        </p>
+      </div>
+    {% empty %}
+      <div class="djet-branch-card">
+        <h3 style="font-size: 1.1rem; font-weight: 700; margin: 0 0 0.5rem; color: var(--text);">
+          📍 {% trans "Main Showroom" %}
+        </h3>
+        <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted);">
+          ⏱️ 10:00 AM - 11:00 PM Daily
+        </p>
+      </div>
+    {% endfor %}
+  </div>
+</section>

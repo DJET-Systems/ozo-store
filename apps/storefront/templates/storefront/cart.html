@@ -1,0 +1,132 @@
+{% extends "storefront/base.html" %}
+{% load i18n %}
+
+{% block title %}
+  {{ preset.cart_label|default:_("Shopping Cart") }} — {{ settings.store_name_ar }}
+{% endblock %}
+
+{% block content %}
+<div style="margin-block: 2rem;">
+  <h1 style="font-size: 2rem; font-weight: 800; margin: 0 0 1.5rem; color: var(--text);">
+    🛒 {{ preset.cart_label|default:_("Shopping Cart") }}
+  </h1>
+
+  {% if cart_is_empty %}
+    <div style="text-align: center; padding: 4rem 1.5rem; background: var(--surface); border-radius: var(--radius-card); border: 1px dashed var(--border);">
+      <div style="font-size: 3.5rem; margin-block-end: 1rem;">🛍️</div>
+      <h2 style="font-size: 1.5rem; font-weight: 700; margin: 0 0 0.5rem;">
+        {% trans "Your cart is currently empty" %}
+      </h2>
+      <p style="color: var(--text-muted); margin: 0 0 1.5rem;">
+        {% trans "Looks like you haven't added any products to your cart yet." %}
+      </p>
+      <a href="{% url 'storefront-home' %}" class="djet-btn djet-btn-primary">
+        {% trans "Start Shopping" %}
+      </a>
+    </div>
+  {% else %}
+    <div class="djet-cart-grid">
+      <!-- Items Table -->
+      <div>
+        <table class="djet-cart-table">
+          <thead>
+            <tr>
+              <th>{% trans "Item" %}</th>
+              <th style="width: 140px;">{% trans "Price" %}</th>
+              <th style="width: 140px; text-align: center;">{% trans "Qty" %}</th>
+              <th style="width: 140px; text-align: end;">{% trans "Total" %}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in cart_items %}
+              <tr>
+                <td>
+                  <div style="display: flex; gap: 1rem; align-items: center;">
+                    {% if item.variant.product.image_url %}
+                      <img src="{{ item.variant.product.image_url }}" alt="{{ item.variant.product.title_en }}" style="width: 56px; height: 56px; object-fit: cover; border-radius: 8px;">
+                    {% else %}
+                      <div style="width: 56px; height: 56px; background: var(--surface-alt); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">
+                        📦
+                      </div>
+                    {% endif %}
+                    <div>
+                      <a href="{% url 'storefront-product-detail' handle=item.variant.product.handle %}" style="font-weight: 700; color: var(--text); text-decoration: none;">
+                        {% if CURRENT_LANG == 'en' %}{{ item.variant.product.title_en }}{% else %}{{ item.variant.product.title_ar }}{% endif %}
+                      </a>
+                      <div style="font-size: 0.8rem; color: var(--text-muted);">
+                        SKU: {{ item.variant.sku }}
+                        {% if item.variant.title_en %} · {{ item.variant.title_en }}{% endif %}
+                      </div>
+                      <form action="{% url 'storefront-cart-update' %}" method="post" style="display: inline-block; margin-block-start: 0.25rem;">
+                        {% csrf_token %}
+                        <input type="hidden" name="sku" value="{{ item.variant.sku }}">
+                        <input type="hidden" name="action" value="remove">
+                        <button type="submit" style="background: none; border: none; color: #DC2626; font-size: 0.75rem; cursor: pointer; padding: 0; text-decoration: underline;">
+                          {% trans "Remove" %}
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span style="font-weight: 600;">{{ item.variant.price.formatted }}</span>
+                </td>
+                <td>
+                  <div style="display: flex; align-items: center; justify-content: center; gap: 0.25rem;">
+                    <form action="{% url 'storefront-cart-update' %}" method="post" style="display: inline;">
+                      {% csrf_token %}
+                      <input type="hidden" name="sku" value="{{ item.variant.sku }}">
+                      <input type="hidden" name="action" value="decrease">
+                      <button type="submit" class="djet-btn djet-btn-secondary" style="padding: 0.25rem 0.6rem; font-size: 0.85rem;" aria-label="{% trans 'Decrease' %}">-</button>
+                    </form>
+
+                    <span style="font-weight: 700; min-width: 28px; text-align: center;">{{ item.quantity }}</span>
+
+                    <form action="{% url 'storefront-cart-update' %}" method="post" style="display: inline;">
+                      {% csrf_token %}
+                      <input type="hidden" name="sku" value="{{ item.variant.sku }}">
+                      <input type="hidden" name="action" value="increase">
+                      <button type="submit" class="djet-btn djet-btn-secondary" style="padding: 0.25rem 0.6rem; font-size: 0.85rem;" aria-label="{% trans 'Increase' %}">+</button>
+                    </form>
+                  </div>
+                </td>
+                <td style="text-align: end; font-weight: 700; color: var(--text);">
+                  {{ item.line_total_formatted }}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Order Summary Card -->
+      <aside class="djet-cart-summary">
+        <h2 style="font-size: 1.25rem; font-weight: 800; margin: 0 0 1.25rem;">{% trans "Order Summary" %}</h2>
+
+        <div style="display: flex; justify-content: space-between; margin-block-end: 0.75rem; color: var(--text-muted);">
+          <span>{% trans "Subtotal" %}</span>
+          <span style="font-weight: 600; color: var(--text);">{{ cart_total_formatted }}</span>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; margin-block-end: 0.75rem; color: var(--text-muted);">
+          <span>{% trans "Shipping Estimate" %}</span>
+          <span style="font-weight: 600; color: var(--accent);">{% trans "Calculated at checkout" %}</span>
+        </div>
+
+        <div style="border-block-start: 1px solid var(--border); padding-block-start: 1rem; margin-block-start: 1rem; display: flex; justify-content: space-between; align-items: baseline;">
+          <span style="font-size: 1.15rem; font-weight: 800;">{% trans "Estimated Total" %}</span>
+          <span style="font-size: 1.5rem; font-weight: 800; color: var(--accent);">{{ cart_total_formatted }}</span>
+        </div>
+
+        <button type="button" class="djet-btn djet-btn-primary" style="width: 100%; margin-block-start: 1.5rem; padding: 0.85rem 1.25rem; font-size: 1.05rem;" onclick="alert('{% trans "Checkout pipeline will be finalized in Milestone M4 checkout integration." %}')">
+          💳 {% trans "Proceed to Checkout" %}
+        </button>
+
+        <div style="margin-block-start: 1.25rem; text-align: center; font-size: 0.8rem; color: var(--text-muted);">
+          🔒 {% trans "Secure 256-bit encrypted checkout" %}
+        </div>
+      </aside>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

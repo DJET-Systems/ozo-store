@@ -1,0 +1,105 @@
+{% load static i18n %}
+<!doctype html>
+{% get_current_language as CURRENT_LANG %}
+<html lang="{{ CURRENT_LANG|default:'ar' }}" dir="{% if CURRENT_LANG == 'en' %}ltr{% else %}rtl{% endif %}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}DJET Store{% endblock %} — {% trans "Merchant Dashboard" %}</title>
+  <link rel="stylesheet" href="{% static 'dashboard/base.css' %}">
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+  <div class="djet-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="djet-sidebar">
+      <div class="djet-sidebar-header">
+        <a href="{% url 'dashboard-today' %}" class="djet-logo">DJET STORE</a>
+        <span class="djet-badge-env">Admin</span>
+      </div>
+      <nav class="djet-nav">
+        <div class="djet-nav-section">{% trans "Operations" %}</div>
+        <a href="{% url 'dashboard-today' %}" class="djet-nav-link {% if request.resolver_match.url_name == 'dashboard-today' %}active{% endif %}">
+          <span>📊</span> {% trans "Today" %}
+        </a>
+        <a href="{% url 'dashboard-orders' %}" class="djet-nav-link {% if request.resolver_match.url_name == 'dashboard-orders' %}active{% endif %}">
+          <span>📦</span> {% trans "Orders" %}
+        </a>
+        <a href="{% url 'dashboard-products' %}" class="djet-nav-link {% if request.resolver_match.url_name == 'dashboard-products' %}active{% endif %}">
+          <span>🏷️</span> {% trans "Products" %}
+        </a>
+        <a href="{% url 'dashboard-inventory' %}" class="djet-nav-link {% if request.resolver_match.url_name == 'dashboard-inventory' %}active{% endif %}">
+          <span>🏬</span> {% trans "Inventory" %}
+        </a>
+        <a href="{% url 'dashboard-purchasing' %}" class="djet-nav-link {% if request.resolver_match.url_name == 'dashboard-purchasing' %}active{% endif %}">
+          <span>🚚</span> {% trans "Purchasing" %}
+        </a>
+
+        <div class="djet-nav-section" style="margin-top: 1rem;">{% trans "Intelligence" %}</div>
+        <a href="{% url 'dashboard-reports' %}" class="djet-nav-link {% if request.resolver_match.url_name == 'dashboard-reports' %}active{% endif %}">
+          <span>📈</span> {% trans "Reports" %}
+        </a>
+        <a href="{% url 'dashboard-audit' %}" class="djet-nav-link {% if request.resolver_match.url_name == 'dashboard-audit' %}active{% endif %}">
+          <span>📜</span> {% trans "Audit Log" %}
+        </a>
+
+        <div class="djet-nav-section" style="margin-top: 1rem;">{% trans "Administration" %}</div>
+        <a href="{% url 'dashboard-staff' %}" class="djet-nav-link {% if request.resolver_match.url_name == 'dashboard-staff' %}active{% endif %}">
+          <span>👥</span> {% trans "Staff" %}
+        </a>
+        <a href="{% url 'dashboard-roles' %}" class="djet-nav-link {% if request.resolver_match.url_name == 'dashboard-roles' %}active{% endif %}">
+          <span>🛡️</span> {% trans "Roles & RBAC" %}
+        </a>
+        <a href="{% url 'dashboard-settings' %}" class="djet-nav-link {% if request.resolver_match.url_name == 'dashboard-settings' %}active{% endif %}">
+          <span>⚙️</span> {% trans "Settings" %}
+        </a>
+        <a href="{% url 'dashboard-support' %}" class="djet-nav-link {% if request.resolver_match.url_name == 'dashboard-support' %}active{% endif %}">
+          <span>🩺</span> {% trans "Support Access" %}
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main View Shell -->
+    <div class="djet-main">
+      <header class="djet-topbar">
+        <div style="font-weight: 600; font-size: 1rem;">
+          {% block page_title %}{% trans "Overview" %}{% endblock %}
+        </div>
+        <div class="djet-user-panel">
+          {% if request.user.is_authenticated %}
+            <div class="djet-user-badge">
+              <span style="font-weight: 600;">{{ request.user.username }}</span>
+              <span class="djet-user-role">{{ request.user.role.name|default:"Superuser" }}</span>
+            </div>
+            {% if not request.user.totp_enabled %}
+              <a href="{% url 'dashboard-2fa-setup' %}" class="djet-badge djet-badge-warning" style="text-decoration: none;">
+                ⚠️ {% trans "Setup 2FA" %}
+              </a>
+            {% else %}
+              <span class="djet-badge djet-badge-success">🔒 2FA</span>
+            {% endif %}
+            <form action="{% url 'dashboard-logout' %}" method="post" style="display: inline; margin: 0;">
+              {% csrf_token %}
+              <button type="submit" class="djet-btn djet-btn-secondary" style="padding: 0.35rem 0.75rem; font-size: 0.8rem;">
+                {% trans "Logout" %}
+              </button>
+            </form>
+          {% endif %}
+        </div>
+      </header>
+
+      <main class="djet-content">
+        {% if messages %}
+          {% for message in messages %}
+            <div class="djet-alert {% if message.tags == 'error' %}djet-alert-error{% elif message.tags == 'success' %}djet-alert-success{% else %}djet-alert-warning{% endif %}">
+              {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %}
+
+        {% block content %}{% endblock %}
+      </main>
+    </div>
+  </div>
+</body>
+</html>

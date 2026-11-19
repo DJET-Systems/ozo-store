@@ -1,0 +1,1 @@
+"""Merchant dashboard UI app."""

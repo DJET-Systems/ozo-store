@@ -1,0 +1,16 @@
+{% load i18n %}
+<section class="djet-imei-box">
+  <div>
+    <h2 style="font-size: 1.35rem; font-weight: 800; margin: 0 0 0.5rem; color: var(--text);">
+      {% if CURRENT_LANG == 'en' %}{{ section.title_en }}{% else %}{{ section.title_ar }}{% endif %}
+    </h2>
+    <p style="margin: 0; color: var(--text-muted); font-size: 0.95rem; max-width: 520px;">
+      {% trans "Verify your device authenticity, remaining warranty duration, and condition grading using the unique serial number or IMEI." %}
+    </p>
+  </div>
+  <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+    <a href="{% url 'storefront-warranty-check' %}" class="djet-btn djet-btn-primary">
+      🔍 {% trans "Check IMEI / Serial" %}
+    </a>
+  </div>
+</section>

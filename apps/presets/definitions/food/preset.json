@@ -1,0 +1,36 @@
+{
+  "code": "food",
+  "name": "Food & Restaurant",
+  "description": "Arabic RTL-first restaurant & cloud kitchen layout with 2-column menu, item customizer, kitchen notes, and delivery time slot selection.",
+  "default_language": "ar",
+  "cart_label": "السلة",
+  "tokens": {
+    "--bg": "#FFF8F0",
+    "--surface": "#FFFFFF",
+    "--text": "#292524",
+    "--text-muted": "#57534E",
+    "--border": "#EBD5BA",
+    "--accent": "#C2410C",
+    "--accent-hover": "#9A3412",
+    "--radius-card": "14px",
+    "--radius-btn": "12px",
+    "--font-sans": "'Cairo', system-ui, sans-serif"
+  },
+  "card_flags": {
+    "aspect_ratio": "horizontal-row",
+    "show_condition_badge": false,
+    "show_customizer": true,
+    "show_kitchen_note": true,
+    "quick_add": true
+  },
+  "home_sections": [
+    {"type": "hero_cover_status", "title_ar": "أطباق شرقية ومأكولات طازجة", "title_en": "Fresh Oriental Dishes & Meals", "status_ar": "المطبخ مفتوح ويستقبل الطلبات الآن (توصيل 30-45 دقيقة)", "status_en": "Kitchen is open for orders (30-45 min delivery)"},
+    {"type": "category_tiles", "title_ar": "قائمة الطعام", "title_en": "Menu Sections", "layout": "menu-tabs"},
+    {"type": "menu_with_sidebar", "title_ar": "الأطباق الرئيسية والوجبات", "title_en": "Main Courses & Meals"}
+  ],
+  "starter_categories": [
+    {"name_en": "Main Dishes", "name_ar": "أطباق رئيسية", "slug": "mains"},
+    {"name_en": "Appetizers & Salads", "name_ar": "مقبلات وسلطات", "slug": "appetizers"},
+    {"name_en": "Beverages & Desserts", "name_ar": "مشروبات وحلويات", "slug": "desserts"}
+  ]
+}

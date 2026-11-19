@@ -1,0 +1,28 @@
+{% extends "dashboard/base.html" %}
+{% load i18n %}
+
+{% block page_title %}{% trans "DJET Support Portal" %}{% endblock %}
+
+{% block content %}
+<div class="djet-card">
+  <div class="djet-card-header">
+    <h2 class="djet-card-title">🩺 {% trans "Audited Support Diagnostic Channel" %}</h2>
+    <span class="djet-badge djet-badge-warning">{% trans "Session Audited" %}</span>
+  </div>
+
+  <div class="djet-alert djet-alert-warning">
+    <strong>{% trans "Compliance Notice:" %}</strong>
+    {% trans "Every visit to this diagnostic endpoint is permanently written to the append-only AuditLog with your identity, timestamp, and IP address." %}
+  </div>
+
+  <div style="border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; background: var(--surface-alt);">
+    <h3 style="margin-top: 0; font-size: 1rem;">{% trans "Active Diagnostic Context" %}</h3>
+    <ul style="font-size: 0.85rem; line-height: 1.8; margin-bottom: 0;">
+      <li><strong>{% trans "Operator Identity:" %}</strong> {{ user.username }} ({{ user.role.name|default:"Superuser" }})</li>
+      <li><strong>{% trans "Access Timestamp:" %}</strong> {{ now|date:"c" }}</li>
+      <li><strong>{% trans "Built-in /admin Surface:" %}</strong> <span style="color: var(--danger); font-weight: 700;">{% trans "Disabled (Returns 404)" %}</span></li>
+      <li><strong>{% trans "Surface Isolation:" %}</strong> <span style="color: var(--success); font-weight: 700;">{% trans "Active (__Host- cookie bound)" %}</span></li>
+    </ul>
+  </div>
+</div>
+{% endblock %}

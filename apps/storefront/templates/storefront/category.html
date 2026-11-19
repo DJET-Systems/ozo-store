@@ -1,0 +1,69 @@
+{% extends "storefront/base.html" %}
+{% load i18n %}
+
+{% block title %}
+  {% if CURRENT_LANG == 'en' %}{{ category.name_en }}{% else %}{{ category.name_ar }}{% endif %} — {{ settings.store_name_ar }}
+{% endblock %}
+
+{% block content %}
+<div style="margin-block: 2rem;">
+  <!-- Breadcrumbs -->
+  <nav style="font-size: 0.875rem; color: var(--text-muted); margin-block-end: 1rem;">
+    <a href="{% url 'storefront-home' %}" style="color: inherit; text-decoration: none;">{% trans "Home" %}</a>
+    <span style="margin-inline: 0.5rem;">/</span>
+    {% if category.parent %}
+      <a href="{% url 'storefront-category' slug=category.parent.slug %}" style="color: inherit; text-decoration: none;">
+        {% if CURRENT_LANG == 'en' %}{{ category.parent.name_en }}{% else %}{{ category.parent.name_ar }}{% endif %}
+      </a>
+      <span style="margin-inline: 0.5rem;">/</span>
+    {% endif %}
+    <span style="color: var(--text); font-weight: 600;">
+      {% if CURRENT_LANG == 'en' %}{{ category.name_en }}{% else %}{{ category.name_ar }}{% endif %}
+    </span>
+  </nav>
+
+  <header style="margin-block-end: 2rem;">
+    <h1 style="font-size: 2rem; font-weight: 800; margin: 0 0 0.5rem; color: var(--text);">
+      {% if CURRENT_LANG == 'en' %}{{ category.name_en }}{% else %}{{ category.name_ar }}{% endif %}
+    </h1>
+    {% if category.description %}
+      <p style="color: var(--text-muted); margin: 0; max-width: 680px;">{{ category.description }}</p>
+    {% endif %}
+  </header>
+
+  <!-- Product Grid -->
+  <div class="djet-product-grid">
+    {% for product in products %}
+      {% include "storefront/sections/product_card.html" with product=product %}
+    {% empty %}
+      <div style="grid-column: 1 / -1; text-align: center; padding: 4rem 1rem; background: var(--surface); border-radius: var(--radius-card); border: 1px dashed var(--border);">
+        <p style="font-size: 1.25rem; color: var(--text-muted); margin: 0 0 1rem;">
+          {% trans "No products found in this category yet." %}
+        </p>
+        <a href="{% url 'storefront-home' %}" class="djet-btn djet-btn-primary">
+          {% trans "Return to Homepage" %}
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+
+  <!-- Pagination -->
+  {% if page_obj.has_other_pages %}
+    <nav style="display: flex; justify-content: center; gap: 0.5rem; margin-block-start: 3rem;">
+      {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}" class="djet-btn djet-btn-secondary">
+          &laquo; {% trans "Previous" %}
+        </a>
+      {% endif %}
+      <span style="padding: 0.75rem 1rem; color: var(--text-muted); font-size: 0.9rem;">
+        {% blocktrans with current=page_obj.number total=page_obj.paginator.num_pages %}Page {{ current }} of {{ total }}{% endblocktrans %}
+      </span>
+      {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="djet-btn djet-btn-secondary">
+          {% trans "Next" %} &raquo;
+        </a>
+      {% endif %}
+    </nav>
+  {% endif %}
+</div>
+{% endblock %}

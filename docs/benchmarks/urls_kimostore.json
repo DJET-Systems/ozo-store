@@ -1,0 +1,22 @@
+{
+  "target": "kimostore.net",
+  "captured_at": "2026-11-19",
+  "pages": [
+    {
+      "name": "home",
+      "url": "https://kimostore.net/"
+    },
+    {
+      "name": "collection",
+      "url": "https://kimostore.net/collections/pc-components"
+    },
+    {
+      "name": "product",
+      "url": "https://kimostore.net/products/ram-for-pc-4gb-ddr3-pc3-12800mhz-original-used"
+    },
+    {
+      "name": "cart",
+      "url": "https://kimostore.net/cart"
+    }
+  ]
+}

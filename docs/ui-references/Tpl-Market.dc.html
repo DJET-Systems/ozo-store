@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Mini-market template</title>
+<script src="./vendor/react.js"></script>
+<script src="./vendor/react-dom.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F4F8F2}
+a{color:#14231A;text-decoration:none}
+a:hover{text-decoration:underline}
+.g1{background:#DCEBD5}
+.g2{background:#F3E8C8}
+.g3{background:#E6EFE1}
+.g4{background:#F2DAD3}
+.low{color:#B54708}
+</style>
+</helmet>
+<div style="background:#F4F8F2;color:#14231A;font-family:'Inter',system-ui,sans-serif;line-height:1.5">
+
+<header style="background:{{accent}};color:#FFFFFF">
+<div style="max-width:1200px;margin:0 auto;padding:12px 24px;display:flex;flex-wrap:wrap;align-items:center;gap:16px">
+<a href="#" style="color:#FFFFFF;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:22px">Store name</a>
+<form action="#" style="flex:1 1 360px;display:flex;gap:8px;margin:0">
+<label for="q" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Search groceries</label>
+<input id="q" type="search" placeholder="Search groceries or scan a barcode" style="flex:1;min-height:48px;box-sizing:border-box;padding:0 16px;border:0;border-radius:10px;font:inherit;font-size:16px;color:#14231A">
+<button type="button" aria-label="Scan barcode" style="width:48px;height:48px;border:0;border-radius:10px;background:#FFFFFF;color:#14231A;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7V5h3M17 5h3v2M20 17v2h-3M7 19H4v-2M8 9v6M12 9v6M16 9v6"></path></svg></button>
+</form>
+<a href="#" style="color:#FFFFFF;min-height:44px;display:flex;align-items:center;font-weight:600">Basket (7)</a>
+</div>
+<div style="background:#14532D">
+<div style="max-width:1200px;margin:0 auto;padding:8px 24px;display:flex;flex-wrap:wrap;gap:8px 24px;font-size:14px;color:#FFFFFF"><span>Delivery today, next slot [4:00 – 6:00 PM]</span><span>Minimum order [EGP 000]</span><span>Pay cash on delivery</span></div>
+</div>
+</header>
+
+<nav aria-label="Aisles" style="background:#FFFFFF;border-bottom:1px solid #D7E3D1">
+<div style="max-width:1200px;margin:0 auto;padding:10px 24px;display:flex;flex-wrap:wrap;gap:8px">
+<a href="#" style="min-height:44px;padding:0 16px;border-radius:999px;background:{{accent}};color:#FFFFFF;font-weight:600;font-size:14px;display:flex;align-items:center">All</a>
+<a href="#" style="min-height:44px;padding:0 16px;border-radius:999px;background:#E6EFE1;font-size:14px;display:flex;align-items:center">Vegetables</a>
+<a href="#" style="min-height:44px;padding:0 16px;border-radius:999px;background:#E6EFE1;font-size:14px;display:flex;align-items:center">Fruit</a>
+<a href="#" style="min-height:44px;padding:0 16px;border-radius:999px;background:#E6EFE1;font-size:14px;display:flex;align-items:center">Dairy and eggs</a>
+<a href="#" style="min-height:44px;padding:0 16px;border-radius:999px;background:#E6EFE1;font-size:14px;display:flex;align-items:center">Bakery</a>
+<a href="#" style="min-height:44px;padding:0 16px;border-radius:999px;background:#E6EFE1;font-size:14px;display:flex;align-items:center">Pantry</a>
+<a href="#" style="min-height:44px;padding:0 16px;border-radius:999px;background:#E6EFE1;font-size:14px;display:flex;align-items:center">Drinks</a>
+<a href="#" style="min-height:44px;padding:0 16px;border-radius:999px;background:#E6EFE1;font-size:14px;display:flex;align-items:center">Cleaning</a>
+</div>
+</nav>
+
+<section style="max-width:1200px;margin:0 auto;padding:28px 24px 8px">
+<div style="background:#FFFFFF;border:1px solid #D7E3D1;border-radius:14px;padding:18px 20px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between">
+<div>
+<h2 style="margin:0;font-family:'Space Grotesk',sans-serif;font-size:22px">Buy it again</h2>
+<p style="margin:0;font-size:14px;color:#4B5E52">Your last order, ready to add in one tap.</p>
+</div>
+<a href="#" style="min-height:48px;padding:0 24px;border-radius:10px;background:{{accent}};color:#FFFFFF;font-weight:600;display:flex;align-items:center">Add last order to basket</a>
+</div>
+</section>
+
+<section style="max-width:1200px;margin:0 auto;padding:20px 24px 40px">
+<div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:16px">
+<h2 style="margin:0;font-family:'Space Grotesk',sans-serif;font-size:28px">Everyday essentials</h2>
+<span style="font-size:14px;color:#4B5E52">Weighed items are charged at the actual weight.</span>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:16px 14px">
+<sc-for list="{{items}}" as="p" hint-placeholder-count="12">
+<article style="flex:1 1 170px;background:#FFFFFF;border:1px solid #D7E3D1;border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:6px">
+<div class="{{p.tone}}" style="position:relative;aspect-ratio:1/1;border-radius:8px">
+<sc-if value="{{p.offer}}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:8px;left:8px;padding:2px 8px;border-radius:999px;background:#B42318;color:#FFFFFF;font-size:12px;font-weight:600">Offer</span></sc-if>
+</div>
+<div style="font-weight:500;font-size:15px">{{p.n}}</div>
+<div style="font-weight:700">{{p.price}}</div>
+<sc-if value="{{p.low}}" hint-placeholder-val="{{ false }}"><div class="low" style="font-size:12px;font-weight:600">Only a few left</div></sc-if>
+<sc-if value="{{p.inBasket}}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;justify-content:space-between;border:1.5px solid {{accent}};border-radius:10px;margin-top:auto">
+<button type="button" aria-label="Remove one {{p.step}}" style="width:44px;height:44px;border:0;background:transparent;color:{{accent}};font:inherit;font-size:22px">−</button>
+<span style="font-weight:600;font-size:14px">{{p.qty}}</span>
+<button type="button" aria-label="Add one {{p.step}}" style="width:44px;height:44px;border:0;background:transparent;color:{{accent}};font:inherit;font-size:22px">+</button>
+</div>
+</sc-if>
+<sc-if value="{{p.notInBasket}}" hint-placeholder-val="{{ true }}">
+<button type="button" style="min-height:44px;margin-top:auto;border:1.5px solid {{accent}};border-radius:10px;background:#FFFFFF;color:{{accent}};font:inherit;font-weight:600">Add</button>
+</sc-if>
+</article>
+</sc-for>
+</div>
+</section>
+
+<section style="background:#14231A;color:#FFFFFF">
+<div style="max-width:1200px;margin:0 auto;padding:16px 24px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px">
+<div><span style="font-weight:600">Basket · 7 items</span><span style="margin:0 10px;opacity:0.6">|</span><span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:20px">EGP 412</span></div>
+<a href="Checkout.dc.html" style="min-height:48px;padding:0 28px;border-radius:10px;background:#FFFFFF;color:#14231A;font-weight:600;display:flex;align-items:center">Checkout</a>
+</div>
+</section>
+
+<footer style="background:#0F1B14;color:#C6D3CB;font-size:13px">
+<div style="max-width:1200px;margin:0 auto;padding:24px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px"><span>© [Year] Store name · [Branch address]</span><span>Hotline [number]</span><span>Powered by DJET Store</span></div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#166534","options":["#166534","#1D4ED8","#C2410C","#6D28D9"]},"$preview":{"width":1280,"height":1900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const accent = this.props.accent ?? '#166534';
+    const mk = (n, price, tone, opt) => {
+      const o = opt || {};
+      const inB = !!o.qty;
+      return { n, price, tone, offer: !!o.offer, low: !!o.low, inBasket: inB, notInBasket: !inB, qty: o.qty || '', step: o.step || 'item' };
+    };
+    return {
+      accent,
+      items: [
+        mk('Tomatoes', 'EGP 28 / kg', 'g4', { qty: '1.5 kg', step: '0.5 kg' }),
+        mk('Cucumbers', 'EGP 22 / kg', 'g1', { qty: '1 kg', step: '0.5 kg' }),
+        mk('Bananas', 'EGP 45 / kg', 'g2', { offer: true }),
+        mk('Milk, 1 L', 'EGP 38', 'g3', { qty: '2', step: 'item' }),
+        mk('Eggs, 30 tray', 'EGP 140', 'g2', { low: true }),
+        mk('Baladi bread, 5', 'EGP 10', 'g2', { qty: '1' }),
+        mk('Rice, 1 kg', 'EGP 36', 'g3', {}),
+        mk('Cooking oil, 1 L', 'EGP 72', 'g2', { offer: true }),
+        mk('Black tea, box', 'EGP 54', 'g1', {}),
+        mk('Cola, 1 L', 'EGP 24', 'g4', { qty: '1' }),
+        mk('Dish soap', 'EGP 31', 'g3', {}),
+        mk('Laundry powder, 2 kg', 'EGP 96', 'g1', { low: true })
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

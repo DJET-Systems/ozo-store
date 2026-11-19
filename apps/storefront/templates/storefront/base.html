@@ -1,0 +1,104 @@
+{% load static i18n %}
+<!doctype html>
+{% get_current_language as CURRENT_LANG %}
+<html lang="{{ CURRENT_LANG|default:'ar' }}" dir="{% if CURRENT_LANG == 'en' %}ltr{% else %}rtl{% endif %}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{{ settings.store_name_ar }}{% endblock %} — DJET Store</title>
+  <link rel="stylesheet" href="{% static 'storefront/base.css' %}">
+  
+  <!-- Dynamic Theme Token Injection from Active Preset -->
+  <style>
+    :root {
+      {% for key, val in tokens.items %}
+        {{ key }}: {{ val }};
+      {% endfor %}
+    }
+  </style>
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+  <!-- Public Storefront Navigation Header -->
+  <header class="djet-header">
+    <div class="djet-nav-container">
+      <a href="{% url 'storefront-home' %}" class="djet-brand">
+        <span>🏪</span>
+        <span>{% if CURRENT_LANG == 'en' %}{{ settings.store_name_en }}{% else %}{{ settings.store_name_ar }}{% endif %}</span>
+      </a>
+
+      <nav class="djet-nav-links">
+        <a href="{% url 'storefront-home' %}" class="djet-nav-link">{% trans "Home" %}</a>
+        <a href="{% url 'storefront-warranty-check' %}" class="djet-nav-link">{% trans "Warranty Check" %}</a>
+        <a href="{% url 'storefront-order-track' %}" class="djet-nav-link">{% trans "Track Order" %}</a>
+      </nav>
+
+      <div class="djet-header-actions">
+        {% if settings.whatsapp_number %}
+          <a href="https://wa.me/{{ settings.whatsapp_number }}" target="_blank" rel="noopener" class="djet-whatsapp-pill">
+            <span>💬</span> {% trans "WhatsApp" %}
+          </a>
+        {% endif %}
+
+        <a href="{% url 'storefront-cart' %}" class="djet-cart-btn">
+          <span>🛍️</span>
+          <span>{{ preset.cart_label|default:_("Cart") }}</span>
+          <span class="djet-cart-count" id="cart-counter">{{ cart_count }}</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Notification Alerts -->
+  {% if messages %}
+    <div style="max-width: 1280px; margin: 1rem auto; padding: 0 1.5rem;">
+      {% for message in messages %}
+        <div style="padding: 0.85rem 1.25rem; border-radius: var(--radius-btn); background: var(--accent-light); color: var(--accent); font-weight: 600; margin-bottom: 0.5rem;">
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <!-- Main View Container -->
+  <main class="djet-shell">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Storefront Footer -->
+  <footer class="djet-footer">
+    <div class="djet-footer-container">
+      <div>
+        <h4 style="color: #FFFFFF; margin: 0 0 0.75rem;">{{ settings.store_name_ar }}</h4>
+        <p style="line-height: 1.6; margin: 0;">
+          {% trans "Powered by DJET Store — Secure, high-velocity e-commerce with real-time stock ledger." %}
+        </p>
+      </div>
+
+      <div>
+        <h4 style="color: #FFFFFF; margin: 0 0 0.75rem;">{% trans "Customer Care" %}</h4>
+        <ul style="list-style: none; padding: 0; margin: 0; line-height: 2;">
+          <li><a href="{% url 'storefront-order-track' %}" style="color: #94A3B8; text-decoration: none;">{% trans "Track Shipment" %}</a></li>
+          <li><a href="{% url 'storefront-warranty-check' %}" style="color: #94A3B8; text-decoration: none;">{% trans "Check IMEI / Serial" %}</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 style="color: #FFFFFF; margin: 0 0 0.75rem;">{% trans "Preset Mode" %}</h4>
+        <p style="margin: 0; line-height: 1.6;">
+          <strong style="color: #FFFFFF;">{{ preset.name }}</strong><br>
+          <small>{{ preset.description }}</small>
+        </p>
+      </div>
+    </div>
+
+    <div class="djet-footer-bottom">
+      <div>&copy; {% now "Y" %} {{ settings.store_name_en }}. {% trans "All rights reserved." %}</div>
+      <div style="display: flex; gap: 1rem;">
+        <span>🔒 256-bit TLS</span>
+        <span>💵 Cash on Delivery</span>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

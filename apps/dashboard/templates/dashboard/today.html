@@ -1,0 +1,90 @@
+{% extends "dashboard/base.html" %}
+{% load i18n %}
+
+{% block page_title %}{% trans "Operational Today" %}{% endblock %}
+
+{% block content %}
+<div class="djet-kpi-grid">
+  <div class="djet-kpi-card">
+    <span class="djet-kpi-label">📦 {% trans "Orders to Pack" %}</span>
+    <span class="djet-kpi-value">0</span>
+    <span style="font-size: 0.75rem; color: var(--text-muted);">{% trans "Awaiting warehouse fulfillment" %}</span>
+  </div>
+
+  <div class="djet-kpi-card">
+    <span class="djet-kpi-label">⚠️ {% trans "Low Stock SKUs" %}</span>
+    <span class="djet-kpi-value" style="color: {% if low_stock_count > 0 %}var(--warning){% else %}var(--text){% endif %};">
+      {{ low_stock_count }}
+    </span>
+    <span style="font-size: 0.75rem; color: var(--text-muted);">{% trans "On-hand ≤ 5 units" %}</span>
+  </div>
+
+  <div class="djet-kpi-card">
+    <span class="djet-kpi-label">🚫 {% trans "Out of Stock" %}</span>
+    <span class="djet-kpi-value" style="color: {% if out_of_stock_count > 0 %}var(--danger){% else %}var(--text){% endif %};">
+      {{ out_of_stock_count }}
+    </span>
+    <span style="font-size: 0.75rem; color: var(--text-muted);">{% trans "Zero balance across branches" %}</span>
+  </div>
+
+  <div class="djet-kpi-card">
+    <span class="djet-kpi-label">🏷️ {% trans "Active Products" %}</span>
+    <span class="djet-kpi-value">{{ active_products_count }}</span>
+    <span style="font-size: 0.75rem; color: var(--text-muted);">{% trans "Catalog items published" %}</span>
+  </div>
+
+  <div class="djet-kpi-card">
+    <span class="djet-kpi-label">🏬 {% trans "Fulfillment Nodes" %}</span>
+    <span class="djet-kpi-value">{{ active_locations_count }}</span>
+    <span style="font-size: 0.75rem; color: var(--text-muted);">{% trans "Active branches & warehouses" %}</span>
+  </div>
+</div>
+
+<div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem;">
+  <div class="djet-card">
+    <div class="djet-card-header">
+      <h2 class="djet-card-title">⚡ {% trans "Quick Actions" %}</h2>
+    </div>
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+      <a href="{% url 'dashboard-products' %}" class="djet-btn djet-btn-primary">
+        + {% trans "Manage Catalog" %}
+      </a>
+      <a href="{% url 'dashboard-inventory' %}" class="djet-btn djet-btn-secondary">
+        📊 {% trans "Inspect Stock Levels" %}
+      </a>
+      <a href="{% url 'dashboard-export' 'catalog' %}" class="djet-btn djet-btn-secondary">
+        📥 {% trans "Export Catalog CSV" %}
+      </a>
+      <a href="{% url 'dashboard-export' 'inventory' %}" class="djet-btn djet-btn-secondary">
+        📥 {% trans "Export Stock CSV" %}
+      </a>
+    </div>
+  </div>
+
+  <div class="djet-card">
+    <div class="djet-card-header">
+      <h2 class="djet-card-title">📜 {% trans "Recent Audit Events" %}</h2>
+      <a href="{% url 'dashboard-audit' %}" style="font-size: 0.8rem; color: var(--accent); text-decoration: none;">
+        {% trans "View all" %} →
+      </a>
+    </div>
+    {% if recent_audits %}
+      <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+        {% for log in recent_audits %}
+          <div style="font-size: 0.8rem; border-block-end: 1px solid var(--border); padding-block-end: 0.5rem;">
+            <div style="display: flex; justify-content: space-between; font-weight: 600;">
+              <span>{{ log.action }}</span>
+              <span style="color: var(--text-muted);">{{ log.actor.username|default:"System" }}</span>
+            </div>
+            <div style="color: var(--text-muted); font-size: 0.75rem; margin-top: 0.2rem;">
+              {{ log.created_at|date:"Y-m-d H:i" }} · {{ log.entity_type }}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p style="color: var(--text-muted); font-size: 0.85rem; margin: 0;">{% trans "No audit records recorded yet." %}</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Clothing brand template</title>
+<script src="./vendor/react.js"></script>
+<script src="./vendor/react-dom.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F4F1EA}
+a{color:#1C1917;text-decoration:none}
+a:hover{text-decoration:underline}
+.c1{background:#E7E0D3}
+.c2{background:#D9D2C5}
+.c3{background:#CFC8BB}
+.gone{color:#78716C;text-decoration:line-through}
+</style>
+</helmet>
+<div style="background:#F4F1EA;color:#1C1917;font-family:'Inter',system-ui,sans-serif;line-height:1.5">
+
+<div style="background:#1C1917;color:#F4F1EA;font-size:13px;padding:8px 24px;text-align:center">Free exchange on sizes · Cash on delivery available</div>
+
+<header style="border-bottom:1px solid #DDD7CB">
+<div style="max-width:1200px;margin:0 auto;padding:12px 24px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px">
+<nav aria-label="Main" style="display:flex;flex-wrap:wrap;gap:4px 24px;font-size:15px;flex:1 1 280px">
+<a href="#" style="min-height:44px;display:flex;align-items:center">Women</a>
+<a href="#" style="min-height:44px;display:flex;align-items:center">Men</a>
+<a href="#" style="min-height:44px;display:flex;align-items:center">Kids</a>
+<a href="#" style="min-height:44px;display:flex;align-items:center">New in</a>
+<a href="#" style="min-height:44px;display:flex;align-items:center;color:{{accent}};font-weight:600">Sale</a>
+</nav>
+<a href="#" style="font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:28px;letter-spacing:0.02em">Brand name</a>
+<div style="display:flex;flex-wrap:wrap;justify-content:flex-end;gap:4px 20px;font-size:15px;flex:1 1 280px">
+<a href="#" style="min-height:44px;display:flex;align-items:center">Search</a>
+<a href="#" style="min-height:44px;display:flex;align-items:center">Account</a>
+<a href="#" style="min-height:44px;display:flex;align-items:center;font-weight:600">Bag (0)</a>
+</div>
+</div>
+</header>
+
+<section style="max-width:1200px;margin:0 auto;padding:24px">
+<div class="c2" style="position:relative;min-height:520px;border-radius:4px;display:flex;align-items:flex-end">
+<span style="position:absolute;top:16px;right:16px;font-size:13px;color:#57534E">Hero image · 21:9</span>
+<div style="background:#F4F1EA;margin:24px;padding:28px 32px;max-width:440px">
+<p style="margin:0 0 8px;font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:{{accent}}">Autumn collection</p>
+<h1 style="margin:0 0 12px;font-family:'Fraunces',Georgia,serif;font-weight:500;font-size:46px;line-height:1.1">Layers for the cooler months.</h1>
+<a href="#" style="min-height:48px;padding:0 24px;background:#1C1917;color:#F4F1EA;font-weight:600;display:inline-flex;align-items:center">Shop the collection</a>
+</div>
+</div>
+</section>
+
+<section style="max-width:1200px;margin:0 auto;padding:32px 24px;display:flex;flex-wrap:wrap;gap:20px">
+<a href="#" style="flex:1 1 300px;text-decoration:none"><div class="c1" style="aspect-ratio:3/4;display:flex;align-items:flex-end;padding:20px"><span style="font-family:'Fraunces',Georgia,serif;font-size:28px">Women</span></div></a>
+<a href="#" style="flex:1 1 300px;text-decoration:none"><div class="c3" style="aspect-ratio:3/4;display:flex;align-items:flex-end;padding:20px"><span style="font-family:'Fraunces',Georgia,serif;font-size:28px">Men</span></div></a>
+<a href="#" style="flex:1 1 300px;text-decoration:none"><div class="c2" style="aspect-ratio:3/4;display:flex;align-items:flex-end;padding:20px"><span style="font-family:'Fraunces',Georgia,serif;font-size:28px">Kids</span></div></a>
+</section>
+
+<section style="max-width:1200px;margin:0 auto;padding:32px 24px">
+<div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:24px">
+<h2 style="margin:0;font-family:'Fraunces',Georgia,serif;font-weight:500;font-size:34px">New in</h2>
+<a href="#" style="font-weight:600;color:{{accent}}">View all</a>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:32px 20px">
+<sc-for list="{{items}}" as="it" hint-placeholder-count="8">
+<article style="flex:1 1 230px;display:flex;flex-direction:column;gap:8px">
+<a href="Product.dc.html" style="text-decoration:none"><div class="{{it.tone}}" style="aspect-ratio:3/4"></div></a>
+<div style="display:flex;gap:6px" aria-label="Colours available">
+<span style="width:14px;height:14px;border-radius:50%;background:#1C1917"></span>
+<span style="width:14px;height:14px;border-radius:50%;background:#A8A29E"></span>
+<span style="width:14px;height:14px;border-radius:50%;background:{{accent}}"></span>
+</div>
+<a href="Product.dc.html" style="font-weight:500">{{it.n}}</a>
+<div style="font-weight:600">{{it.price}}</div>
+<div style="font-size:13px;display:flex;gap:10px;color:#57534E" aria-label="Sizes">
+<span>S</span><span>M</span><span>L</span><span class="{{it.xlClass}}">XL</span>
+</div>
+</article>
+</sc-for>
+</div>
+</section>
+
+<section style="background:#FFFFFF;border-top:1px solid #DDD7CB;border-bottom:1px solid #DDD7CB;margin-top:32px">
+<div style="max-width:1200px;margin:0 auto;padding:48px 24px;display:flex;flex-wrap:wrap;gap:40px">
+<div style="flex:1 1 360px">
+<h2 style="margin:0 0 12px;font-family:'Fraunces',Georgia,serif;font-weight:500;font-size:34px">Find your size</h2>
+<p style="margin:0 0 20px;color:#57534E">Every product page links to this chart, so fewer parcels come back.</p>
+<a href="#" style="min-height:48px;padding:0 24px;border:1.5px solid #1C1917;font-weight:600;display:inline-flex;align-items:center">Open size guide</a>
+</div>
+<div style="flex:1 1 420px;overflow-x:auto">
+<table style="width:100%;border-collapse:collapse;font-size:15px;min-width:360px">
+<thead><tr style="text-align:left;color:#57534E"><th style="padding:8px 0;font-weight:500">Size</th><th style="padding:8px 0;font-weight:500">Chest</th><th style="padding:8px 0;font-weight:500">Length</th></tr></thead>
+<tbody>
+<tr style="border-top:1px solid #DDD7CB"><td style="padding:10px 0">S</td><td>[cm]</td><td>[cm]</td></tr>
+<tr style="border-top:1px solid #DDD7CB"><td style="padding:10px 0">M</td><td>[cm]</td><td>[cm]</td></tr>
+<tr style="border-top:1px solid #DDD7CB"><td style="padding:10px 0">L</td><td>[cm]</td><td>[cm]</td></tr>
+<tr style="border-top:1px solid #DDD7CB;border-bottom:1px solid #DDD7CB"><td style="padding:10px 0">XL</td><td>[cm]</td><td>[cm]</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+
+<section style="max-width:1200px;margin:0 auto;padding:56px 24px;display:flex;flex-wrap:wrap;gap:40px;align-items:center">
+<div class="c1" style="flex:1 1 420px;height:360px;display:flex;align-items:center;justify-content:center;color:#57534E;font-size:14px">Brand story image · 4:3</div>
+<div style="flex:1 1 420px">
+<p style="margin:0 0 8px;font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:{{accent}}">Our story</p>
+<h2 style="margin:0 0 12px;font-family:'Fraunces',Georgia,serif;font-weight:500;font-size:34px">[One line about the brand]</h2>
+<p style="margin:0;color:#57534E;max-width:480px">[Two or three sentences about where the clothes are made and what the brand stands for.]</p>
+</div>
+</section>
+
+<footer style="background:#1C1917;color:#D6D3D1;font-size:13px">
+<div style="max-width:1200px;margin:0 auto;padding:28px 24px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px"><span>© [Year] Brand name</span><span>Exchanges and returns · Size guide · Contact</span><span>Powered by DJET Store</span></div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#9A3412","options":["#9A3412","#1D4ED8","#0E6B5C","#6D28D9"]},"$preview":{"width":1280,"height":1900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const accent = this.props.accent ?? '#9A3412';
+    return {
+      accent,
+      items: [
+        { n: 'Oversized shirt', price: 'EGP 780', tone: 'c1', xlClass: '' },
+        { n: 'Knit sweater', price: 'EGP 1,150', tone: 'c2', xlClass: 'gone' },
+        { n: 'Straight trousers', price: 'EGP 920', tone: 'c3', xlClass: '' },
+        { n: 'Basic tee', price: 'EGP 360', tone: 'c1', xlClass: '' },
+        { n: 'Wool-blend coat', price: 'EGP 3,200', tone: 'c3', xlClass: 'gone' },
+        { n: 'Hoodie', price: 'EGP 890', tone: 'c2', xlClass: '' },
+        { n: 'Pleated skirt', price: 'EGP 640', tone: 'c1', xlClass: '' },
+        { n: 'Denim jacket', price: 'EGP 1,480', tone: 'c2', xlClass: 'gone' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

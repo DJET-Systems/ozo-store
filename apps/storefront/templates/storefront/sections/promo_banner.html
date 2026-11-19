@@ -1,0 +1,14 @@
+{% load i18n %}
+<section class="djet-promo-banner">
+  <h2 style="font-size: 1.85rem; font-weight: 800; margin: 0 0 0.5rem; color: #FFFFFF;">
+    {% if CURRENT_LANG == 'en' %}{{ section.title_en }}{% else %}{{ section.title_ar }}{% endif %}
+  </h2>
+  {% if section.desc_en or section.desc_ar %}
+    <p style="margin: 0 0 1.25rem; font-size: 1.05rem; opacity: 0.95;">
+      {% if CURRENT_LANG == 'en' %}{{ section.desc_en }}{% else %}{{ section.desc_ar }}{% endif %}
+    </p>
+  {% endif %}
+  <a href="#products" class="djet-btn" style="background: #FFFFFF; color: var(--accent); font-weight: 700;">
+    {% trans "Shop Now" %}
+  </a>
+</section>

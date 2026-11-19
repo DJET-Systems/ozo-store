@@ -1,0 +1,357 @@
+#!/usr/bin/env bash
+# ==============================================================================
+#  ██████╗      ██╗███████╗████████╗    ███████╗████████╗ ██████╗ ██████╗ ███████╗
+#  ██╔══██╗     ██║██╔════╝╚══██╔══╝    ██╔════╝╚══██╔══╝██╔═══██╗██╔══██╗██╔════╝
+#  ██║  ██║     ██║█████╗     ██║       ███████╗   ██║   ██║   ██║██████╔╝█████╗  
+#  ██║  ██║██   ██║██╔══╝     ██║       ╚════██║   ██║   ██║   ██║██╔══██╗██╔══╝  
+#  ██████╔╝╚█████╔╝███████╗   ██║       ███████║   ██║   ╚██████╔╝██║  ██║███████╗
+#  ╚═════╝  ╚════╝ ╚══════╝   ╚═╝       ╚══════╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚══════╝
+#                     >>> PERMANENCE BY DESIGN <<<
+# ==============================================================================
+#  DJET SYSTEMS · OFFICIAL TURNKEY CLIENT STORE PROVISIONER CLI v1.2
+#  Architected & Signed by Anas Ghareib (Founder & Lead Security Architect)
+#  Standard: ADR-0004 · Zero-Trust RBAC · Append-Only Immutable Stock Ledger
+# ==============================================================================
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+cd "${REPO_ROOT}"
+
+# Styling & Palette
+BOLD="\033[1m"
+DIM="\033[2m"
+GREEN="\033[0;32m"
+BRIGHT_GREEN="\033[1;32m"
+BLUE="\033[0;34m"
+BRIGHT_BLUE="\033[1;34m"
+YELLOW="\033[0;33m"
+BRIGHT_YELLOW="\033[1;33m"
+CYAN="\033[0;36m"
+BRIGHT_CYAN="\033[1;36m"
+MAGENTA="\033[0;35m"
+BRIGHT_MAGENTA="\033[1;35m"
+RED="\033[0;31m"
+BRIGHT_RED="\033[1;31m"
+WHITE="\033[1;37m"
+RESET="\033[0m"
+
+print_banner() {
+  clear 2>/dev/null || true
+  echo -e "${BRIGHT_CYAN}"
+  cat << "EOF"
+   ____     _ _____ _____   ______ _____ ____  _____  ______ 
+  |  _ \   | | ____|_   _| / _____|_   _/ __ \|  __ \|  ____|
+  | | | |  | | |__   | |  | (___    | || |  | | |__) | |__   
+  | | | |_ | |  __|  | |   \___ \   | || |  | |  _  /|  __|  
+  | |/ /| || | |___  | |   ____) |  | || |__| | | \ \| |____ 
+  |___/  \__/|_____| |_|  |_____/   |_| \____/|_|  \_\______|
+EOF
+  echo -e "${RESET}"
+  echo -e "${BRIGHT_MAGENTA}                  ⚡ PERMANENCE BY DESIGN ⚡${RESET}"
+  echo -e "${DIM}         High-Velocity, Institutional E-Commerce & Supply-Chain Engine${RESET}"
+  echo ""
+  echo -e "${BRIGHT_BLUE} ╔═════════════════════════════════════════════════════════════════════════════╗${RESET}"
+  echo -e "${BRIGHT_BLUE} ║${WHITE}  DJET SYSTEMS · OFFICIAL ARCHITECTURE SPECIFICATION & STAMP                 ${BRIGHT_BLUE}║${RESET}"
+  echo -e "${BRIGHT_BLUE} ║${CYAN}  Signature : 0xDJET-99A4-PERMANENCE-BY-DESIGN                               ${BRIGHT_BLUE}║${RESET}"
+  echo -e "${BRIGHT_BLUE} ║${CYAN}  Architect : Anas Ghareib (Founder & Lead Security Architect)               ${BRIGHT_BLUE}║${RESET}"
+  echo -e "${BRIGHT_BLUE} ║${CYAN}  Standard  : ADR-0004 · Zero-Trust RBAC · Append-Only Stock Ledger          ${BRIGHT_BLUE}║${RESET}"
+  echo -e "${BRIGHT_BLUE} ╚═════════════════════════════════════════════════════════════════════════════╝${RESET}"
+  echo ""
+}
+
+# Default parameters
+PRESET="general"
+STORE_NAME_EN="DJET Client Store"
+STORE_NAME_AR="متجر عميل دجت"
+WHATSAPP_PHONE="201000000000"
+ADMIN_EMAIL="admin@clientstore.djet"
+ADMIN_PASSWORD=""
+DEMO_DATA=true
+IMPORT_SAMPLES=true
+NON_INTERACTIVE=false
+
+# CLI Flag Parsing
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    --preset)
+      PRESET="$2"
+      shift 2
+      ;;
+    --name-en)
+      STORE_NAME_EN="$2"
+      shift 2
+      ;;
+    --name-ar)
+      STORE_NAME_AR="$2"
+      shift 2
+      ;;
+    --whatsapp)
+      WHATSAPP_PHONE="$2"
+      shift 2
+      ;;
+    --admin-email)
+      ADMIN_EMAIL="$2"
+      shift 2
+      ;;
+    --admin-password)
+      ADMIN_PASSWORD="$2"
+      shift 2
+      ;;
+    --no-demo)
+      DEMO_DATA=false
+      shift
+      ;;
+    --no-samples)
+      IMPORT_SAMPLES=false
+      shift
+      ;;
+    --non-interactive|-y)
+      NON_INTERACTIVE=true
+      shift
+      ;;
+    --help|-h)
+      print_banner
+      echo -e "${WHITE}Usage:${RESET} ${BRIGHT_CYAN}bin/setup-store${RESET} [options]"
+      echo ""
+      echo -e "${BOLD}Options:${RESET}"
+      echo -e "  ${BRIGHT_GREEN}--preset <name>${RESET}        Vertical preset: general, electronics, clothing, food, minimarket"
+      echo -e "  ${BRIGHT_GREEN}--name-en <name>${RESET}       Store title in English"
+      echo -e "  ${BRIGHT_GREEN}--name-ar <name>${RESET}       Store title in Arabic"
+      echo -e "  ${BRIGHT_GREEN}--whatsapp <number>${RESET}    WhatsApp customer care phone (e.g. 201000000000)"
+      echo -e "  ${BRIGHT_GREEN}--admin-email <email>${RESET}  Primary executive staff owner email"
+      echo -e "  ${BRIGHT_GREEN}--admin-password <pw>${RESET}  Primary staff password (auto-generated if omitted)"
+      echo -e "  ${BRIGHT_GREEN}--no-demo${RESET}              Skip seeding vertical starter categories"
+      echo -e "  ${BRIGHT_GREEN}--no-samples${RESET}           Skip importing sample catalog CSV"
+      echo -e "  ${BRIGHT_GREEN}--non-interactive, -y${RESET}  Execute unattended with default/flag values"
+      echo -e "  ${BRIGHT_GREEN}--help, -h${RESET}             Display this technical manual"
+      echo ""
+      exit 0
+      ;;
+    *)
+      echo -e "${RED}Error: Unrecognized parameter '$1'. Run with --help for syntax.${RESET}"
+      exit 1
+      ;;
+  esac
+done
+
+print_banner
+
+# Interactive Interview (only if interactive terminal & not flagged -y)
+if [ "${NON_INTERACTIVE}" = false ] && [ -t 0 ]; then
+  echo -e "${BRIGHT_YELLOW}┌─ [ DEVELOPER INTERACTIVE CONFIGURATION WIZARD ] ────────────────────────────┐${RESET}"
+  echo -e "${BRIGHT_YELLOW}│${RESET} Welcome, DJET Engineer. Let's configure your client's new storefront.       ${BRIGHT_YELLOW}│${RESET}"
+  echo -e "${BRIGHT_YELLOW}│${RESET} Press ${WHITE}[ENTER]${RESET} to accept any smart default shown in brackets.               ${BRIGHT_YELLOW}│${RESET}"
+  echo -e "${BRIGHT_YELLOW}└─────────────────────────────────────────────────────────────────────────────┘${RESET}"
+  echo ""
+
+  # Question 1: Vertical Preset
+  echo -e "${WHITE}${BOLD}Step 1: Choose the Industry Vertical Preset (ADR-0004)${RESET}"
+  echo -e "  ${CYAN}[1] general${RESET}      · General Retail / Department Store (Split hero, trust bar, 1:1 cards)"
+  echo -e "  ${CYAN}[2] electronics${RESET}  · Mobile, Laptops & Tech (IMEI warranty, condition grades, installments)"
+  echo -e "  ${CYAN}[3] clothing${RESET}     · Fashion & Apparel Brand (Editorial hero, 3:4 portrait cards, size chips)"
+  echo -e "  ${CYAN}[4] food${RESET}         · Restaurants & Cloud Kitchens (Arabic RTL, 2-col sticky menu, live status)"
+  echo -e "  ${CYAN}[5] minimarket${RESET}   · Grocery & Quick-Commerce (Aisle pills, kg steppers, basket bottom bar)"
+  read -r -p "  ⚡ Select preset [1-5 or name] (default: ${PRESET}): " INPUT_PRESET
+  case "${INPUT_PRESET}" in
+    1|general) PRESET="general" ;;
+    2|electronics) PRESET="electronics" ;;
+    3|clothing) PRESET="clothing" ;;
+    4|food) PRESET="food" ;;
+    5|minimarket) PRESET="minimarket" ;;
+    "") ;; # keep default
+    *) PRESET="${INPUT_PRESET}" ;;
+  esac
+  echo -e "     ${GREEN}✓ Selected vertical preset:${RESET} ${BRIGHT_GREEN}${PRESET}${RESET}\n"
+
+  # Question 2: Store Titles
+  echo -e "${WHITE}${BOLD}Step 2: Define Client Brand Identity${RESET}"
+  read -r -p "  🏪 Store Title (English) [${STORE_NAME_EN}]: " INPUT_NAME_EN
+  STORE_NAME_EN="${INPUT_NAME_EN:-$STORE_NAME_EN}"
+  read -r -p "  🇪🇬 Store Title (Arabic) [${STORE_NAME_AR}]: " INPUT_NAME_AR
+  STORE_NAME_AR="${INPUT_NAME_AR:-$STORE_NAME_AR}"
+  read -r -p "  💬 WhatsApp Care Phone [${WHATSAPP_PHONE}]: " INPUT_WHATSAPP
+  WHATSAPP_PHONE="${INPUT_WHATSAPP:-$WHATSAPP_PHONE}"
+  echo -e "     ${GREEN}✓ Configured brand profile:${RESET} ${WHITE}${STORE_NAME_EN} / ${STORE_NAME_AR}${RESET}\n"
+
+  # Question 3: Staff Executive Account
+  echo -e "${WHITE}${BOLD}Step 3: Executive Staff Owner Account (Zero-Trust RBAC)${RESET}"
+  read -r -p "  👤 Primary Staff Email [${ADMIN_EMAIL}]: " INPUT_EMAIL
+  ADMIN_EMAIL="${INPUT_EMAIL:-$ADMIN_EMAIL}"
+  read -r -s -p "  🔑 Initial Owner Password (leave blank to auto-generate): " INPUT_PASS
+  echo ""
+  ADMIN_PASSWORD="${INPUT_PASS:-}"
+  echo -e "     ${GREEN}✓ Owner email targeted:${RESET} ${WHITE}${ADMIN_EMAIL}${RESET}\n"
+
+  # Question 4: Data Seeding
+  echo -e "${WHITE}${BOLD}Step 4: Starter Data & Sample Catalog${RESET}"
+  read -r -p "  📦 Seed vertical category hierarchy? [Y/n]: " INPUT_DEMO
+  case "${INPUT_DEMO}" in
+    [nN]*) DEMO_DATA=false ;;
+    *) DEMO_DATA=true ;;
+  esac
+  read -r -p "  🏷️  Import starter product catalog (samples/products_import.csv)? [Y/n]: " INPUT_SAMPLES
+  case "${INPUT_SAMPLES}" in
+    [nN]*) IMPORT_SAMPLES=false ;;
+    *) IMPORT_SAMPLES=true ;;
+  esac
+  echo ""
+fi
+
+# Toolchain Validation
+echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${RESET}"
+echo -e "${WHITE}${BOLD}🚀 INITIATING AUTOMATED STORE PROVISIONING ENGINE${RESET}"
+echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${RESET}"
+
+if command -v uv &> /dev/null; then
+  RUNNER="uv run python"
+  echo -e "  ${GREEN}[✓] Toolchain Detected:${RESET} Astral ${BRIGHT_CYAN}uv${RESET} fast Python package runner"
+else
+  RUNNER="python3"
+  echo -e "  ${YELLOW}[!] Warning:${RESET} 'uv' not found in PATH; falling back to system ${YELLOW}python3${RESET}"
+fi
+
+# Step 1: Cryptographic Secrets & Environment
+echo -e "\n${BRIGHT_BLUE}▶ [Step 1/6] Cryptographic Key Fabrication & Environment Setup${RESET}"
+if [ ! -f .env ]; then
+  SECRET_KEY=$(python3 -c "import secrets; print(secrets.token_urlsafe(64))")
+  ENC_KEY=$(python3 -c "import secrets, base64; print(base64.urlsafe_b64encode(secrets.token_bytes(32)).decode())")
+  DB_PASS=$(python3 -c "import secrets; print(secrets.token_urlsafe(16))")
+
+  if [ -f .env.example ]; then
+    cp .env.example .env
+    sed -i "s|DJANGO_SECRET_KEY=.*|DJANGO_SECRET_KEY=${SECRET_KEY}|" .env
+    sed -i "s|ENCRYPTION_KEY=.*|ENCRYPTION_KEY=${ENC_KEY}|" .env
+  else
+    cat <<EOF > .env
+DJANGO_SECRET_KEY=${SECRET_KEY}
+ENCRYPTION_KEY=${ENC_KEY}
+DJANGO_ENV=development
+DJANGO_DEBUG=True
+DATABASE_URL=postgresql://djet_user:${DB_PASS}@localhost:5432/djet_store
+CORS_ALLOWED_ORIGINS=http://localhost:8000,http://127.0.0.1:8000
+STORE_NAME_EN="${STORE_NAME_EN}"
+STORE_NAME_AR="${STORE_NAME_AR}"
+EOF
+  fi
+  chmod 0600 .env
+  echo -e "  ${GREEN}[✓] Generated:${RESET} 64-char URL-safe Django Secret Key"
+  echo -e "  ${GREEN}[✓] Generated:${RESET} 256-bit AES-GCM Vault Encryption Key (Zero-leak permissions 0600)"
+else
+  echo -e "  ${GREEN}[✓] Existing Configuration:${RESET} Found valid .env environment file"
+fi
+
+# Step 2: Database Schema & Partitions
+echo -e "\n${BRIGHT_BLUE}▶ [Step 2/6] Compiling Relational Schema & Partitioned Tables${RESET}"
+echo -e "  ${DIM}Applying PostgreSQL schema migrations, partial unique indexes & ledger triggers...${RESET}"
+${RUNNER} manage.py migrate --noinput
+echo -e "  ${GREEN}[✓] Schema Ready:${RESET} Core, Catalog, Inventory Ledger, RBAC & Storefront tables compiled."
+
+# Step 3: Zero-Trust RBAC Privilege Matrix
+echo -e "\n${BRIGHT_BLUE}▶ [Step 3/6] Seeding Institutional Zero-Trust RBAC Roles${RESET}"
+echo -e "  ${DIM}Initializing least-privilege matrix: Owner, Manager, Cashier, Accountant, Warehouse, Support...${RESET}"
+${RUNNER} manage.py seed_roles
+echo -e "  ${GREEN}[✓] RBAC Initialized:${RESET} 6 Institutional roles seeded with deny-by-default capabilities."
+
+# Step 4: Vertical Preset Engine Activation
+echo -e "\n${BRIGHT_BLUE}▶ [Step 4/6] Synthesizing Vertical Preset '${PRESET}'${RESET}"
+DEMO_FLAG=""
+if [ "${DEMO_DATA}" = true ]; then
+  DEMO_FLAG="--demo-data"
+  echo -e "  ${DIM}Injecting design tokens, layout templates, and starter category hierarchy...${RESET}"
+else
+  echo -e "  ${DIM}Injecting design tokens and section templates (skipping category seeding)...${RESET}"
+fi
+${RUNNER} manage.py apply_preset "${PRESET}" ${DEMO_FLAG}
+echo -e "  ${GREEN}[✓] Preset Applied:${RESET} CSS custom properties injected & modular sections configured."
+
+# Step 5: Catalog CSV Import & Ledger Isolation
+echo -e "\n${BRIGHT_BLUE}▶ [Step 5/6] Ingesting Catalog & Verifying Ledger Isolation${RESET}"
+if [ "${IMPORT_SAMPLES}" = true ] && [ -f samples/products_import.csv ]; then
+  echo -e "  ${DIM}Parsing products, variants, barcode mappings & unit steps from samples/products_import.csv...${RESET}"
+  ${RUNNER} manage.py import_products samples/products_import.csv
+  echo -e "  ${GREEN}[✓] Catalog Loaded:${RESET} Verified zero phantom entries on physical StockMovement ledger."
+else
+  echo -e "  ${YELLOW}[i] Skipped:${RESET} Starter product CSV import was not requested."
+fi
+
+# Step 6: Store Settings & Executive Staff Account
+echo -e "\n${BRIGHT_BLUE}▶ [Step 6/6] Finalizing Brand Profiles & Provisioning Staff Owner${RESET}"
+
+# Generate password if not provided
+if [ -z "${ADMIN_PASSWORD}" ]; then
+  ADMIN_PASSWORD=$(python3 -c "import secrets; print(secrets.token_urlsafe(14))")
+  AUTO_GENERATED_PW=true
+else
+  AUTO_GENERATED_PW=false
+fi
+
+${RUNNER} manage.py shell -c "
+from apps.core.models import StoreSettings, StaffUser, Role
+
+# 1. Update Store Settings
+s = StoreSettings.get_settings()
+s.store_name_en = '${STORE_NAME_EN}'
+s.store_name_ar = '${STORE_NAME_AR}'
+s.whatsapp_number = '${WHATSAPP_PHONE}'
+s.save()
+
+# 2. Provision Executive Owner User
+email = '${ADMIN_EMAIL}'.strip().lower()
+owner_role = Role.objects.filter(name='Owner').first()
+user, created = StaffUser.objects.get_or_create(
+    username=email,
+    defaults={'email': email, 'is_staff': True, 'is_superuser': True}
+)
+user.set_password('${ADMIN_PASSWORD}')
+user.is_staff = True
+user.is_superuser = True
+if owner_role:
+    user.role = owner_role
+user.save()
+"
+echo -e "  ${GREEN}[✓] Brand Profile:${RESET} Saved ${STORE_NAME_EN} (${STORE_NAME_AR})"
+echo -e "  ${GREEN}[✓] Executive Account:${RESET} Provisioned staff owner ${ADMIN_EMAIL}"
+
+# Completion Cockpit
+echo ""
+echo -e "${BRIGHT_GREEN}╔═════════════════════════════════════════════════════════════════════════════╗${RESET}"
+echo -e "${BRIGHT_GREEN}║${WHITE}${BOLD}    🎉 CLIENT STORE PROVISIONED SUCCESSFULLY — READY FOR DEPLOYMENT!         ${BRIGHT_GREEN}║${RESET}"
+echo -e "${BRIGHT_GREEN}╚═════════════════════════════════════════════════════════════════════════════╝${RESET}"
+echo ""
+echo -e "${BOLD}STOREFRONT PROFILE:${RESET}"
+echo -e "  • ${CYAN}Brand Name (EN):${RESET}      ${WHITE}${STORE_NAME_EN}${RESET}"
+echo -e "  • ${CYAN}Brand Name (AR):${RESET}      ${WHITE}${STORE_NAME_AR}${RESET}"
+echo -e "  • ${CYAN}Active Preset:${RESET}        ${BRIGHT_YELLOW}${PRESET}${RESET} (ADR-0004 Polymorphic)"
+echo -e "  • ${CYAN}WhatsApp Care:${RESET}        ${WHITE}+${WHATSAPP_PHONE}${RESET}"
+echo ""
+echo -e "${BOLD}EXECUTIVE STAFF CREDENTIALS:${RESET}"
+echo -e "  • ${CYAN}Login URL:${RESET}            ${BRIGHT_CYAN}http://localhost:8000/staff/${RESET}"
+echo -e "  • ${CYAN}Username / Email:${RESET}     ${WHITE}${ADMIN_EMAIL}${RESET}"
+if [ "${AUTO_GENERATED_PW}" = true ]; then
+  echo -e "  • ${CYAN}Auto-generated Pass:${RESET}  ${BRIGHT_GREEN}${ADMIN_PASSWORD}${RESET} (Record safely; configure 2FA on login)"
+else
+  echo -e "  • ${CYAN}Password:${RESET}             ${DIM}[Supplied by developer]${RESET}"
+fi
+echo ""
+echo -e "${BOLD}LIVE RUNTIME ENDPOINTS:${RESET}"
+echo -e "  • ${CYAN}Customer Storefront:${RESET}  ${WHITE}http://localhost:8000/${RESET}"
+echo -e "  • ${CYAN}Staff Dashboard:${RESET}      ${WHITE}http://localhost:8000/staff/${RESET}"
+echo -e "  • ${CYAN}Warranty Verification:${RESET} ${WHITE}http://localhost:8000/warranty-check/${RESET}"
+echo -e "  • ${CYAN}Order Shipment Track:${RESET}  ${WHITE}http://localhost:8000/track/${RESET}"
+echo ""
+echo -e "${BOLD}LIVE PREVIEW THEMES FOR CLIENT SALES DEMOS:${RESET}"
+echo -e "  • 📱 ${CYAN}Electronics & Tech:${RESET}   http://localhost:8000/?preset=electronics"
+echo -e "  • 👗 ${CYAN}Clothing & Apparel:${RESET}   http://localhost:8000/?preset=clothing"
+echo -e "  • 🍔 ${CYAN}Food & Restaurants:${RESET}   http://localhost:8000/?preset=food"
+echo -e "  • 🛒 ${CYAN}Groceries & Market:${RESET}   http://localhost:8000/?preset=minimarket"
+echo ""
+echo -e "${BOLD}DEVELOPER LAUNCH COMMANDS:${RESET}"
+echo -e "  ${WHITE}Run Server:${RESET}             ${BRIGHT_GREEN}bin/dev${RESET} (or ${DIM}uv run python manage.py runserver 0.0.0.0:8000${RESET})"
+echo -e "  ${WHITE}Run 8 Quality Gates:${RESET}    ${BRIGHT_GREEN}bin/check${RESET}"
+echo -e "  ${WHITE}Production Docker:${RESET}      ${BRIGHT_GREEN}docker compose -f deploy/compose.yml --env-file .env up -d --build${RESET}"
+echo ""
+echo -e "${BRIGHT_BLUE}═══════════════════════════════════════════════════════════════════════════════${RESET}"
+echo -e "${DIM}  DJET Systems · Permanence by Design · Architected & Signed by Anas Ghareib   ${RESET}"
+echo -e "${BRIGHT_BLUE}═══════════════════════════════════════════════════════════════════════════════${RESET}"

@@ -1,0 +1,33 @@
+{% extends "dashboard/base.html" %}
+{% load i18n %}
+
+{% block page_title %}{% trans "Store Settings" %}{% endblock %}
+
+{% block content %}
+<div class="djet-card">
+  <div class="djet-card-header">
+    <h2 class="djet-card-title">⚙️ {% trans "Store Configuration & Policies" %}</h2>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+    <div style="border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem;">
+      <h3 style="margin-top: 0; font-size: 1rem;">{% trans "Localization & Currency" %}</h3>
+      <p style="font-size: 0.85rem; color: var(--text-muted);">
+        <strong>{% trans "Primary Currency:" %}</strong> EGP (Egyptian Pound / الجنيه المصري)<br>
+        <strong>{% trans "Languages:" %}</strong> Arabic (العربية - RTL), English (LTR)<br>
+        <strong>{% trans "Time Zone:" %}</strong> Africa/Cairo (UTC+2)
+      </p>
+    </div>
+
+    <div style="border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem;">
+      <h3 style="margin-top: 0; font-size: 1rem;">{% trans "Security Invariants" %}</h3>
+      <p style="font-size: 0.85rem; color: var(--text-muted);">
+        <strong>{% trans "Password Hasher:" %}</strong> Argon2id<br>
+        <strong>{% trans "Min Password Length:" %}</strong> 12 characters<br>
+        <strong>{% trans "Lockout Policy:" %}</strong> 5 failed attempts → 15 min lock<br>
+        <strong>{% trans "Mandatory 2FA:" %}</strong> Owner, Manager
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

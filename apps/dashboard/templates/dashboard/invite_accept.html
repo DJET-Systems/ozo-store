@@ -1,0 +1,59 @@
+{% load static i18n %}
+<!doctype html>
+{% get_current_language as CURRENT_LANG %}
+<html lang="{{ CURRENT_LANG|default:'ar' }}" dir="{% if CURRENT_LANG == 'en' %}ltr{% else %}rtl{% endif %}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% trans "Accept Staff Invitation" %} — DJET Store</title>
+  <link rel="stylesheet" href="{% static 'dashboard/base.css' %}">
+</head>
+<body>
+  <div class="djet-auth-shell">
+    <div class="djet-auth-box" style="max-width: 480px;">
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <h1 style="color: var(--accent); margin: 0 0 0.5rem 0; font-size: 1.5rem;">DJET STORE</h1>
+        <p style="color: var(--text-muted); margin: 0; font-size: 0.875rem;">
+          {% blocktrans with email=invite.email role=invite.role.name %}
+            Welcome! Set up your staff account for <strong>{{ email }}</strong> with role <strong>{{ role }}</strong>.
+          {% endblocktrans %}
+        </p>
+      </div>
+
+      {% if error_message %}
+        <div class="djet-alert djet-alert-error" role="alert">
+          {{ error_message }}
+        </div>
+      {% endif %}
+
+      <form method="post">
+        {% csrf_token %}
+        <div style="margin-bottom: 1.25rem;">
+          <label for="id_username" style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">
+            {% trans "Choose Username" %}
+          </label>
+          <input type="text" name="username" id="id_username" required autofocus class="djet-input" autocomplete="username">
+        </div>
+
+        <div style="margin-bottom: 1.25rem;">
+          <label for="id_password" style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">
+            {% trans "Password (minimum 12 characters)" %}
+          </label>
+          <input type="password" name="password" id="id_password" required minlength="12" class="djet-input" autocomplete="new-password">
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+          <label for="id_confirm_password" style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">
+            {% trans "Confirm Password" %}
+          </label>
+          <input type="password" name="confirm_password" id="id_confirm_password" required minlength="12" class="djet-input" autocomplete="new-password">
+        </div>
+
+        <button type="submit" class="djet-btn djet-btn-primary" style="width: 100%; padding: 0.75rem;">
+          {% trans "Activate Account" %}
+        </button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

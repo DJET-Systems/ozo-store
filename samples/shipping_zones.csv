@@ -1,0 +1,8 @@
+zone_code,zone_name,governorate,base_fee_egp,per_extra_kg_egp,free_over_egp,eta_days_min,eta_days_max
+Z1,Greater Cairo,Cairo,50.00,5.00,2000.00,1,2
+Z1,Greater Cairo,Giza,50.00,5.00,2000.00,1,2
+Z2,Alexandria and Delta,Alexandria,65.00,7.00,2500.00,2,3
+Z2,Alexandria and Delta,Gharbia,65.00,7.00,2500.00,2,3
+Z3,Canal and Sinai,Port Said,75.00,8.00,3000.00,2,4
+Z4,Upper Egypt,Assiut,90.00,10.00,3500.00,3,5
+Z4,Upper Egypt,Aswan,95.00,10.00,3500.00,3,6

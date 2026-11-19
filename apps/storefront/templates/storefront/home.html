@@ -1,0 +1,47 @@
+{% extends "storefront/base.html" %}
+{% load i18n %}
+
+{% block title %}
+  {% if CURRENT_LANG == 'en' %}{{ settings.store_name_en }}{% else %}{{ settings.store_name_ar }}{% endif %}
+{% endblock %}
+
+{% block content %}
+  {% for section in sections %}
+    {% if section.type == 'hero_split' %}
+      {% include "storefront/sections/hero_split.html" %}
+    {% elif section.type == 'hero_editorial_overlay' %}
+      {% include "storefront/sections/hero_editorial_overlay.html" %}
+    {% elif section.type == 'hero_cover_status' %}
+      {% include "storefront/sections/hero_cover_status.html" %}
+    {% elif section.type == 'search_bar_prominent' %}
+      {% include "storefront/sections/search_bar_prominent.html" %}
+    {% elif section.type == 'trust_bar' %}
+      {% include "storefront/sections/trust_bar.html" %}
+    {% elif section.type == 'category_tiles' %}
+      {% include "storefront/sections/category_tiles.html" %}
+    {% elif section.type == 'product_collection' %}
+      {% include "storefront/sections/product_collection.html" %}
+    {% elif section.type == 'imei_and_installments' %}
+      {% include "storefront/sections/imei_and_installments.html" %}
+    {% elif section.type == 'branches_grid' %}
+      {% include "storefront/sections/branches_grid.html" %}
+    {% elif section.type == 'menu_with_sidebar' %}
+      {% include "storefront/sections/menu_with_sidebar.html" %}
+    {% elif section.type == 'promo_banner' %}
+      {% include "storefront/sections/promo_banner.html" %}
+    {% elif section.type == 'order_tracker_inline' %}
+      {% include "storefront/sections/order_tracker_inline.html" %}
+    {% elif section.type == 'buy_it_again_banner' %}
+      {% include "storefront/sections/buy_it_again_banner.html" %}
+    {% elif section.type == 'basket_bottom_bar' %}
+      {% include "storefront/sections/basket_bottom_bar.html" %}
+    {% endif %}
+  {% empty %}
+    <section class="djet-hero-split">
+      <div>
+        <h1 class="djet-hero-title">{{ settings.store_name_ar }}</h1>
+        <p class="djet-hero-subtitle">{% trans "Welcome to our store. Catalog items will appear here once loaded." %}</p>
+      </div>
+    </section>
+  {% endfor %}
+{% endblock %}

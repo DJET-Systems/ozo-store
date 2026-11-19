@@ -1,0 +1,130 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "djet-store"
+version = "0.2.0"
+description = "DJET Store — self-hostable e-commerce and supply-chain template by DJET Systems"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "Django==6.1.3",
+    "psycopg[binary]>=3.2,<4.0",
+    "gunicorn>=23.0,<24.0",
+    "procrastinate>=2.15,<4.0",
+    "argon2-cffi>=23.1,<26.0",
+    "cryptography>=50.0,<52.0",
+    "phonenumbers>=8.13,<10.0",
+    "pyyaml>=6.0,<7.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3,<10.0",
+    "pytest-django>=4.9,<5.0",
+    "hypothesis>=6.115,<7.0",
+    "ruff>=0.8,<1.0",
+    "mypy>=1.13,<2.0",
+    "django-stubs[compatible-mypy]>=5.1,<6.0",
+    "types-PyYAML>=6.0",
+    "import-linter>=2.1,<3.0",
+    "bandit[toml]>=1.8,<2.0",
+    "pip-audit>=2.7,<3.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["apps", "config", "djet_store"]
+
+[tool.ruff]
+target-version = "py313"
+line-length = 100
+extend-exclude = [
+    "*/migrations/*",
+    "docs/ui-references/*",
+    "*.md",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "S", "DJ", "SIM", "RUF"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["S101", "S105", "S106"]
+"docs/benchmarks/**/*.py" = ["S603", "S607"]
+
+[tool.mypy]
+python_version = "3.13"
+plugins = ["mypy_django_plugin.main"]
+exclude = ["^docs/ui-references/", "^docs/benchmarks/"]
+
+[[tool.mypy.overrides]]
+module = [
+    "apps.core.*",
+    "apps.inventory.*",
+    "apps.orders.*",
+    "apps.payments.*",
+]
+strict = true
+
+[[tool.mypy.overrides]]
+module = ["procrastinate.*", "importlinter.*"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["tests.*"]
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+
+[tool.django-stubs]
+django_settings_module = "config.settings.test"
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings.test"
+python_files = ["test_*.py"]
+testpaths = ["tests"]
+
+[tool.bandit]
+exclude_dirs = ["tests", ".venv", "docs/ui-references"]
+
+[tool.importlinter]
+root_packages = ["apps", "config"]
+
+[[tool.importlinter.contracts]]
+name = "Core apps must never import addons"
+type = "forbidden"
+source_modules = [
+    "apps.core",
+    "apps.catalog",
+    "apps.inventory",
+    "apps.customers",
+    "apps.orders",
+    "apps.payments",
+    "apps.shipping",
+    "apps.purchasing",
+    "apps.notifications",
+    "apps.reports",
+    "apps.dashboard",
+    "apps.storefront",
+    "apps.presets",
+]
+forbidden_modules = ["apps.addons"]
+
+[[tool.importlinter.contracts]]
+name = "Domain module dependency layers"
+type = "layers"
+layers = [
+    "apps.addons",
+    "apps.dashboard",
+    "apps.storefront",
+    "apps.presets",
+    "apps.reports",
+    "apps.notifications",
+    "apps.purchasing",
+    "apps.shipping",
+    "apps.payments",
+    "apps.orders",
+    "apps.customers",
+    "apps.inventory",
+    "apps.catalog",
+    "apps.core",
+]

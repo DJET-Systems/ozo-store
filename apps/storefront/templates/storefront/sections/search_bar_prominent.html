@@ -1,0 +1,14 @@
+{% load i18n %}
+<section class="djet-search-bar-prominent">
+  <form action="{% url 'storefront-home' %}" method="get">
+    <div class="djet-search-input-wrap">
+      <span style="font-size: 1.25rem; padding-inline: 0.5rem;">🔍</span>
+      <input type="search" name="q" class="djet-search-input"
+             placeholder="{% if CURRENT_LANG == 'en' %}{{ section.placeholder_en }}{% else %}{{ section.placeholder_ar }}{% endif %}"
+             value="{{ request.GET.q|default:'' }}">
+      <button type="submit" class="djet-btn djet-btn-primary" style="padding: 0.65rem 1.25rem;">
+        {% trans "Search" %}
+      </button>
+    </div>
+  </form>
+</section>

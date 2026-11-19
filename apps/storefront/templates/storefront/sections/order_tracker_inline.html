@@ -1,0 +1,19 @@
+{% load i18n %}
+<section style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-card); padding: 2rem; margin-block: 2.5rem;">
+  <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1.5rem;">
+    <div>
+      <h2 style="font-size: 1.35rem; font-weight: 800; margin: 0 0 0.5rem; color: var(--text);">
+        📦 {% trans "Track Your Order" %}
+      </h2>
+      <p style="margin: 0; color: var(--text-muted); font-size: 0.95rem;">
+        {% trans "Already placed an order? Enter your order number and phone to get live status." %}
+      </p>
+    </div>
+    <form action="{% url 'storefront-order-track' %}" method="get" style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+      <input type="text" name="order_ref" placeholder="{% trans 'Order Ref (e.g. ORD-1001)' %}" class="djet-form-input" style="width: auto; min-width: 200px;">
+      <button type="submit" class="djet-btn djet-btn-primary">
+        {% trans "Track" %}
+      </button>
+    </form>
+  </div>
+</section>

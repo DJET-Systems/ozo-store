@@ -1,0 +1,13 @@
+product_handle,sku,barcode,title_en,title_ar,category_path,brand,condition,unit,unit_step,tracking_mode,price_egp,compare_at_price_egp,cost_egp,weight_g,option1_name,option1_value,option2_name,option2_value,warranty_months,status,reorder_point,reorder_quantity
+acme-a1-phone,PH-ACME-A1-128-BLK,6221000000011,Acme A1 Phone 128GB Black,هاتف أكمي A1 سعة 128 جيجا أسود,Mobile & Tablet > Mobile Phones,Acme,new,piece,1,serial,9999.00,10999.00,8700.00,190,Storage,128GB,Colour,Black,12,active,3,10
+acme-a1-phone,PH-ACME-A1-128-BLU,6221000000028,Acme A1 Phone 128GB Blue,هاتف أكمي A1 سعة 128 جيجا أزرق,Mobile & Tablet > Mobile Phones,Acme,new,piece,1,serial,9999.00,10999.00,8700.00,190,Storage,128GB,Colour,Blue,12,active,3,10
+acme-a1-phone,PH-ACME-A1-256-BLK,6221000000035,Acme A1 Phone 256GB Black,هاتف أكمي A1 سعة 256 جيجا أسود,Mobile & Tablet > Mobile Phones,Acme,new,piece,1,serial,11499.00,,10000.00,190,Storage,256GB,Colour,Black,12,active,2,8
+nova-14-laptop-usedb,LT-NOVA-14-USEDB,6221000000042,Nova 14 Laptop (Used Grade B),لاب توب نوفا 14 مستعمل درجة ب,Computer > Used Laptops,Nova,used_b,piece,1,serial,14500.00,,11800.00,1600,,,,,3,active,1,2
+usbc-cable-1m,AC-CBL-USBC-1M,6221000000059,USB-C Cable 1m,كابل يو إس بي تايب سي 1 متر,Mobile & Tablet > Accessories > Charger Cables,Linko,new,piece,1,none,120.00,150.00,55.00,40,Length,1m,,,6,active,20,100
+acme-a1-clear-case,AC-CASE-A1-CLR,6221000000066,Acme A1 Clear Case,جراب شفاف لهاتف أكمي A1,Mobile & Tablet > Accessories > Cases & Covers,Linko,new,piece,1,none,180.00,,70.00,35,,,,,0,active,15,60
+rj45-cat6-100,NW-RJ45-CAT6-100,6221000000073,RJ45 Cat6 Connectors (100 pcs),رؤوس RJ45 كات 6 (100 قطعة),Network > Network Accessories,Netix,new,pack,1,none,175.00,,110.00,300,,,,,0,active,5,20
+basic-cotton-tshirt,TS-BASIC-WHT-S,6221000000080,Basic Cotton T-Shirt White S,تيشيرت قطن أساسي أبيض مقاس S,Clothing > T-Shirts,Dar Wear,new,piece,1,none,350.00,,140.00,180,Size,S,Colour,White,0,active,10,40
+basic-cotton-tshirt,TS-BASIC-WHT-M,6221000000097,Basic Cotton T-Shirt White M,تيشيرت قطن أساسي أبيض مقاس M,Clothing > T-Shirts,Dar Wear,new,piece,1,none,350.00,,140.00,190,Size,M,Colour,White,0,active,10,40
+basic-cotton-tshirt,TS-BASIC-BLK-M,6221000000103,Basic Cotton T-Shirt Black M,تيشيرت قطن أساسي أسود مقاس M,Clothing > T-Shirts,Dar Wear,new,piece,1,none,350.00,,140.00,190,Size,M,Colour,Black,0,active,10,40
+roumi-cheese-kg,FD-CHEESE-ROUMI-KG,6221000000110,Roumi Cheese (per kg),جبنة رومي (بالكيلو),Grocery > Dairy,Local Farm,new,kg,0.25,batch,420.00,,310.00,1000,,,,,0,active,5,20
+sunflower-oil-1l,FD-OIL-SUN-1L,6221000000127,Sunflower Oil 1L,زيت عباد الشمس 1 لتر,Grocery > Oils,Golden Field,new,piece,1,batch,95.00,,78.00,920,,,,,0,active,24,120

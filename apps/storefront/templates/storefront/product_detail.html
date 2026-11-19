@@ -1,0 +1,137 @@
+{% extends "storefront/base.html" %}
+{% load i18n %}
+
+{% block title %}
+  {% if CURRENT_LANG == 'en' %}{{ product.title_en }}{% else %}{{ product.title_ar }}{% endif %} — {{ settings.store_name_ar }}
+{% endblock %}
+
+{% block content %}
+<div class="djet-detail-layout">
+  <!-- Media Gallery -->
+  <div class="djet-detail-gallery">
+    {% if product.image_url %}
+      <img src="{{ product.image_url }}" alt="{{ product.title_en }}" style="max-width: 100%; max-height: 480px; object-fit: contain;">
+    {% else %}
+      <div style="font-size: 6rem;">📦</div>
+    {% endif %}
+  </div>
+
+  <!-- Product Specifications & Purchase Form -->
+  <div class="djet-detail-info">
+    <div>
+      {% if product.primary_brand %}
+        <span style="font-size: 0.85rem; font-weight: 700; text-transform: uppercase; color: var(--accent); letter-spacing: 0.05em;">
+          {{ product.primary_brand }}
+        </span>
+      {% endif %}
+
+      <h1 style="font-size: 2.25rem; font-weight: 800; margin: 0.35rem 0 0.75rem; color: var(--text); line-height: 1.2;">
+        {% if CURRENT_LANG == 'en' %}{{ product.title_en }}{% else %}{{ product.title_ar }}{% endif %}
+      </h1>
+
+      {% if selected_variant and selected_variant.condition %}
+        <div style="margin-block-end: 1rem;">
+          <span class="djet-condition-badge djet-condition-{{ selected_variant.condition }}">
+            {{ selected_variant.get_condition_display }}
+          </span>
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Pricing Row -->
+    <div style="padding-block: 1rem; border-block: 1px solid var(--border);">
+      <div style="display: flex; align-items: baseline; gap: 1rem;">
+        {% if selected_variant %}
+          <span style="font-size: 2rem; font-weight: 800; color: var(--text);">
+            {{ selected_variant.price.formatted }}
+          </span>
+          {% if selected_variant.compare_at_price %}
+            <del style="color: var(--text-muted); font-size: 1.25rem;">
+              {{ selected_variant.compare_at_price.formatted }}
+            </del>
+          {% endif %}
+        {% else %}
+          <span style="font-size: 1.5rem; font-weight: 700;">{% trans "Inquire for price" %}</span>
+        {% endif %}
+      </div>
+
+      {% if installment_egp %}
+        <div style="margin-block-start: 0.5rem; font-size: 0.9rem; color: var(--text-muted);">
+          💳 {% blocktrans with inst=installment_egp %}Estimated installments: from <strong>{{ inst }} EGP/mo</strong> over 12 months.{% endblocktrans %}
+        </div>
+      {% endif %}
+
+      {% if selected_variant and selected_variant.warranty_months > 0 %}
+        <div style="margin-block-start: 0.5rem; font-size: 0.9rem; color: var(--accent); font-weight: 600;">
+          🛡️ {% blocktrans with months=selected_variant.warranty_months %}{{ months }} Months Official Warranty Included{% endblocktrans %}
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Purchase Form -->
+    {% if selected_variant %}
+      <form action="{% url 'storefront-cart-add' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="sku" value="{{ selected_variant.sku }}">
+        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+
+        {% if variants|length > 1 %}
+          <div class="djet-form-group">
+            <label class="djet-form-label">{% trans "Choose Variant / Specification:" %}</label>
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+              {% for v in variants %}
+                <span class="djet-size-chip {% if v == selected_variant %}active{% endif %}" style="padding: 0.5rem 0.85rem;">
+                  {{ v.title_en|default:v.sku }} ({{ v.price.formatted }})
+                </span>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+
+        <div style="display: flex; gap: 1rem; align-items: center; margin-block-start: 1.5rem;">
+          <div class="djet-qty-stepper">
+            <input type="number" name="quantity" value="1" min="1" max="99" class="djet-qty-input" aria-label="{% trans 'Quantity' %}">
+          </div>
+
+          <button type="submit" class="djet-btn djet-btn-primary" style="flex: 1; padding: 0.85rem 1.5rem; font-size: 1.05rem;">
+            🛒 {{ preset.cart_label|default:_("Add to Cart") }}
+          </button>
+        </div>
+      </form>
+    {% endif %}
+
+    <!-- Secondary Actions -->
+    <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-block-start: 1rem;">
+      {% if whatsapp_link %}
+        <a href="{{ whatsapp_link }}" target="_blank" rel="noopener" class="djet-btn djet-btn-secondary" style="flex: 1; text-align: center;">
+          💬 {% trans "Inquire via WhatsApp" %}
+        </a>
+      {% endif %}
+      <a href="{% url 'storefront-warranty-check' %}" class="djet-btn djet-btn-secondary">
+        🔍 {% trans "Warranty Checker" %}
+      </a>
+    </div>
+
+    <!-- Trust Notes -->
+    <div style="background: var(--surface-alt); border-radius: var(--radius-btn); padding: 1.25rem; font-size: 0.85rem; line-height: 1.6; margin-block-start: 1.5rem;">
+      <div>🚚 <strong>{% trans "Doorstep Delivery:" %}</strong> {% trans "24 to 72 hours across all governorates." %}</div>
+      <div>💵 <strong>{% trans "Cash on Delivery:" %}</strong> {% trans "Pay safely upon physical inspection." %}</div>
+      <div>🔄 <strong>{% trans "Return Guarantee:" %}</strong> {% trans "14-day hassle-free return policy." %}</div>
+    </div>
+
+    <!-- Description -->
+    {% if product.description_en or product.description_ar %}
+      <div style="margin-block-start: 2rem;">
+        <h3 style="font-size: 1.25rem; font-weight: 700; margin: 0 0 0.75rem;">{% trans "Product Overview" %}</h3>
+        <div style="color: var(--text-muted); line-height: 1.7;">
+          {% if CURRENT_LANG == 'en' %}
+            {{ product.description_en|linebreaks }}
+          {% else %}
+            {{ product.description_ar|linebreaks }}
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

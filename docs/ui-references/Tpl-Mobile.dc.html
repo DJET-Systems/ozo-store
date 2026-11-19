@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Mobile and electronics template</title>
+<script src="./vendor/react.js"></script>
+<script src="./vendor/react-dom.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F5F6F8}
+a{color:#0F172A;text-decoration:none}
+a:hover{text-decoration:underline}
+.tile{background:#E0E7FF}
+.t2{background:#E2E8F0}
+.t3{background:#DBEAFE}
+.cnew{background:#0F172A;color:#FFFFFF}
+.cused{background:#FEF3C7;color:#92400E}
+.cref{background:#DBEAFE;color:#1E3A8A}
+</style>
+</helmet>
+<div style="background:#F5F6F8;color:#0F172A;font-family:'Inter',system-ui,sans-serif;line-height:1.5">
+
+<div style="background:#0F172A;color:#E2E8F0;font-size:13px">
+<div style="max-width:1200px;margin:0 auto;padding:8px 24px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px"><span>Hotline [number] · WhatsApp [number]</span><span>Pickup from any branch</span></div>
+</div>
+
+<header style="background:#FFFFFF;border-bottom:1px solid #E2E8F0">
+<div style="max-width:1200px;margin:0 auto;padding:14px 24px;display:flex;flex-wrap:wrap;align-items:center;gap:16px">
+<a href="#" style="display:flex;align-items:center;gap:10px"><span style="width:36px;height:36px;border-radius:8px;background:{{accent}};color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px">M</span><span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:20px">Store name</span></a>
+<form action="#" style="flex:1 1 320px;display:flex;gap:8px;margin:0">
+<label for="q" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Search</label>
+<input id="q" type="search" placeholder="Search phone, model, accessory or IMEI" style="flex:1;min-height:44px;box-sizing:border-box;padding:0 14px;border:1px solid #CBD5E1;border-radius:10px;font:inherit;font-size:15px">
+<button type="submit" aria-label="Search" style="width:44px;height:44px;border:0;border-radius:10px;background:{{accent}};color:#FFFFFF;display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg></button>
+</form>
+<a href="#" style="min-height:44px;display:flex;align-items:center;font-weight:600">Cart (0)</a>
+</div>
+<nav aria-label="Categories" style="border-top:1px solid #E2E8F0"><div style="max-width:1200px;margin:0 auto;padding:0 24px;display:flex;flex-wrap:wrap;gap:4px 24px;font-size:15px">
+<a href="#" style="min-height:44px;display:flex;align-items:center;font-weight:600">Phones</a>
+<a href="#" style="min-height:44px;display:flex;align-items:center">Tablets</a>
+<a href="#" style="min-height:44px;display:flex;align-items:center">Laptops</a>
+<a href="#" style="min-height:44px;display:flex;align-items:center">Accessories</a>
+<a href="#" style="min-height:44px;display:flex;align-items:center">Used and refurbished</a>
+<a href="#" style="min-height:44px;display:flex;align-items:center">Installments</a>
+</div></nav>
+</header>
+
+<section style="background:#0F172A;color:#FFFFFF">
+<div style="max-width:1200px;margin:0 auto;padding:56px 24px;display:flex;flex-wrap:wrap;gap:40px;align-items:center">
+<div style="flex:1 1 420px">
+<p style="margin:0 0 12px;font-size:14px;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;color:#93C5FD">New, used and refurbished</p>
+<h1 style="margin:0 0 16px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:52px;line-height:1.08">Every phone listed with its condition and warranty.</h1>
+<p style="margin:0 0 28px;font-size:18px;color:#CBD5E1;max-width:520px">Compare grades honestly, pay in installments, and check any device by serial number.</p>
+<div style="display:flex;flex-wrap:wrap;gap:12px">
+<a href="#" style="min-height:48px;padding:0 24px;border-radius:10px;background:#FFFFFF;color:#0F172A;font-weight:600;display:flex;align-items:center">Shop phones</a>
+<a href="#" style="min-height:48px;padding:0 24px;border-radius:10px;border:1.5px solid #FFFFFF;color:#FFFFFF;font-weight:600;display:flex;align-items:center">See installment plans</a>
+</div>
+</div>
+<div style="flex:1 1 420px;height:340px;border-radius:16px;background:#1E293B;display:flex;align-items:center;justify-content:center;color:#CBD5E1;font-size:14px">Hero image · 16:9</div>
+</div>
+</section>
+
+<section style="max-width:1200px;margin:0 auto;padding:48px 24px 16px">
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px">
+<h2 style="margin:0;font-family:'Space Grotesk',sans-serif;font-size:30px">Phones</h2>
+<div role="group" aria-label="Condition" style="display:flex;flex-wrap:wrap;gap:8px">
+<a href="#" style="min-height:44px;padding:0 16px;border-radius:999px;background:#0F172A;color:#FFFFFF;display:flex;align-items:center;font-weight:600;font-size:14px">All</a>
+<a href="#" style="min-height:44px;padding:0 16px;border-radius:999px;background:#FFFFFF;border:1px solid #CBD5E1;display:flex;align-items:center;font-size:14px">New</a>
+<a href="#" style="min-height:44px;padding:0 16px;border-radius:999px;background:#FFFFFF;border:1px solid #CBD5E1;display:flex;align-items:center;font-size:14px">Used A</a>
+<a href="#" style="min-height:44px;padding:0 16px;border-radius:999px;background:#FFFFFF;border:1px solid #CBD5E1;display:flex;align-items:center;font-size:14px">Used B</a>
+<a href="#" style="min-height:44px;padding:0 16px;border-radius:999px;background:#FFFFFF;border:1px solid #CBD5E1;display:flex;align-items:center;font-size:14px">Refurbished</a>
+</div>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:24px 20px">
+<sc-for list="{{phones}}" as="p" hint-placeholder-count="8">
+<article style="flex:1 1 230px;background:#FFFFFF;border:1px solid #E2E8F0;border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px">
+<div class="tile {{p.tone}}" style="position:relative;aspect-ratio:1/1;border-radius:8px"><span class="{{p.condClass}}" style="position:absolute;top:10px;left:10px;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:600">{{p.cond}}</span></div>
+<a href="Product.dc.html" style="font-weight:600">{{p.n}}</a>
+<div style="font-size:14px;color:#475569">{{p.spec}}</div>
+<div style="font-weight:700;font-size:18px">{{p.price}}</div>
+<div style="font-size:13px;color:#475569">or {{p.inst}} a month</div>
+<div style="font-size:13px;font-weight:500;color:#1D4ED8">{{p.warranty}}</div>
+<button type="button" style="min-height:44px;border-radius:10px;border:1.5px solid #0F172A;background:#FFFFFF;font:inherit;font-weight:600;cursor:pointer">Add to cart</button>
+</article>
+</sc-for>
+</div>
+</section>
+
+<section style="max-width:1200px;margin:0 auto;padding:40px 24px;display:flex;flex-wrap:wrap;gap:24px">
+<div style="flex:1 1 420px;background:#FFFFFF;border:1px solid #E2E8F0;border-radius:16px;padding:28px">
+<h2 style="margin:0 0 8px;font-family:'Space Grotesk',sans-serif;font-size:26px">Check a device by IMEI or serial</h2>
+<p style="margin:0 0 16px;color:#475569">See the warranty status of anything you bought from us.</p>
+<form action="#" style="display:flex;flex-wrap:wrap;gap:10px;margin:0">
+<label for="imei" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">IMEI or serial</label>
+<input id="imei" type="text" inputmode="numeric" placeholder="15-digit IMEI or serial number" style="flex:1 1 220px;min-height:44px;box-sizing:border-box;padding:0 14px;border:1px solid #CBD5E1;border-radius:10px;font:inherit;font-size:15px">
+<button type="submit" style="min-height:44px;padding:0 24px;border:0;border-radius:10px;background:{{accent}};color:#FFFFFF;font:inherit;font-weight:600">Check</button>
+</form>
+<div style="margin-top:14px;padding:12px 14px;border-radius:10px;background:#F1F5F9;font-size:14px;color:#334155">Result shows: model, sale date, grade and warranty end date. [Sample result appears here]</div>
+</div>
+<div style="flex:1 1 420px;background:#FFFFFF;border:1px solid #E2E8F0;border-radius:16px;padding:28px">
+<h2 style="margin:0 0 8px;font-family:'Space Grotesk',sans-serif;font-size:26px">Pay in installments</h2>
+<p style="margin:0 0 16px;color:#475569">Choose a plan on the product page. Plans come from your store settings.</p>
+<table style="width:100%;border-collapse:collapse;font-size:15px">
+<thead><tr style="text-align:left;color:#475569"><th style="padding:8px 0;font-weight:500">Plan</th><th style="padding:8px 0;font-weight:500">Provider</th><th style="padding:8px 0;font-weight:500">Down payment</th></tr></thead>
+<tbody>
+<tr style="border-top:1px solid #E2E8F0"><td style="padding:10px 0">[6 months]</td><td style="padding:10px 0">[Provider]</td><td style="padding:10px 0">[0%]</td></tr>
+<tr style="border-top:1px solid #E2E8F0"><td style="padding:10px 0">[12 months]</td><td style="padding:10px 0">[Provider]</td><td style="padding:10px 0">[0%]</td></tr>
+<tr style="border-top:1px solid #E2E8F0;border-bottom:1px solid #E2E8F0"><td style="padding:10px 0">[24 months]</td><td style="padding:10px 0">[Provider]</td><td style="padding:10px 0">[0%]</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section style="max-width:1200px;margin:0 auto;padding:16px 24px 56px">
+<h2 style="margin:0 0 20px;font-family:'Space Grotesk',sans-serif;font-size:30px">Our branches</h2>
+<div style="display:flex;flex-wrap:wrap;gap:20px">
+<div style="flex:1 1 300px;background:#FFFFFF;border:1px solid #E2E8F0;border-radius:12px;padding:20px"><div style="font-weight:600">[Branch name]</div><div style="color:#475569;font-size:14px;margin:4px 0 12px">[Address]<br>[Opening hours]</div><a href="#" style="font-weight:600;color:#1D4ED8;font-size:14px">Open in Maps</a></div>
+<div style="flex:1 1 300px;background:#FFFFFF;border:1px solid #E2E8F0;border-radius:12px;padding:20px"><div style="font-weight:600">[Branch name]</div><div style="color:#475569;font-size:14px;margin:4px 0 12px">[Address]<br>[Opening hours]</div><a href="#" style="font-weight:600;color:#1D4ED8;font-size:14px">Open in Maps</a></div>
+<div style="flex:1 1 300px;background:#FFFFFF;border:1px solid #E2E8F0;border-radius:12px;padding:20px"><div style="font-weight:600">[Branch name]</div><div style="color:#475569;font-size:14px;margin:4px 0 12px">[Address]<br>[Opening hours]</div><a href="#" style="font-weight:600;color:#1D4ED8;font-size:14px">Open in Maps</a></div>
+</div>
+</section>
+
+<footer style="background:#0F172A;color:#CBD5E1;font-size:13px">
+<div style="max-width:1200px;margin:0 auto;padding:24px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px"><span>© [Year] Store name</span><span>Cash on delivery · Card · Installments</span><span>Powered by DJET Store</span></div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#1D4ED8","options":["#1D4ED8","#0E6B5C","#B42318","#6D28D9"]},"$preview":{"width":1280,"height":1900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const accent = this.props.accent ?? '#1D4ED8';
+    const w = 'Warranty included';
+    return {
+      accent,
+      phones: [
+        { n: 'Phone A1', spec: '128 GB · 6 GB RAM', cond: 'New', condClass: 'cnew', tone: '', price: 'EGP 18,500', inst: 'EGP 1,540', warranty: w },
+        { n: 'Phone A1', spec: '256 GB · 8 GB RAM', cond: 'New', condClass: 'cnew', tone: 't2', price: 'EGP 21,000', inst: 'EGP 1,750', warranty: w },
+        { n: 'Phone B2', spec: '128 GB · 4 GB RAM', cond: 'Used A', condClass: 'cused', tone: 't3', price: 'EGP 9,800', inst: 'EGP 820', warranty: 'Shop warranty' },
+        { n: 'Phone B2', spec: '64 GB · 4 GB RAM', cond: 'Used B', condClass: 'cused', tone: '', price: 'EGP 7,400', inst: 'EGP 620', warranty: 'Shop warranty' },
+        { n: 'Phone C3', spec: '128 GB · 6 GB RAM', cond: 'Refurbished', condClass: 'cref', tone: 't2', price: 'EGP 12,300', inst: 'EGP 1,030', warranty: 'Shop warranty' },
+        { n: 'Phone C3', spec: '256 GB · 8 GB RAM', cond: 'New', condClass: 'cnew', tone: 't3', price: 'EGP 15,900', inst: 'EGP 1,330', warranty: w },
+        { n: 'Tablet D4', spec: '64 GB · Wi-Fi', cond: 'New', condClass: 'cnew', tone: '', price: 'EGP 8,200', inst: 'EGP 690', warranty: w },
+        { n: 'Phone E5', spec: '128 GB · 8 GB RAM', cond: 'Used A', condClass: 'cused', tone: 't2', price: 'EGP 11,100', inst: 'EGP 930', warranty: 'Shop warranty' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

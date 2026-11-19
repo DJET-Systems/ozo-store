@@ -1,0 +1,35 @@
+{% load i18n %}
+<section id="menu" style="margin-block: 2.5rem;">
+  <div style="margin-block-end: 1.5rem;">
+    <h2 style="font-size: 1.5rem; font-weight: 800; margin: 0 0 0.5rem; color: var(--text);">
+      {% if CURRENT_LANG == 'en' %}{{ section.title_en }}{% else %}{{ section.title_ar }}{% endif %}
+    </h2>
+  </div>
+
+  <div class="djet-menu-layout">
+    <aside class="djet-menu-sidebar">
+      <div style="font-size: 0.85rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-block-end: 0.75rem;">
+        {% trans "Menu Sections" %}
+      </div>
+      <nav>
+        {% for cat in categories %}
+          <a href="{% url 'storefront-category' slug=cat.slug %}" class="djet-menu-nav-item">
+            {% if CURRENT_LANG == 'en' %}{{ cat.name_en }}{% else %}{{ cat.name_ar }}{% endif %}
+          </a>
+        {% empty %}
+          <span class="djet-menu-nav-item active">{% trans "All Dishes" %}</span>
+        {% endfor %}
+      </nav>
+    </aside>
+
+    <div class="djet-product-grid">
+      {% for product in products %}
+        {% include "storefront/sections/product_card.html" with product=product %}
+      {% empty %}
+        <p style="color: var(--text-muted); grid-column: 1 / -1;">
+          {% trans "No items available in the menu today." %}
+        </p>
+      {% endfor %}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,50 @@
+{% extends "dashboard/base.html" %}
+{% load i18n %}
+
+{% block page_title %}{% trans "Operational Reports" %}{% endblock %}
+
+{% block content %}
+<div class="djet-card">
+  <div class="djet-card-header">
+    <h2 class="djet-card-title">📈 {% trans "Sales & Operations Overview" %}</h2>
+  </div>
+
+  <div class="djet-kpi-grid">
+    <div class="djet-kpi-card">
+      <span class="djet-kpi-label">💰 {% trans "Gross Sales" %}</span>
+      <span class="djet-kpi-value">EGP 0.00</span>
+      <span style="font-size: 0.75rem; color: var(--text-muted);">{% trans "Past 30 days" %}</span>
+    </div>
+
+    <div class="djet-kpi-card">
+      <span class="djet-kpi-label">🛍️ {% trans "Total Orders" %}</span>
+      <span class="djet-kpi-value">0</span>
+      <span style="font-size: 0.75rem; color: var(--text-muted);">{% trans "Fulfilled + In-Transit" %}</span>
+    </div>
+
+    {% if can_view_costs %}
+      <div class="djet-kpi-card">
+        <span class="djet-kpi-label">📊 {% trans "Total COGS (Cost of Goods)" %}</span>
+        <span class="djet-kpi-value">EGP 0.00</span>
+        <span style="font-size: 0.75rem; color: var(--success);">{% trans "Privileged: Cost data visible" %}</span>
+      </div>
+
+      <div class="djet-kpi-card">
+        <span class="djet-kpi-label">📈 {% trans "Gross Margin" %}</span>
+        <span class="djet-kpi-value">0.0%</span>
+        <span style="font-size: 0.75rem; color: var(--success);">{% trans "Privileged: Margin visible" %}</span>
+      </div>
+    {% else %}
+      <div class="djet-kpi-card" style="background: var(--surface-alt); border-style: dashed;">
+        <span class="djet-kpi-label">🔒 {% trans "Cost & Profit Margins" %}</span>
+        <span class="djet-kpi-value" style="font-size: 1.1rem; color: var(--text-muted); padding-block: 0.5rem;">
+          {% trans "Restricted Field" %}
+        </span>
+        <span style="font-size: 0.75rem; color: var(--text-muted);">
+          {% trans "Requires 'reports.view_costs' permission" %}
+        </span>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

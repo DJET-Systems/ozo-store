@@ -1,0 +1,16 @@
+{% load i18n %}
+<section class="djet-hero-editorial">
+  <div class="djet-hero-editorial-content">
+    <h1 class="djet-hero-title" style="color: #FFFFFF; font-size: clamp(2rem, 5vw, 3.25rem); margin-block-end: 1rem;">
+      {% if CURRENT_LANG == 'en' %}{{ section.title_en }}{% else %}{{ section.title_ar }}{% endif %}
+    </h1>
+    <p class="djet-hero-subtitle" style="color: #E2E8F0; margin-block-end: 2rem;">
+      {% if CURRENT_LANG == 'en' %}{{ section.subtitle_en }}{% else %}{{ section.subtitle_ar }}{% endif %}
+    </p>
+    {% if section.cta_text_en %}
+      <a href="{{ section.cta_link|default:'#collection' }}" class="djet-btn" style="background: #FFFFFF; color: #0F172A; font-weight: 700; padding: 0.85rem 2rem;">
+        {% if CURRENT_LANG == 'en' %}{{ section.cta_text_en }}{% else %}{{ section.cta_text_ar }}{% endif %}
+      </a>
+    {% endif %}
+  </div>
+</section>

@@ -1,0 +1,21 @@
+{% load i18n %}
+<section style="margin-block: 2.5rem;">
+  <div style="display: flex; justify-content: space-between; align-items: baseline; margin-block-end: 1.25rem;">
+    <h2 style="font-size: 1.5rem; font-weight: 800; margin: 0; color: var(--text);">
+      {% if CURRENT_LANG == 'en' %}{{ section.title_en }}{% else %}{{ section.title_ar }}{% endif %}
+    </h2>
+  </div>
+
+  <div class="djet-category-grid">
+    {% for cat in categories %}
+      <a href="{% url 'storefront-category' slug=cat.slug %}" class="djet-category-card">
+        <span style="font-size: 2rem;">🏷️</span>
+        <span style="font-weight: 700; color: var(--text);">
+          {% if CURRENT_LANG == 'en' %}{{ cat.name_en }}{% else %}{{ cat.name_ar }}{% endif %}
+        </span>
+      </a>
+    {% empty %}
+      <p style="color: var(--text-muted);">{% trans "No categories available yet." %}</p>
+    {% endfor %}
+  </div>
+</section>

@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+# ==============================================================================
+# DJET Store — Comprehensive Quality & Security Verification Suite
+# Runs the full 8-point quality gate required before any PR or deployment.
+# ==============================================================================
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+cd "${REPO_ROOT}"
+
+BOLD="\033[1m"
+GREEN="\033[0;32m"
+BLUE="\033[0;34m"
+CYAN="\033[0;36m"
+RED="\033[0;31m"
+RESET="\033[0m"
+
+echo -e "${BOLD}${CYAN}"
+echo "=============================================================================="
+echo "         DJET SYSTEMS — CONTINUOUS VERIFICATION & QUALITY GATES               "
+echo "=============================================================================="
+echo -e "${RESET}"
+
+run_step() {
+  local num="$1"
+  local title="$2"
+  shift 2
+  echo -e "${BLUE}[${num}/8] ${title}...${RESET}"
+  if "$@"; then
+    echo -e "${GREEN}✓ ${title} PASSED${RESET}\n"
+  else
+    echo -e "${RED}✗ ${title} FAILED${RESET}\n"
+    exit 1
+  fi
+}
+
+run_step "1" "Ruff Linter" uv run ruff check .
+run_step "2" "Ruff Code Formatter" uv run ruff format --check .
+run_step "3" "Mypy Strict Type Checking" uv run mypy apps tests
+run_step "4" "Import Linter Architecture Contracts" uv run lint-imports
+run_step "5" "Bandit SAST Security Scan" uv run bandit -c pyproject.toml -r apps config
+run_step "6" "Pip Audit CVE Dependency Scan" uv run pip-audit --skip-editable
+run_step "7" "Django System & Schema Integrity Checks" bash -c "uv run python manage.py check && uv run python manage.py makemigrations --check --dry-run"
+run_step "8" "Pytest Automated Test Suite" uv run pytest
+
+echo -e "${BOLD}${GREEN}"
+echo "=============================================================================="
+echo " 🎉 ALL 8 QUALITY & SECURITY GATES PASSED! READY FOR PRODUCTION / PR.        "
+echo "=============================================================================="
+echo -e "${RESET}"

@@ -1,0 +1,39 @@
+{
+  "code": "general",
+  "name": "General Store",
+  "description": "Clean, high-performance general retail storefront with split hero, trust bar, and order tracker.",
+  "default_language": "ar",
+  "cart_label": "Cart",
+  "tokens": {
+    "--bg": "#F7F7F4",
+    "--surface": "#FFFFFF",
+    "--text": "#17181A",
+    "--text-muted": "#4B4F56",
+    "--border": "#E2E2DC",
+    "--accent": "#0E6B5C",
+    "--accent-hover": "#0A5045",
+    "--radius-card": "12px",
+    "--radius-btn": "10px",
+    "--font-sans": "'Space Grotesk', 'Inter', system-ui, sans-serif"
+  },
+  "card_flags": {
+    "aspect_ratio": "1/1",
+    "show_condition_badge": false,
+    "show_size_strip": false,
+    "show_unit_step": false,
+    "quick_add": true
+  },
+  "home_sections": [
+    {"type": "hero_split", "title_en": "Fast Delivery Across Egypt", "title_ar": "توصيل سريع لجميع محافظات مصر", "subtitle_en": "Authentic goods, verified stock, cash on delivery or card.", "subtitle_ar": "بضاعة أصلية، مخزون مؤكد، والدفع عند الاستلام أو بالبطاقة.", "cta_text_en": "Shop Collection", "cta_text_ar": "تسوق الآن", "cta_link": "/c/all/"},
+    {"type": "trust_bar"},
+    {"type": "category_tiles", "title_en": "Shop by Category", "title_ar": "تسوق حسب القسم", "layout": "grid"},
+    {"type": "product_collection", "title_en": "Featured Products", "title_ar": "منتجات مميزة", "collection_key": "featured"},
+    {"type": "promo_banner", "title_en": "Cash on Delivery Available", "title_ar": "خدمة الدفع عند الاستلام متوفرة", "desc_en": "Pay upon receiving your order with zero surprise fees.", "desc_ar": "ادفع عند استلام طلبك بدون أي رسوم خفية."},
+    {"type": "order_tracker_inline"}
+  ],
+  "starter_categories": [
+    {"name_en": "Electronics", "name_ar": "إلكترونيات", "slug": "electronics"},
+    {"name_en": "Apparel", "name_ar": "أزياء وملابس", "slug": "apparel"},
+    {"name_en": "Home & Kitchen", "name_ar": "المنزل والمطبخ", "slug": "home-kitchen"}
+  ]
+}

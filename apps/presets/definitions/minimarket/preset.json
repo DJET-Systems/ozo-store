@@ -1,0 +1,37 @@
+{
+  "code": "minimarket",
+  "name": "Mini-Market & Supermarket",
+  "description": "Fast-moving grocery & supermarket UI: barcode search, aisle navigation, unit steppers (e.g. 0.25 kg), unit price suffix (EGP/kg), repeat orders, and bottom basket bar.",
+  "default_language": "ar",
+  "cart_label": "Basket",
+  "tokens": {
+    "--bg": "#F4F8F2",
+    "--surface": "#FFFFFF",
+    "--text": "#14231A",
+    "--text-muted": "#4B5E52",
+    "--border": "#D7E3D1",
+    "--accent": "#166534",
+    "--accent-hover": "#14532D",
+    "--radius-card": "10px",
+    "--radius-btn": "8px",
+    "--font-sans": "'Inter', system-ui, sans-serif"
+  },
+  "card_flags": {
+    "aspect_ratio": "1/1",
+    "show_unit_step": true,
+    "show_unit_price_suffix": true,
+    "quick_add_circle": true
+  },
+  "home_sections": [
+    {"type": "search_bar_prominent", "placeholder_ar": "ابحث عن السلع بالاسم أو الباركود...", "placeholder_en": "Search groceries by name or barcode..."},
+    {"type": "category_tiles", "title_ar": "أقسام السوبرماركت", "title_en": "Aisles & Departments", "layout": "aisle-pills"},
+    {"type": "buy_it_again_banner", "title_ar": "كرر طلبك السابق بضغطة زر واحدة", "title_en": "Repeat your last grocery order with one tap"},
+    {"type": "product_collection", "title_ar": "عروض اليوم والسلع الأساسية", "title_en": "Daily Essentials & Offers", "collection_key": "featured"},
+    {"type": "basket_bottom_bar"}
+  ],
+  "starter_categories": [
+    {"name_en": "Dairy & Cheese", "name_ar": "ألبان وأجبان", "slug": "dairy"},
+    {"name_en": "Oils & Grains", "name_ar": "زيوت وحبوب", "slug": "oils-grains"},
+    {"name_en": "Beverages & Water", "name_ar": "مشروبات ومياه", "slug": "beverages"}
+  ]
+}

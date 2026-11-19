@@ -1,0 +1,1 @@
+"""Vertical presets domain app."""

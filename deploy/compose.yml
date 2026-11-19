@@ -1,0 +1,271 @@
+services:
+  db:
+    image: postgres:18-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-djet_store}
+      POSTGRES_USER: ${POSTGRES_USER:-djet_migrator}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+      DJET_APP_DB_PASSWORD: ${DJET_APP_DB_PASSWORD:?DJET_APP_DB_PASSWORD is required}
+      DJET_RO_DB_PASSWORD: ${DJET_RO_DB_PASSWORD:?DJET_RO_DB_PASSWORD is required}
+    volumes:
+      - pg_data:/var/lib/postgresql
+      - ./postgres/init-roles.sh:/docker-entrypoint-initdb.d/10-init-roles.sh:ro
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-djet_migrator} -d ${POSTGRES_DB:-djet_store}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+    deploy:
+      resources:
+        limits:
+          memory: 768M
+          cpus: "1.0"
+
+  migrate:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    env_file:
+      - ../.env
+    environment:
+      DJANGO_SETTINGS_MODULE: config.settings.storefront
+      DATABASE_URL: ${MIGRATION_DATABASE_URL:?MIGRATION_DATABASE_URL is required}
+    command:
+      - sh
+      - -c
+      - python manage.py migrate --noinput && python manage.py apply_db_grants && python manage.py collectstatic --noinput
+    volumes:
+      - static_volume:/app/staticfiles
+    networks:
+      - backend
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: "no"
+
+  web-store:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file:
+      - ../.env
+    environment:
+      DJANGO_SETTINGS_MODULE: config.settings.storefront
+    command:
+      - gunicorn
+      - config.wsgi:application
+      - --bind
+      - 0.0.0.0:8000
+      - --workers
+      - "2"
+      - --threads
+      - "2"
+      - --worker-tmp-dir
+      - /tmp
+    volumes:
+      - static_volume:/app/staticfiles:ro
+      - media_volume:/app/media:ro
+    tmpfs:
+      - /tmp:size=64M
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - backend
+      - edge
+    depends_on:
+      db:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - 'curl -fsS -H "Host: ${STORE_DOMAIN:-shop.djet.localhost}" http://127.0.0.1:8000/healthz'
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: "1.0"
+
+  web-admin:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file:
+      - ../.env
+    environment:
+      DJANGO_SETTINGS_MODULE: config.settings.dashboard
+    command:
+      - gunicorn
+      - config.wsgi:application
+      - --bind
+      - 0.0.0.0:8001
+      - --workers
+      - "2"
+      - --threads
+      - "2"
+      - --worker-tmp-dir
+      - /tmp
+    volumes:
+      - static_volume:/app/staticfiles:ro
+      - media_volume:/app/media:rw
+    tmpfs:
+      - /tmp:size=64M
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - backend
+      - edge
+    depends_on:
+      db:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - 'curl -fsS -H "Host: ${ADMIN_DOMAIN:-admin.djet.localhost}" http://127.0.0.1:8001/healthz'
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: "1.0"
+
+  worker:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file:
+      - ../.env
+    environment:
+      DJANGO_SETTINGS_MODULE: config.settings.storefront
+    command:
+      - python
+      - manage.py
+      - procrastinate
+      - worker
+    volumes:
+      - media_volume:/app/media:rw
+    tmpfs:
+      - /tmp:size=64M
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - backend
+    depends_on:
+      db:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD-SHELL", "python manage.py check"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: "1.0"
+
+  caddy:
+    image: caddy:2.9-alpine
+    restart: unless-stopped
+    environment:
+      STORE_DOMAIN: ${STORE_DOMAIN:-shop.djet.localhost}
+      ADMIN_DOMAIN: ${ADMIN_DOMAIN:-admin.djet.localhost}
+      TLS_MODE: ${TLS_MODE:-internal}
+    ports:
+      - "${CADDY_HTTP_PORT:-80}:80"
+      - "${CADDY_HTTPS_PORT:-443}:443"
+      - "${CADDY_HTTPS_PORT:-443}:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - static_volume:/srv/static:ro
+      - media_volume:/srv/media:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_BIND_SERVICE
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - edge
+    depends_on:
+      web-store:
+        condition: service_healthy
+      web-admin:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: "0.5"
+
+  backup:
+    image: alpine:3.21
+    restart: unless-stopped
+    env_file:
+      - ../.env
+    volumes:
+      - ./backup/entrypoint.sh:/entrypoint.sh:ro
+      - media_volume:/media:ro
+      - backup_data:/backups
+    command: ["sh", "/entrypoint.sh"]
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - backend
+    depends_on:
+      db:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: "0.5"
+
+volumes:
+  pg_data:
+  static_volume:
+  media_volume:
+  caddy_data:
+  caddy_config:
+  backup_data:
+
+networks:
+  backend:
+    driver: bridge
+    internal: true
+  edge:
+    driver: bridge

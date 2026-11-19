@@ -1,0 +1,60 @@
+{% extends "dashboard/base.html" %}
+{% load i18n %}
+
+{% block page_title %}{% trans "Inventory Levels" %}{% endblock %}
+
+{% block content %}
+<div class="djet-card">
+  <div class="djet-card-header">
+    <h2 class="djet-card-title">🏬 {% trans "Stock by Location" %}</h2>
+    <div style="display: flex; gap: 0.75rem;">
+      <a href="{% url 'dashboard-export' 'inventory' %}" class="djet-btn djet-btn-secondary">
+        📥 {% trans "Export CSV" %}
+      </a>
+    </div>
+  </div>
+
+  <div class="djet-table-container">
+    <table class="djet-table">
+      <thead>
+        <tr>
+          <th>{% trans "Location" %}</th>
+          <th>{% trans "SKU" %}</th>
+          <th>{% trans "Product" %}</th>
+          <th>{% trans "On Hand" %}</th>
+          <th>{% trans "Reserved" %}</th>
+          <th>{% trans "Available" %}</th>
+          {% if can_view_costs %}
+            <th>{% trans "Avg Unit Cost" %}</th>
+          {% else %}
+            <th>{% trans "Avg Unit Cost" %}</th>
+          {% endif %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for stock in stock_levels %}
+          <tr>
+            <td><strong>{{ stock.location.code }}</strong> — {{ stock.location.name_en }}</td>
+            <td><code>{{ stock.variant.sku }}</code></td>
+            <td>{{ stock.variant.product.title_en }}</td>
+            <td style="font-weight: 700;">{{ stock.on_hand }}</td>
+            <td style="color: var(--text-muted);">{{ stock.reserved }}</td>
+            <td style="color: var(--accent); font-weight: 700;">{{ stock.available }}</td>
+            {% if can_view_costs %}
+              <td style="font-family: var(--font-mono);">{{ stock.avg_unit_cost }}</td>
+            {% else %}
+              <td><span class="masked-cost">*** RESTRICTED ***</span></td>
+            {% endif %}
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="7" style="text-align: center; padding: 2rem; color: var(--text-muted);">
+              {% trans "No stock recorded yet." %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

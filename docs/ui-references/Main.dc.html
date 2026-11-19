@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Store home</title>
+<script src="./vendor/react.js"></script>
+<script src="./vendor/react-dom.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F7F7F4}
+a{color:#17181A;text-decoration:none}
+a:hover{text-decoration:underline}
+.tile{background:#E4E6E1}
+.tone2{background:#DCE6E2}
+.tone3{background:#EADFD3}
+.tone4{background:#DDDFEA}
+.bnew{background:#17181A;color:#FFFFFF}
+.bsale{background:#B42318;color:#FFFFFF}
+.low{color:#B54708}
+.ok{color:#3F6B3A}
+</style>
+</helmet>
+<div style="background:#F7F7F4;color:#17181A;font-family:'Inter',system-ui,sans-serif;line-height:1.5">
+
+<div style="background:#17181A;color:#F7F7F4;font-size:13px;padding:8px 24px;text-align:center">Cash on delivery across Egypt · Delivery in 1 to 3 days in Greater Cairo</div>
+
+<header style="background:#FFFFFF;border-bottom:1px solid #E2E2DC">
+<div style="max-width:1200px;margin:0 auto;padding:14px 24px;display:flex;flex-wrap:wrap;align-items:center;gap:16px">
+<a href="#" style="display:flex;align-items:center;gap:10px">
+<span style="width:36px;height:36px;border-radius:8px;background:{{accent}};color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px">S</span>
+<span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:20px">Store name</span>
+</a>
+<form style="flex:1 1 320px;display:flex;gap:8px;margin:0" action="#">
+<label for="q" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Search products</label>
+<input id="q" type="search" placeholder="Search products, brands or SKU" style="flex:1;min-height:44px;box-sizing:border-box;padding:0 14px;border:1px solid #C9CAC3;border-radius:10px;font:inherit;font-size:15px;background:#FFFFFF">
+<button type="submit" aria-label="Search" style="width:44px;height:44px;border:0;border-radius:10px;background:{{accent}};color:#FFFFFF;display:flex;align-items:center;justify-content:center;cursor:pointer">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+</button>
+</form>
+<nav style="display:flex;align-items:center;gap:20px;font-size:15px" aria-label="Account">
+<a href="#" lang="ar" style="min-height:44px;display:flex;align-items:center">عربي</a>
+<a href="#" style="min-height:44px;display:flex;align-items:center">Account</a>
+<a href="#" style="min-height:44px;display:flex;align-items:center;gap:8px;font-weight:600">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h2l2.4 11h10.2L20 7H6"></path><circle cx="9" cy="19" r="1.3"></circle><circle cx="17" cy="19" r="1.3"></circle></svg>
+Cart (2)</a>
+</nav>
+</div>
+<div style="border-top:1px solid #E2E2DC">
+<nav aria-label="Categories" style="max-width:1200px;margin:0 auto;padding:0 24px;display:flex;flex-wrap:wrap;gap:4px 24px;font-size:15px">
+<a href="#" style="min-height:44px;display:flex;align-items:center;font-weight:600">Shop all</a>
+<a href="#" style="min-height:44px;display:flex;align-items:center">New in</a>
+<a href="#" style="min-height:44px;display:flex;align-items:center">Best sellers</a>
+<a href="#" style="min-height:44px;display:flex;align-items:center">Offers</a>
+<a href="#" style="min-height:44px;display:flex;align-items:center">Brands</a>
+<a href="#" style="min-height:44px;display:flex;align-items:center">Track my order</a>
+</nav>
+</div>
+</header>
+
+<section style="max-width:1200px;margin:0 auto;padding:56px 24px;display:flex;flex-wrap:wrap;gap:40px;align-items:center">
+<div style="flex:1 1 420px">
+<p style="margin:0 0 12px;font-size:14px;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;color:{{accent}}">New arrivals</p>
+<h1 style="margin:0 0 16px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:52px;line-height:1.08">Shop what's new, pay when it arrives.</h1>
+<p style="margin:0 0 28px;font-size:18px;color:#4B4F56;max-width:520px">Cash on delivery, order updates on WhatsApp and a clear return path if something is not right.</p>
+<div style="display:flex;flex-wrap:wrap;gap:12px">
+<a href="#" style="min-height:48px;padding:0 24px;border-radius:10px;background:{{accent}};color:#FFFFFF;font-weight:600;display:flex;align-items:center">Shop new arrivals</a>
+<a href="#" style="min-height:48px;padding:0 24px;border-radius:10px;border:1.5px solid #17181A;font-weight:600;display:flex;align-items:center">Track an order</a>
+</div>
+</div>
+<div class="tile" style="flex:1 1 420px;height:360px;border-radius:16px;display:flex;align-items:center;justify-content:center;color:#4B4F56;font-size:14px">Hero image · 16:9</div>
+</section>
+
+<section style="background:#FFFFFF;border-top:1px solid #E2E2DC;border-bottom:1px solid #E2E2DC">
+<div style="max-width:1200px;margin:0 auto;padding:24px;display:flex;flex-wrap:wrap;gap:20px 32px">
+<div style="flex:1 1 220px;display:flex;gap:12px;align-items:flex-start">
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="{{accent}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"></path><circle cx="7" cy="18" r="1.6"></circle><circle cx="17" cy="18" r="1.6"></circle></svg>
+<div><div style="font-weight:600">Cash on delivery</div><div style="font-size:14px;color:#4B4F56">Pay the courier when you receive it.</div></div>
+</div>
+<div style="flex:1 1 220px;display:flex;gap:12px;align-items:flex-start">
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="{{accent}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"></path></svg>
+<div><div style="font-weight:600">Updates on WhatsApp</div><div style="font-size:14px;color:#4B4F56">Confirmed, shipped, out for delivery.</div></div>
+</div>
+<div style="flex:1 1 220px;display:flex;gap:12px;align-items:flex-start">
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="{{accent}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a8 8 0 1 0 3-6.2M4 4v5h5"></path></svg>
+<div><div style="font-weight:600">Easy returns</div><div style="font-size:14px;color:#4B4F56">Start a return from your order page.</div></div>
+</div>
+<div style="flex:1 1 220px;display:flex;gap:12px;align-items:flex-start">
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="{{accent}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.2 7.6-8 9-4.8-1.4-8-4.5-8-9V6z"></path><path d="M9 12l2 2 4-4"></path></svg>
+<div><div style="font-weight:600">Warranty on listed items</div><div style="font-size:14px;color:#4B4F56">Shown on each product page.</div></div>
+</div>
+</div>
+</section>
+
+<section style="max-width:1200px;margin:0 auto;padding:56px 24px 24px">
+<h2 style="margin:0 0 24px;font-family:'Space Grotesk',sans-serif;font-size:30px">Shop by category</h2>
+<div style="display:flex;flex-wrap:wrap;gap:16px">
+<sc-for list="{{cats}}" as="c" hint-placeholder-count="6">
+<a href="#" style="flex:1 1 170px;text-decoration:none">
+<div class="tile {{c.tone}}" style="height:130px;border-radius:12px"></div>
+<div style="padding:10px 2px 0;font-weight:600">{{c.n}}</div>
+</a>
+</sc-for>
+</div>
+</section>
+
+<section style="max-width:1200px;margin:0 auto;padding:40px 24px">
+<div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:24px">
+<h2 style="margin:0;font-family:'Space Grotesk',sans-serif;font-size:30px">New arrivals</h2>
+<a href="#" style="font-weight:600;color:{{accent}}">View all</a>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:24px 20px">
+<sc-for list="{{products}}" as="p" hint-placeholder-count="8">
+<article style="flex:1 1 230px;background:#FFFFFF;border:1px solid #E2E2DC;border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:10px">
+<div class="tile {{p.tone}}" style="position:relative;aspect-ratio:1/1;border-radius:8px">
+<sc-if value="{{p.hasBadge}}" hint-placeholder-val="{{ true }}">
+<span class="{{p.badgeClass}}" style="position:absolute;top:10px;left:10px;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:600">{{p.badge}}</span>
+</sc-if>
+</div>
+<a href="Product.dc.html" style="font-weight:500">{{p.n}}</a>
+<div style="display:flex;align-items:baseline;gap:8px">
+<span style="font-weight:700;font-size:17px">{{p.price}}</span>
+<sc-if value="{{p.hasOld}}" hint-placeholder-val="{{ false }}"><span style="font-size:14px;color:#5B5F66;text-decoration:line-through">{{p.old}}</span></sc-if>
+</div>
+<div class="{{p.stockClass}}" style="font-size:13px;font-weight:500">{{p.stock}}</div>
+<button type="button" style="min-height:44px;border-radius:10px;border:1.5px solid #17181A;background:#FFFFFF;font:inherit;font-weight:600;cursor:pointer">Add to cart</button>
+</article>
+</sc-for>
+</div>
+</section>
+
+<section style="max-width:1200px;margin:0 auto;padding:16px 24px 48px">
+<div style="background:{{accent}};color:#FFFFFF;border-radius:16px;padding:40px;display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between">
+<div style="flex:1 1 360px">
+<div style="font-size:14px;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;opacity:0.9">Bundle and save</div>
+<div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:34px;line-height:1.15;margin-top:8px">Buy two, save on the second.</div>
+<div style="margin-top:8px;font-size:16px">Applies automatically in your cart.</div>
+</div>
+<a href="#" style="min-height:48px;padding:0 28px;border-radius:10px;background:#FFFFFF;color:#17181A;font-weight:600;display:flex;align-items:center">See offers</a>
+</div>
+</section>
+
+<section style="background:#FFFFFF;border-top:1px solid #E2E2DC;border-bottom:1px solid #E2E2DC">
+<div style="max-width:1200px;margin:0 auto;padding:48px 24px;display:flex;flex-wrap:wrap;gap:40px;align-items:center">
+<div style="flex:1 1 360px">
+<h2 style="margin:0 0 8px;font-family:'Space Grotesk',sans-serif;font-size:30px">Where is my order?</h2>
+<p style="margin:0 0 20px;color:#4B4F56">Enter your order number and phone. No account needed.</p>
+<form action="#" style="display:flex;flex-wrap:wrap;gap:10px;margin:0">
+<label for="ord" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Order number</label>
+<input id="ord" type="text" placeholder="Order number, for example DJ-7K3QX9" style="flex:1 1 220px;min-height:44px;box-sizing:border-box;padding:0 14px;border:1px solid #C9CAC3;border-radius:10px;font:inherit;font-size:15px">
+<button type="submit" style="min-height:44px;padding:0 24px;border:0;border-radius:10px;background:{{accent}};color:#FFFFFF;font:inherit;font-weight:600;cursor:pointer">Track</button>
+</form>
+</div>
+<ol style="flex:1 1 420px;margin:0;padding:0;list-style:none;display:flex;gap:0">
+<li style="flex:1;text-align:center"><div style="height:12px;width:12px;border-radius:50%;background:{{accent}};margin:0 auto 10px"></div><div style="font-size:14px;font-weight:600">Received</div></li>
+<li style="flex:1;text-align:center"><div style="height:12px;width:12px;border-radius:50%;background:{{accent}};margin:0 auto 10px"></div><div style="font-size:14px;font-weight:600">Packed</div></li>
+<li style="flex:1;text-align:center"><div style="height:12px;width:12px;border-radius:50%;background:{{accent}};margin:0 auto 10px"></div><div style="font-size:14px;font-weight:600">Out for delivery</div></li>
+<li style="flex:1;text-align:center"><div style="height:12px;width:12px;border-radius:50%;background:#C9CAC3;margin:0 auto 10px"></div><div style="font-size:14px;color:#5B5F66">Delivered</div></li>
+</ol>
+</div>
+</section>
+
+<footer style="background:#17181A;color:#E8E8E3">
+<div style="max-width:1200px;margin:0 auto;padding:48px 24px 24px;display:flex;flex-wrap:wrap;gap:32px">
+<div style="flex:2 1 280px">
+<div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:20px;color:#FFFFFF">Store name</div>
+<p style="margin:10px 0 0;font-size:14px;max-width:320px">[Short description of the store]</p>
+<form action="#" style="display:flex;gap:8px;margin:20px 0 0;max-width:360px">
+<label for="wa" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">WhatsApp number</label>
+<input id="wa" type="tel" placeholder="WhatsApp number for offers" style="flex:1;min-height:44px;box-sizing:border-box;padding:0 12px;border:1px solid #4B4F56;border-radius:10px;background:#17181A;color:#FFFFFF;font:inherit;font-size:14px">
+<button type="submit" style="min-height:44px;padding:0 16px;border:0;border-radius:10px;background:#FFFFFF;color:#17181A;font:inherit;font-weight:600;cursor:pointer">Join</button>
+</form>
+</div>
+<div style="flex:1 1 140px"><div style="font-weight:600;color:#FFFFFF;margin-bottom:10px">Shop</div><div style="display:flex;flex-direction:column;gap:6px;font-size:14px"><a href="#" style="color:#E8E8E3">New in</a><a href="#" style="color:#E8E8E3">Best sellers</a><a href="#" style="color:#E8E8E3">Offers</a></div></div>
+<div style="flex:1 1 140px"><div style="font-weight:600;color:#FFFFFF;margin-bottom:10px">Help</div><div style="display:flex;flex-direction:column;gap:6px;font-size:14px"><a href="#" style="color:#E8E8E3">Shipping</a><a href="#" style="color:#E8E8E3">Returns</a><a href="#" style="color:#E8E8E3">Warranty</a></div></div>
+<div style="flex:1 1 180px"><div style="font-weight:600;color:#FFFFFF;margin-bottom:10px">Contact</div><div style="display:flex;flex-direction:column;gap:6px;font-size:14px"><span>[Hotline]</span><span>[WhatsApp number]</span><span>[Branch address]</span></div></div>
+</div>
+<div style="max-width:1200px;margin:0 auto;padding:16px 24px 28px;border-top:1px solid #33363B;display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;font-size:13px;color:#C9CAC3">
+<span>© [Year] Store name</span>
+<span>Cash on delivery · Card · Wallet</span>
+<span>Powered by DJET Store</span>
+</div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#0E6B5C","options":["#0E6B5C","#1D4ED8","#B42318","#6D28D9"]},"$preview":{"width":1280,"height":3100}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const accent = this.props.accent ?? '#0E6B5C';
+    return {
+      accent,
+      cats: [
+        { n: 'Category one', tone: 'tone2' },
+        { n: 'Category two', tone: 'tone3' },
+        { n: 'Category three', tone: 'tone4' },
+        { n: 'Category four', tone: 'tone2' },
+        { n: 'Category five', tone: 'tone3' },
+        { n: 'Category six', tone: 'tone4' }
+      ],
+      products: [
+        { n: 'Product name', price: 'EGP 1,250', old: '', hasOld: false, tone: 'tone2', hasBadge: true, badge: 'New', badgeClass: 'bnew', stock: 'In stock', stockClass: 'ok' },
+        { n: 'Product name', price: 'EGP 850', old: 'EGP 1,000', hasOld: true, tone: 'tone3', hasBadge: true, badge: '-15%', badgeClass: 'bsale', stock: 'Only 3 left', stockClass: 'low' },
+        { n: 'Product name', price: 'EGP 420', old: '', hasOld: false, tone: 'tone4', hasBadge: false, badge: '', badgeClass: 'bnew', stock: 'In stock', stockClass: 'ok' },
+        { n: 'Product name', price: 'EGP 2,300', old: '', hasOld: false, tone: 'tone2', hasBadge: true, badge: 'New', badgeClass: 'bnew', stock: 'In stock', stockClass: 'ok' },
+        { n: 'Product name', price: 'EGP 640', old: '', hasOld: false, tone: 'tone3', hasBadge: false, badge: '', badgeClass: 'bnew', stock: 'In stock', stockClass: 'ok' },
+        { n: 'Product name', price: 'EGP 1,100', old: 'EGP 1,300', hasOld: true, tone: 'tone4', hasBadge: true, badge: '-15%', badgeClass: 'bsale', stock: 'Only 2 left', stockClass: 'low' },
+        { n: 'Product name', price: 'EGP 95', old: '', hasOld: false, tone: 'tone2', hasBadge: false, badge: '', badgeClass: 'bnew', stock: 'In stock', stockClass: 'ok' },
+        { n: 'Product name', price: 'EGP 3,400', old: '', hasOld: false, tone: 'tone3', hasBadge: true, badge: 'New', badgeClass: 'bnew', stock: 'In stock', stockClass: 'ok' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

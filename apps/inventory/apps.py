@@ -1,0 +1,10 @@
+"""AppConfig for apps.inventory."""
+
+from django.apps import AppConfig
+
+
+class InventoryConfig(AppConfig):
+    """Inventory configuration."""
+
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "apps.inventory"
