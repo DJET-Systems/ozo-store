@@ -5,9 +5,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% block title %}{{ settings.store_name_ar }}{% endblock %} — DJET Store</title>
+  <title>{% block title %}{{ settings.store_name_ar }}{% endblock %} — {% if brand %}{% if CURRENT_LANG == 'en' %}{{ brand.name_en }}{% else %}{{ brand.name_ar }}{% endif %}{% else %}DJET Store{% endif %}</title>
+  {% if brand %}
+    <meta name="description" content="{% if CURRENT_LANG == 'en' %}{{ brand.tagline_en }}{% else %}{{ brand.tagline_ar }}{% endif %}">
+    {% if brand.theme_color %}<meta name="theme-color" content="{{ brand.theme_color }}">{% endif %}
+    {% if brand.favicon %}<link rel="icon" type="image/png" sizes="32x32" href="{% static brand.favicon %}">{% endif %}
+    {% if brand.apple_touch_icon %}<link rel="apple-touch-icon" href="{% static brand.apple_touch_icon %}">{% endif %}
+  {% endif %}
   <link rel="stylesheet" href="{% static 'storefront/base.css' %}">
-  
+
   <!-- Dynamic Theme Token Injection from Active Preset -->
   <style>
     :root {
@@ -18,30 +24,42 @@
   </style>
   {% block extra_head %}{% endblock %}
 </head>
-<body>
+<body{% if brand_code %} data-brand="{{ brand_code }}"{% endif %}>
+  <a class="djet-skip-link" href="#main">{% trans "Skip to content" %}</a>
+
   <!-- Public Storefront Navigation Header -->
   <header class="djet-header">
     <div class="djet-nav-container">
       <a href="{% url 'storefront-home' %}" class="djet-brand">
-        <span>🏪</span>
-        <span>{% if CURRENT_LANG == 'en' %}{{ settings.store_name_en }}{% else %}{{ settings.store_name_ar }}{% endif %}</span>
+        {% if brand.logo %}
+          <img src="{% static brand.logo %}"{% if brand.logo_2x %} srcset="{% static brand.logo %} 1x, {% static brand.logo_2x %} 2x"{% endif %}
+               alt="{% if CURRENT_LANG == 'en' %}{{ brand.name_en }}{% else %}{{ brand.name_ar }}{% endif %}"
+               width="44" height="44" class="djet-brand-logo">
+          <span class="djet-brand-name">{% if CURRENT_LANG == 'en' %}{{ brand.name_en }}{% else %}{{ brand.name_ar }}{% endif %}</span>
+        {% else %}
+          <span aria-hidden="true">🏪</span>
+          <span>{% if CURRENT_LANG == 'en' %}{{ settings.store_name_en }}{% else %}{{ settings.store_name_ar }}{% endif %}</span>
+        {% endif %}
       </a>
 
-      <nav class="djet-nav-links">
+      <nav class="djet-nav-links" aria-label="{% trans 'Main' %}">
         <a href="{% url 'storefront-home' %}" class="djet-nav-link">{% trans "Home" %}</a>
+        {% if brand %}
+          <a href="{% url 'storefront-home' %}#repair" class="djet-nav-link">{% trans "Repair Centre" %}</a>
+        {% endif %}
         <a href="{% url 'storefront-warranty-check' %}" class="djet-nav-link">{% trans "Warranty Check" %}</a>
         <a href="{% url 'storefront-order-track' %}" class="djet-nav-link">{% trans "Track Order" %}</a>
       </nav>
 
       <div class="djet-header-actions">
-        {% if settings.whatsapp_number %}
-          <a href="https://wa.me/{{ settings.whatsapp_number }}" target="_blank" rel="noopener" class="djet-whatsapp-pill">
-            <span>💬</span> {% trans "WhatsApp" %}
+        {% if whatsapp_number %}
+          <a href="https://wa.me/{{ whatsapp_number }}" target="_blank" rel="noopener noreferrer" class="djet-whatsapp-pill">
+            <span aria-hidden="true">💬</span> {% trans "WhatsApp" %}
           </a>
         {% endif %}
 
         <a href="{% url 'storefront-cart' %}" class="djet-cart-btn">
-          <span>🛍️</span>
+          <span aria-hidden="true">🛍️</span>
           <span>{{ preset.cart_label|default:_("Cart") }}</span>
           <span class="djet-cart-count" id="cart-counter">{{ cart_count }}</span>
         </a>
@@ -51,7 +69,7 @@
 
   <!-- Notification Alerts -->
   {% if messages %}
-    <div style="max-width: 1280px; margin: 1rem auto; padding: 0 1.5rem;">
+    <div style="max-width: 1280px; margin: 1rem auto; padding: 0 1.5rem;" role="status">
       {% for message in messages %}
         <div style="padding: 0.85rem 1.25rem; border-radius: var(--radius-btn); background: var(--accent-light); color: var(--accent); font-weight: 600; margin-bottom: 0.5rem;">
           {{ message }}
@@ -61,7 +79,7 @@
   {% endif %}
 
   <!-- Main View Container -->
-  <main class="djet-shell">
+  <main class="djet-shell" id="main">
     {% block content %}{% endblock %}
   </main>
 
@@ -69,10 +87,23 @@
   <footer class="djet-footer">
     <div class="djet-footer-container">
       <div>
-        <h4 style="color: #FFFFFF; margin: 0 0 0.75rem;">{{ settings.store_name_ar }}</h4>
+        <h4 style="color: #FFFFFF; margin: 0 0 0.75rem;">
+          {% if brand %}{% if CURRENT_LANG == 'en' %}{{ brand.name_en }}{% else %}{{ brand.name_ar }}{% endif %}{% else %}{{ settings.store_name_ar }}{% endif %}
+        </h4>
         <p style="line-height: 1.6; margin: 0;">
-          {% trans "Powered by DJET Store — Secure, high-velocity e-commerce with real-time stock ledger." %}
+          {% if brand %}
+            {% if CURRENT_LANG == 'en' %}{{ brand.tagline_en }}{% else %}{{ brand.tagline_ar }}{% endif %}
+          {% else %}
+            {% trans "Powered by DJET Store — Secure, high-velocity e-commerce with real-time stock ledger." %}
+          {% endif %}
         </p>
+        {% if brand.socials %}
+          <ul class="djet-footer-socials">
+            {% for social in brand.socials %}
+              <li><a href="{{ social.url }}" target="_blank" rel="noopener noreferrer">{{ social.label }}</a></li>
+            {% endfor %}
+          </ul>
+        {% endif %}
       </div>
 
       <div>
@@ -80,23 +111,39 @@
         <ul style="list-style: none; padding: 0; margin: 0; line-height: 2;">
           <li><a href="{% url 'storefront-order-track' %}" style="color: #94A3B8; text-decoration: none;">{% trans "Track Shipment" %}</a></li>
           <li><a href="{% url 'storefront-warranty-check' %}" style="color: #94A3B8; text-decoration: none;">{% trans "Check IMEI / Serial" %}</a></li>
+          {% if brand %}
+            <li><a href="{% url 'storefront-home' %}#repair" style="color: #94A3B8; text-decoration: none;">{% trans "Repair Centre" %}</a></li>
+          {% endif %}
         </ul>
       </div>
 
       <div>
-        <h4 style="color: #FFFFFF; margin: 0 0 0.75rem;">{% trans "Preset Mode" %}</h4>
-        <p style="margin: 0; line-height: 1.6;">
-          <strong style="color: #FFFFFF;">{{ preset.name }}</strong><br>
-          <small>{{ preset.description }}</small>
-        </p>
+        {% if brand %}
+          <h4 style="color: #FFFFFF; margin: 0 0 0.75rem;">{% trans "Visit Us" %}</h4>
+          <address class="djet-footer-address">
+            <a href="{{ brand.maps_url }}" target="_blank" rel="noopener noreferrer">
+              {% if CURRENT_LANG == 'en' %}{{ brand.address_en }}{% else %}{{ brand.address_ar }}{% endif %}
+            </a>
+            {% for phone in brand.phones %}
+              <br><a href="tel:{{ phone.tel }}" dir="ltr">{{ phone.number }}</a>
+            {% endfor %}
+          </address>
+        {% else %}
+          <h4 style="color: #FFFFFF; margin: 0 0 0.75rem;">{% trans "Preset Mode" %}</h4>
+          <p style="margin: 0; line-height: 1.6;">
+            <strong style="color: #FFFFFF;">{{ preset.name }}</strong><br>
+            <small>{{ preset.description }}</small>
+          </p>
+        {% endif %}
       </div>
     </div>
 
     <div class="djet-footer-bottom">
-      <div>&copy; {% now "Y" %} {{ settings.store_name_en }}. {% trans "All rights reserved." %}</div>
+      <div>&copy; {% now "Y" %} {% if brand %}{{ brand.name_en }}{% else %}{{ settings.store_name_en }}{% endif %}. {% trans "All rights reserved." %}</div>
       <div style="display: flex; gap: 1rem;">
         <span>🔒 256-bit TLS</span>
-        <span>💵 Cash on Delivery</span>
+        <span>💵 {% trans "Cash on Delivery" %}</span>
+        {% if brand %}<span>{% trans "Powered by DJET Store" %}</span>{% endif %}
       </div>
     </div>
   </footer>

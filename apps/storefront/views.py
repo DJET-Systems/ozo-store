@@ -4,17 +4,19 @@ from __future__ import annotations
 
 from decimal import Decimal
 from typing import Any
+from urllib.parse import quote
 
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils import timezone
 from django.views.decorators.http import require_http_methods, require_safe
 
 from apps.catalog.models import Category, Product, Variant
 from apps.core.models import StoreSettings
 from apps.inventory.models import Location, SerialUnit
-from apps.presets.services import get_preset_definition, normalize_preset_code
+from apps.presets.services import get_effective_definition, normalize_preset_code
 
 
 def get_storefront_context(request: HttpRequest) -> dict[str, Any]:
@@ -26,9 +28,18 @@ def get_storefront_context(request: HttpRequest) -> dict[str, Any]:
     active_code = preview_code if preview_code else settings.active_preset
     active_code = normalize_preset_code(active_code)
 
-    preset_def = get_preset_definition(active_code)
+    preset_def = get_effective_definition(active_code)
+    brand = preset_def.get("brand", {})
     cart = request.session.get("cart", {})
     cart_count = sum(int(qty) for qty in cart.values())
+
+    founded = brand.get("founded_year")
+    brand_years = timezone.localdate().year - int(founded) if founded else None
+
+    # Staff-managed setting wins; the brand profile provides the launch default.
+    whatsapp_number = "".join(
+        ch for ch in (settings.whatsapp_number or brand.get("whatsapp", "")) if ch.isdigit()
+    )
 
     return {
         "settings": settings,
@@ -37,6 +48,10 @@ def get_storefront_context(request: HttpRequest) -> dict[str, Any]:
         "card_flags": preset_def.get("card_flags", {}),
         "cart_count": cart_count,
         "active_preset_code": active_code,
+        "brand": brand,
+        "brand_code": preset_def.get("brand_code", ""),
+        "brand_years": brand_years,
+        "whatsapp_number": whatsapp_number,
     }
 
 
@@ -114,11 +129,9 @@ def product_detail_view(request: HttpRequest, handle: str) -> HttpResponse:
         installment_egp = f"{monthly:.2f}"
 
     whatsapp_link = ""
-    phone = context["settings"].whatsapp_number or "201000000000"
-    whatsapp_link = (
-        f"https://wa.me/{phone}?text="
-        f"Hello! I am inquiring about {product.title_en} ({product.handle})"
-    )
+    if context["whatsapp_number"]:
+        message = f"Hello! I am inquiring about {product.title_en} ({product.handle})"
+        whatsapp_link = f"https://wa.me/{context['whatsapp_number']}?text={quote(message)}"
 
     context.update(
         {

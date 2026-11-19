@@ -4,8 +4,12 @@ from __future__ import annotations
 
 import contextlib
 import json
+import re
 from pathlib import Path
 from typing import Any
+
+from django.conf import settings as django_settings
+from django.core.exceptions import ImproperlyConfigured
 
 from apps.catalog.models import Category
 from apps.core.models import AuditLog, StoreSettings
@@ -45,6 +49,69 @@ def get_preset_definition(code: str) -> dict[str, Any]:
         return data
 
 
+# ---------------------------------------------------------------------------
+# Client brand profiles
+#
+# A brand profile is a per-client overlay on top of one vertical preset. It
+# keeps client identity (logo, palette, contact data, home composition) out of
+# the shared vertical definitions so upstream template updates merge cleanly.
+# Selected with the DJET_BRAND_PROFILE setting; empty means "no overlay".
+# ---------------------------------------------------------------------------
+
+BRANDS_DIR = Path(__file__).resolve().parent / "brands"
+_BRAND_CODE_RE = re.compile(r"^[a-z0-9][a-z0-9_-]{0,31}$")
+_BRAND_REQUIRED_KEYS = ("code", "base_preset", "brand")
+
+
+def get_brand_profile(code: str | None = None) -> dict[str, Any] | None:
+    """Load the configured client brand profile, or None when none is configured.
+
+    Fails closed: a configured-but-invalid profile raises ImproperlyConfigured
+    instead of silently rendering an unbranded store.
+    """
+    raw = getattr(django_settings, "DJET_BRAND_PROFILE", "") if code is None else code
+    brand_code = (raw or "").strip().lower()
+    if not brand_code:
+        return None
+    if not _BRAND_CODE_RE.fullmatch(brand_code):
+        # Reject anything that could escape BRANDS_DIR (e.g. "../", absolute paths).
+        raise ImproperlyConfigured(f"Invalid DJET_BRAND_PROFILE value: {brand_code!r}")
+
+    profile_file = BRANDS_DIR / f"{brand_code}.json"
+    if not profile_file.is_file():
+        raise ImproperlyConfigured(f"Brand profile not found: {profile_file.name}")
+
+    with profile_file.open("r", encoding="utf-8") as f:
+        data: dict[str, Any] = json.load(f)
+
+    missing = [key for key in _BRAND_REQUIRED_KEYS if key not in data]
+    if missing:
+        raise ImproperlyConfigured(f"Brand profile {brand_code!r} is missing keys: {missing}")
+    return data
+
+
+def get_effective_definition(code: str) -> dict[str, Any]:
+    """Return the vertical preset definition with the client brand overlay applied.
+
+    The overlay only applies when the requested vertical matches the profile's
+    ``base_preset``, so ``?preset=food`` sales previews still render untouched.
+    """
+    definition = get_preset_definition(code)
+    profile = get_brand_profile()
+    if profile is None or normalize_preset_code(profile["base_preset"]) != definition["code"]:
+        return definition
+
+    merged = dict(definition)
+    merged["tokens"] = {**definition.get("tokens", {}), **profile.get("tokens", {})}
+    merged["card_flags"] = {**definition.get("card_flags", {}), **profile.get("card_flags", {})}
+    for key in ("home_sections", "starter_categories", "name", "description"):
+        if key in profile:
+            merged[key] = profile[key]
+    merged["brand"] = profile["brand"]
+    merged["brand_code"] = profile["code"]
+    return merged
+
+
 def list_presets() -> list[dict[str, Any]]:
     """Enumerate all available preset definitions."""
     presets: list[dict[str, Any]] = []
@@ -62,7 +129,7 @@ def apply_preset(
     actor: Any = None,
 ) -> dict[str, Any]:
     """Activate a vertical preset, updating tokens, home sections, and starter data."""
-    definition = get_preset_definition(code)
+    definition = get_effective_definition(code)
     canonical = definition["code"]
 
     settings = StoreSettings.get_settings()
@@ -96,7 +163,11 @@ def apply_preset(
         entity_type="Preset",
         entity_id=canonical,
         actor=actor,
-        diff={"preset": canonical, "demo_data_seeded": load_demo_data},
+        diff={
+            "preset": canonical,
+            "brand_profile": definition.get("brand_code", ""),
+            "demo_data_seeded": load_demo_data,
+        },
     )
 
     return definition

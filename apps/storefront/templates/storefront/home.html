@@ -35,6 +35,16 @@
       {% include "storefront/sections/buy_it_again_banner.html" %}
     {% elif section.type == 'basket_bottom_bar' %}
       {% include "storefront/sections/basket_bottom_bar.html" %}
+    {% elif section.type == 'hero_brand' %}
+      {% include "storefront/sections/hero_brand.html" %}
+    {% elif section.type == 'service_promos' %}
+      {% include "storefront/sections/service_promos.html" %}
+    {% elif section.type == 'repair_center' %}
+      {% include "storefront/sections/repair_center.html" %}
+    {% elif section.type == 'brand_strip' %}
+      {% include "storefront/sections/brand_strip.html" %}
+    {% elif section.type == 'store_visit' %}
+      {% include "storefront/sections/store_visit.html" %}
     {% endif %}
   {% empty %}
     <section class="djet-hero-split">

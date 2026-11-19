@@ -1,0 +1,99 @@
+{
+  "code": "ozo",
+  "base_preset": "electronics",
+  "name": "OZO Shop",
+  "description": "OZO Shop, Mokattam, Cairo. Phones, tablets, laptops, computers, PlayStation, accessories, and a 24/7 repair centre.",
+  "brand": {
+    "name_en": "OZO Shop",
+    "name_ar": "أوزو شوب",
+    "tagline_en": "20 years of trust. Devices, accessories & expert repair.",
+    "tagline_ar": "٢٠ سنة من الثقة والنجاح.. والحكاية لسه مستمرة",
+    "founded_year": 2006,
+    "logo": "storefront/brand/ozo/logo-192.webp",
+    "logo_2x": "storefront/brand/ozo/logo-384.webp",
+    "favicon": "storefront/brand/ozo/favicon-32.png",
+    "apple_touch_icon": "storefront/brand/ozo/apple-touch-icon.png",
+    "storefront_photo": "storefront/brand/ozo/storefront-signage.webp",
+    "theme_color": "#005CA9",
+    "phones": [
+      {"label_en": "Sales", "label_ar": "المبيعات", "number": "01026646657", "tel": "+201026646657"},
+      {"label_en": "Orders & enquiries", "label_ar": "الطلبات والاستفسار", "number": "01026646658", "tel": "+201026646658"}
+    ],
+    "whatsapp": "201026646657",
+    "address_en": "9th Street, next to Al-Andalus Park, Mokattam, Cairo",
+    "address_ar": "المقطم، شارع ٩، بجوار حديقة الأندلس، القاهرة",
+    "maps_url": "https://www.google.com/maps/search/?api=1&query=OZO+Shop+Street+9+Mokattam+Cairo",
+    "shop_hours_en": "",
+    "shop_hours_ar": "",
+    "repair_hours_en": "Open 24/7",
+    "repair_hours_ar": "مفتوح ٢٤ ساعة طوال أيام الأسبوع",
+    "socials": [
+      {"network": "instagram", "label": "Instagram", "url": "https://www.instagram.com/ozo__shop/"},
+      {"network": "facebook", "label": "Facebook", "url": "https://www.facebook.com/OZOShopEgypt/"}
+    ]
+  },
+  "tokens": {
+    "--bg": "#F4F7FB",
+    "--surface": "#FFFFFF",
+    "--surface-alt": "#EAF1F9",
+    "--text": "#0B1B33",
+    "--text-muted": "#46566E",
+    "--border": "#D9E2EE",
+    "--accent": "#005CA9",
+    "--accent-hover": "#004A8A",
+    "--accent-light": "#E3EEF9",
+    "--brand-navy": "#0A1F5C",
+    "--brand-navy-deep": "#061440",
+    "--brand-indigo": "#353383",
+    "--brand-gold": "#F5B82E",
+    "--brand-gold-ink": "#3A2A00",
+    "--success": "#0F7B4B",
+    "--danger": "#B42318",
+    "--radius-card": "16px",
+    "--radius-btn": "10px",
+    "--font-sans": "'IBM Plex Sans Arabic', 'Segoe UI', Tahoma, system-ui, sans-serif"
+  },
+  "card_flags": {
+    "aspect_ratio": "1/1",
+    "show_condition_badge": true,
+    "show_spec_summary": true,
+    "show_warranty_line": true,
+    "show_installment_hint": true,
+    "quick_add": true
+  },
+  "home_sections": [
+    {
+      "type": "hero_brand",
+      "eyebrow_en": "20 years in Mokattam",
+      "eyebrow_ar": "٢٠ سنة في المقطم",
+      "title_en": "Your next device, financed your way and backed by our own repair centre",
+      "title_ar": "جهازك الجديد بالتقسيط.. وصيانته عندنا ٢٤ ساعة",
+      "subtitle_en": "Phones, tablets, laptops, computers and PlayStation. 0% down-payment installments, trade-in, and certified technicians next door.",
+      "subtitle_ar": "موبايلات، تابلت، لابتوب، كمبيوتر وبلايستيشن. قسّط بدون مقدم، بدّل جهازك القديم، وفريق صيانة محترف بجوار المحل.",
+      "cta_text_en": "Shop devices",
+      "cta_text_ar": "تسوّق الأجهزة",
+      "cta_link": "/c/mobiles/",
+      "secondary_cta_text_en": "Book a repair",
+      "secondary_cta_text_ar": "احجز صيانة",
+      "secondary_cta_link": "#repair"
+    },
+    {"type": "service_promos"},
+    {"type": "category_tiles", "title_en": "Shop by category", "title_ar": "تسوّق حسب القسم", "layout": "grid"},
+    {"type": "product_collection", "title_en": "New arrivals", "title_ar": "وصل حديثاً", "collection_key": "featured"},
+    {"type": "repair_center", "title_en": "OZO Repair Centre, open 24/7", "title_ar": "مركز صيانة أوزو، مفتوح ٢٤ ساعة"},
+    {"type": "imei_and_installments", "title_en": "IMEI & serial warranty check", "title_ar": "فحص الضمان عبر السيريال أو IMEI"},
+    {"type": "brand_strip", "title_en": "Brands we carry", "title_ar": "الماركات المتوفرة", "brands": ["Apple", "Samsung", "Honor", "Xiaomi", "OPPO", "realme", "vivo", "Infinix", "Lenovo", "HP", "Dell", "PlayStation", "JBL", "Anker", "UGREEN"]},
+    {"type": "trust_bar"},
+    {"type": "store_visit", "title_en": "Visit us in Mokattam", "title_ar": "زورنا في المقطم"}
+  ],
+  "starter_categories": [
+    {"name_en": "Mobile Phones", "name_ar": "موبايلات", "slug": "mobiles"},
+    {"name_en": "Tablets", "name_ar": "تابلت", "slug": "tablets"},
+    {"name_en": "Laptops", "name_ar": "لابتوب", "slug": "laptops"},
+    {"name_en": "Computers & Components", "name_ar": "كمبيوتر ومكونات", "slug": "computers"},
+    {"name_en": "PlayStation & Gaming", "name_ar": "بلايستيشن وألعاب", "slug": "playstation"},
+    {"name_en": "Smartwatches & Audio", "name_ar": "ساعات ذكية وسماعات", "slug": "watches-audio"},
+    {"name_en": "Accessories", "name_ar": "إكسسوارات", "slug": "accessories"},
+    {"name_en": "Certified Used Devices", "name_ar": "أجهزة مستعملة مضمونة", "slug": "used"}
+  ]
+}

@@ -51,7 +51,10 @@ def get_or_create_category_path(path_str: str) -> Category | None:
 
     for part in parts:
         slug = slugify(part, allow_unicode=True) or f"cat-{abs(hash(part)) % 100000}"
-        category = Category.objects.filter(slug=slug).first()
+        category = (
+            Category.objects.filter(slug=slug).first()
+            or Category.objects.filter(name_en__iexact=part, parent=parent).first()
+        )
         if not category:
             category = Category.objects.create(
                 name_en=part,
@@ -129,9 +132,10 @@ def import_products_from_csv(
                 if status not in {"draft", "active", "archived"}:
                     status = "active"
 
-                # Product titles
+                # Product titles & optional image URL
                 prod_title_en = first_row.get("product_title_en") or first_row.get("title_en", "")
                 prod_title_ar = first_row.get("product_title_ar") or first_row.get("title_ar", "")
+                image_url = first_row.get("image_url", "").strip()
 
                 product, prod_created = Product.objects.get_or_create(
                     handle=handle,
@@ -141,6 +145,7 @@ def import_products_from_csv(
                         "primary_brand": brand,
                         "category": category,
                         "status": status,
+                        "image_url": image_url,
                     },
                 )
 
@@ -153,6 +158,8 @@ def import_products_from_csv(
                     product.primary_brand = brand or product.primary_brand
                     if category:
                         product.category = category
+                    if image_url:
+                        product.image_url = image_url
                     product.status = status
                     product.save(
                         update_fields=[
@@ -160,6 +167,7 @@ def import_products_from_csv(
                             "title_ar",
                             "primary_brand",
                             "category",
+                            "image_url",
                             "status",
                         ]
                     )

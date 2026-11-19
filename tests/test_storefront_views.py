@@ -104,13 +104,30 @@ def test_category_listing_view(client: Client, catalog_fixture: dict[str, Any]) 
 @pytest.mark.django_db
 def test_product_detail_view(client: Client, catalog_fixture: dict[str, Any]) -> None:
     """Product detail page displays title, prices, installments, and WhatsApp inquiry."""
+    store = StoreSettings.get_solo()
+    store.whatsapp_number = "+20 102 664 6657"
+    store.save()
+
     resp = client.get("/p/thinkpad-x1-carbon/")
     assert resp.status_code == 200
     content = resp.content.decode("utf-8")
     assert "thinkpad-x1-carbon" in content
     assert "48000.00 EGP" in content
     assert "Lenovo" in content
-    assert "wa.me" in content
+    # Number is normalised to digits and the prefilled message is URL-encoded.
+    assert "https://wa.me/201026646657?text=Hello%21%20I%20am%20inquiring" in content
+
+
+@pytest.mark.django_db
+def test_product_detail_has_no_placeholder_whatsapp(
+    client: Client, catalog_fixture: dict[str, Any]
+) -> None:
+    """Without a configured number, no WhatsApp link is rendered (never a placeholder)."""
+    resp = client.get("/p/thinkpad-x1-carbon/")
+    assert resp.status_code == 200
+    content = resp.content.decode("utf-8")
+    assert "wa.me" not in content
+    assert "201000000000" not in content
 
 
 @pytest.mark.django_db

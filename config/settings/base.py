@@ -11,6 +11,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 DJET_ENV = get_env("DJET_ENV", "dev").lower()
 DJET_SURFACE = get_env("DJET_SURFACE", "storefront").lower()
+# Client brand overlay from apps/presets/brands/<code>.json.
+# Defaults to "ozo" in the OZO Shop client repository; set DJET_BRAND_PROFILE="" to disable.
+DJET_BRAND_PROFILE = get_env("DJET_BRAND_PROFILE", "ozo").strip().lower()
 
 INSTALLED_APPS = [
     "django.contrib.auth",

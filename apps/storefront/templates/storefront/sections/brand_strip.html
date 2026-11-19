@@ -1,0 +1,14 @@
+{% load i18n %}
+{# Brand Ecosystem Strip — highlights authorized & stocked brands carried by the merchant #}
+<section class="djet-brand-strip" aria-labelledby="brand-strip-title">
+  <div class="djet-brand-strip-header">
+    <h2 id="brand-strip-title" class="djet-section-heading">
+      {% if CURRENT_LANG == 'en' %}{{ section.title_en }}{% else %}{{ section.title_ar }}{% endif %}
+    </h2>
+  </div>
+  <ul class="djet-brand-pills" role="list">
+    {% for brand_name in section.brands %}
+      <li class="djet-brand-pill">{{ brand_name }}</li>
+    {% endfor %}
+  </ul>
+</section>

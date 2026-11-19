@@ -13,7 +13,7 @@ SECRET_KEY = get_env(
 
 ALLOWED_HOSTS = get_list(
     "ALLOWED_HOSTS",
-    ["localhost", "127.0.0.1", "shop.djet.localhost", "admin.djet.localhost"],
+    ["localhost", "127.0.0.1", "0.0.0.0", "shop.djet.localhost", "admin.djet.localhost"],  # noqa: S104 # nosec B104
 )
 
 SESSION_COOKIE_SECURE = get_bool("SESSION_COOKIE_SECURE", False)

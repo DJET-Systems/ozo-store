@@ -1,0 +1,53 @@
+{% load static i18n %}
+{# Showroom & Repair Lab Location Card — Street 9, Al-Moqattam, next to Al-Andalus Park #}
+<section id="visit" class="djet-store-visit" aria-labelledby="store-visit-title">
+  <div class="djet-store-visit-info">
+    <span class="djet-store-visit-kicker">
+      📍 {% if CURRENT_LANG == 'en' %}Al-Moqattam · Cairo{% else %}المقطم · القاهرة{% endif %}
+    </span>
+    <h2 id="store-visit-title" class="djet-store-visit-title">
+      {% if CURRENT_LANG == 'en' %}{{ section.title_en }}{% else %}{{ section.title_ar }}{% endif %}
+    </h2>
+    <p class="djet-store-visit-address">
+      {% if CURRENT_LANG == 'en' %}{{ brand.address_en }}{% else %}{{ brand.address_ar }}{% endif %}
+    </p>
+
+    <dl class="djet-store-visit-meta">
+      <div>
+        <dt>{% if CURRENT_LANG == 'en' %}24/7 Repair Centre{% else %}مركز الصيانة الفورية{% endif %}</dt>
+        <dd>{% if CURRENT_LANG == 'en' %}{{ brand.repair_hours_en|default:"Open 24/7 (Next to Main Shop)" }}{% else %}{{ brand.repair_hours_ar|default:"مفتوح ٢٤ ساعة طوال الأسبوع (بجوار المحل الرئيسي)" }}{% endif %}</dd>
+      </div>
+      {% if brand.phones %}
+        <div>
+          <dt>{% if CURRENT_LANG == 'en' %}Direct Lines{% else %}أرقام التواصل المباشر{% endif %}</dt>
+          <dd>
+            {% for phone in brand.phones %}
+              <a href="tel:{{ phone.tel }}" class="djet-phone-chip" dir="ltr">{{ phone.number }}</a>
+            {% endfor %}
+          </dd>
+        </div>
+      {% endif %}
+    </dl>
+
+    <div class="djet-store-visit-actions">
+      {% if brand.maps_url %}
+        <a href="{{ brand.maps_url }}" target="_blank" rel="noopener noreferrer" class="djet-btn djet-btn-primary">
+          🗺️ {% if CURRENT_LANG == 'en' %}Open in Google Maps{% else %}افتح الموقع على خرائط جوجل{% endif %}
+        </a>
+      {% endif %}
+      {% for social in brand.socials %}
+        <a href="{{ social.url }}" target="_blank" rel="noopener noreferrer" class="djet-btn djet-btn-secondary">
+          {{ social.label }}
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+
+  {% if brand.storefront_photo %}
+    <div class="djet-store-visit-media">
+      <img src="{% static brand.storefront_photo %}"
+           alt="{% if CURRENT_LANG == 'en' %}{{ brand.name_en }} Showroom in Mokattam{% else %}فرع {{ brand.name_ar }} في المقطم{% endif %}"
+           loading="lazy" width="380" height="480">
+    </div>
+  {% endif %}
+</section>

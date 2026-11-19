@@ -1,0 +1,85 @@
+{% load i18n %}
+{# 24/7 Dedicated Repair Centre Section — OZO's strongest operational moat against 2B, Dream2000 & Kimo Store #}
+<section id="repair" class="djet-repair-center" aria-labelledby="repair-center-title">
+  <div class="djet-repair-header">
+    <div>
+      <span class="djet-repair-live-pill">
+        <span class="djet-repair-live-dot" aria-hidden="true"></span>
+        {% if CURRENT_LANG == 'en' %}
+          {{ brand.repair_hours_en|default:"Open 24/7 · Next to Main Showroom" }}
+        {% else %}
+          {{ brand.repair_hours_ar|default:"مفتوح ٢٤ ساعة طوال الأسبوع · بجوار المحل الرئيسي" }}
+        {% endif %}
+      </span>
+      <h2 id="repair-center-title" class="djet-repair-title">
+        {% if CURRENT_LANG == 'en' %}{{ section.title_en }}{% else %}{{ section.title_ar }}{% endif %}
+      </h2>
+      <p class="djet-repair-subtitle">
+        {% if CURRENT_LANG == 'en' %}
+          Dedicated hardware &amp; micro-soldering lab staffed 24/7 by specialist engineers in Al-Moqattam (Street 9, next to Al-Andalus Park). Same-day turnaround on screens, batteries, ports, board diagnostics, and console servicing.
+        {% else %}
+          معمل صيانة متكامل وفريق مهندسين وفنيين محترفين على مدار ٢٤ ساعة في المقطم (شارع ٩، بجوار حديقة الأندلس). صيانة فورية للشاشات، البطاريات، سوكت الشحن، البوردة، وتنظيف وصيانة البلايستيشن واللابتوب بضمان معتمد.
+        {% endif %}
+      </p>
+    </div>
+
+    <div class="djet-repair-cta-box">
+      {% if whatsapp_number %}
+        <a href="https://wa.me/{{ whatsapp_number }}?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20OZO%20Repair%D8%8C%20%D8%A3%D8%AD%D8%AA%D8%A7%D8%AC%20%D8%AD%D8%AC%D8%B2%20%D8%B5%D9%8A%D8%A7%D9%86%D8%A9%20%D9%84%D8%AC%D9%87%D8%A7%D8%B2%D9%8A" target="_blank" rel="noopener noreferrer" class="djet-btn djet-btn-gold">
+          💬 {% if CURRENT_LANG == 'en' %}Book Instant Diagnosis via WhatsApp{% else %}احجز فحص وصيانة فورية عبر واتساب{% endif %}
+        </a>
+      {% endif %}
+      {% if brand.phones %}
+        {% with primary_phone=brand.phones|first %}
+          <a href="tel:{{ primary_phone.tel }}" class="djet-btn djet-btn-ghost-light" dir="ltr">
+            📞 {{ primary_phone.number }}
+          </a>
+        {% endwith %}
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="djet-repair-grid">
+    <div class="djet-repair-card">
+      <div class="djet-repair-card-icon" aria-hidden="true">📱</div>
+      <h3 class="djet-repair-card-title">
+        {% if CURRENT_LANG == 'en' %}Mobile Phones &amp; Tablets{% else %}صيانة الموبايلات والتابلت{% endif %}
+      </h3>
+      <p class="djet-repair-card-desc">
+        {% if CURRENT_LANG == 'en' %}
+          Original displays, high-capacity batteries, charging ports, face/touch ID &amp; IC board-level micro-soldering for iPhone, iPad, Samsung, Honor &amp; Xiaomi.
+        {% else %}
+          تغيير شاشات أصلية، بطاريات، سوكت شحن، باغات، وصيانة بوردة دقيقة لجميع أجهزة iPhone وiPad وSamsung وHonor وXiaomi.
+        {% endif %}
+      </p>
+    </div>
+
+    <div class="djet-repair-card">
+      <div class="djet-repair-card-icon" aria-hidden="true">💻</div>
+      <h3 class="djet-repair-card-title">
+        {% if CURRENT_LANG == 'en' %}Laptops &amp; Desktop Computers{% else %}صيانة اللابتوب والكمبيوتر{% endif %}
+      </h3>
+      <p class="djet-repair-card-desc">
+        {% if CURRENT_LANG == 'en' %}
+          NVMe SSD &amp; RAM upgrades, thermal repasting, hinge &amp; keyboard replacement, BIOS recovery, and motherboard power-rail repair.
+        {% else %}
+          تحديث هاردات SSD ورامات، تنظيف وتغيير معجون حراري، إصلاح مفصلات وكيبورد، شحن بايوس وصيانة دوائر الباور.
+        {% endif %}
+      </p>
+    </div>
+
+    <div class="djet-repair-card">
+      <div class="djet-repair-card-icon" aria-hidden="true">🎮</div>
+      <h3 class="djet-repair-card-title">
+        {% if CURRENT_LANG == 'en' %}PlayStation &amp; DualSense Lab{% else %}صيانة البلايستيشن والدراعات{% endif %}
+      </h3>
+      <p class="djet-repair-card-desc">
+        {% if CURRENT_LANG == 'en' %}
+          PS5 / PS4 HDMI port replacement, liquid-metal cooling service, power supply repair, and DualSense Hall-Effect analog drift upgrades.
+        {% else %}
+          تغيير مخرج HDMI لـ PS5 وPS4، صيانة تبريد ومعدن سائل، وإصلاح دريفت دراعات DualSense بأنالوج مغناطيسي احترافي.
+        {% endif %}
+      </p>
+    </div>
+  </div>
+</section>

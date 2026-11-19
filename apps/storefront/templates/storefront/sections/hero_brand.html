@@ -1,0 +1,41 @@
+{% load static i18n %}
+{# Brand hero: navy campaign gradient (mirrors OZO social creatives), text-first for LCP & SEO. #}
+<section class="djet-hero-brand" aria-labelledby="hero-brand-title">
+  <div class="djet-hero-brand-copy">
+    {% if section.eyebrow_en %}
+      <p class="djet-hero-brand-eyebrow">
+        {% if CURRENT_LANG == 'en' %}{{ section.eyebrow_en }}{% else %}{{ section.eyebrow_ar }}{% endif %}
+      </p>
+    {% endif %}
+    <h1 class="djet-hero-brand-title" id="hero-brand-title">
+      {% if CURRENT_LANG == 'en' %}{{ section.title_en }}{% else %}{{ section.title_ar }}{% endif %}
+    </h1>
+    <p class="djet-hero-brand-subtitle">
+      {% if CURRENT_LANG == 'en' %}{{ section.subtitle_en }}{% else %}{{ section.subtitle_ar }}{% endif %}
+    </p>
+    <div class="djet-hero-brand-actions">
+      {% if section.cta_text_en %}
+        <a href="{{ section.cta_link|default:'#products' }}" class="djet-btn djet-btn-gold">
+          {% if CURRENT_LANG == 'en' %}{{ section.cta_text_en }}{% else %}{{ section.cta_text_ar }}{% endif %}
+        </a>
+      {% endif %}
+      {% if section.secondary_cta_text_en %}
+        <a href="{{ section.secondary_cta_link|default:'#repair' }}" class="djet-btn djet-btn-ghost-light">
+          {% if CURRENT_LANG == 'en' %}{{ section.secondary_cta_text_en }}{% else %}{{ section.secondary_cta_text_ar }}{% endif %}
+        </a>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="djet-hero-brand-visual" aria-hidden="true">
+    {% if brand.logo_2x %}
+      <img src="{% static brand.logo_2x %}" alt="" width="240" height="240" class="djet-hero-brand-logo" fetchpriority="high">
+    {% endif %}
+    {% if brand_years %}
+      <div class="djet-hero-brand-badge">
+        <strong>{{ brand_years }}</strong>
+        <span>{% if CURRENT_LANG == 'en' %}Years{% else %}سنة{% endif %}</span>
+      </div>
+    {% endif %}
+  </div>
+</section>

@@ -61,12 +61,13 @@ EOF
   echo ""
 }
 
-# Default parameters
-PRESET="general"
-STORE_NAME_EN="DJET Client Store"
-STORE_NAME_AR="متجر عميل دجت"
-WHATSAPP_PHONE="201000000000"
-ADMIN_EMAIL="admin@clientstore.djet"
+# Default parameters (pre-tuned for OZO Shop client repo)
+PRESET="electronics"
+BRAND_PROFILE="ozo"
+STORE_NAME_EN="OZO Shop"
+STORE_NAME_AR="أوزو شوب"
+WHATSAPP_PHONE="201026646657"
+ADMIN_EMAIL="admin@ozoshop.eg"
 ADMIN_PASSWORD=""
 DEMO_DATA=true
 IMPORT_SAMPLES=true
@@ -77,6 +78,10 @@ while [[ $# -gt 0 ]]; do
   case $1 in
     --preset)
       PRESET="$2"
+      shift 2
+      ;;
+    --brand)
+      BRAND_PROFILE="$2"
       shift 2
       ;;
     --name-en)
@@ -255,7 +260,7 @@ ${RUNNER} manage.py seed_roles
 echo -e "  ${GREEN}[✓] RBAC Initialized:${RESET} 6 Institutional roles seeded with deny-by-default capabilities."
 
 # Step 4: Vertical Preset Engine Activation
-echo -e "\n${BRIGHT_BLUE}▶ [Step 4/6] Synthesizing Vertical Preset '${PRESET}'${RESET}"
+echo -e "\n${BRIGHT_BLUE}▶ [Step 4/6] Synthesizing Vertical Preset '${PRESET}' (Brand Overlay: '${BRAND_PROFILE}')${RESET}"
 DEMO_FLAG=""
 if [ "${DEMO_DATA}" = true ]; then
   DEMO_FLAG="--demo-data"
@@ -263,14 +268,18 @@ if [ "${DEMO_DATA}" = true ]; then
 else
   echo -e "  ${DIM}Injecting design tokens and section templates (skipping category seeding)...${RESET}"
 fi
-${RUNNER} manage.py apply_preset "${PRESET}" ${DEMO_FLAG}
+DJET_BRAND_PROFILE="${BRAND_PROFILE}" ${RUNNER} manage.py apply_preset "${PRESET}" ${DEMO_FLAG}
 echo -e "  ${GREEN}[✓] Preset Applied:${RESET} CSS custom properties injected & modular sections configured."
 
 # Step 5: Catalog CSV Import & Ledger Isolation
 echo -e "\n${BRIGHT_BLUE}▶ [Step 5/6] Ingesting Catalog & Verifying Ledger Isolation${RESET}"
-if [ "${IMPORT_SAMPLES}" = true ] && [ -f samples/products_import.csv ]; then
-  echo -e "  ${DIM}Parsing products, variants, barcode mappings & unit steps from samples/products_import.csv...${RESET}"
-  ${RUNNER} manage.py import_products samples/products_import.csv
+CATALOG_CSV="samples/products_import.csv"
+if [ "${BRAND_PROFILE}" = "ozo" ] && [ -f samples/ozo_products_import.csv ]; then
+  CATALOG_CSV="samples/ozo_products_import.csv"
+fi
+if [ "${IMPORT_SAMPLES}" = true ] && [ -f "${CATALOG_CSV}" ]; then
+  echo -e "  ${DIM}Parsing products, variants, barcode mappings & unit steps from ${CATALOG_CSV}...${RESET}"
+  ${RUNNER} manage.py import_products "${CATALOG_CSV}"
   echo -e "  ${GREEN}[✓] Catalog Loaded:${RESET} Verified zero phantom entries on physical StockMovement ledger."
 else
   echo -e "  ${YELLOW}[i] Skipped:${RESET} Starter product CSV import was not requested."
